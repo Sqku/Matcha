@@ -1,0 +1,19 @@
+{
+  "name": "matcha",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "vogsphere@vogsphere.42.fr:intra/2017/activities/matcha/ahua"
+  },
+  "author": "ahua",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.1"
+  }
+}
