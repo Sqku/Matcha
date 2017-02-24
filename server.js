@@ -2,10 +2,15 @@ let express = require('express');
 
 let app = express();
 
+// let connection = require('./db_start');
+
+app.set('view engine', 'ejs');
+
+
 
 app.use('/static', express.static('public'));
 
-app.set('view engine', 'ejs');
+
 
 
 
@@ -16,6 +21,10 @@ app.get('/', (req, res) => {
 
 app.get('/signin', (req, res) => {
     res.render('signin');
+})
+
+app.get('/register', (req, res) => {
+    res.render('register');
 })
 
 
