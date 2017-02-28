@@ -1,7 +1,11 @@
 let express = require('express');
 let bodyParser = require('body-parser');
 let session = require('express-session');
-// let connection = require('./db_start');
+let db = require('./db_start');
+let register = require('./register');
+
+
+let port = 8081;
 
 
 let app = express();
@@ -27,7 +31,16 @@ app.use(session({
 
 
 
-// connection.connect();
+// db.connect(function(err) {
+//     if (err) {
+//         console.error('error connecting: ' + err.stack);
+//         return;
+//     }
+//
+//     console.log('connected as id ' + db.threadId);
+// });
+
+app.use('/', register);
 
 
 app.get('/', (req, res) => {
@@ -54,7 +67,7 @@ let auth = (req, res, next) => {
 
 
 app.post('/signin', (req, res) => {
-    if(req.body.email != "root@gmail.com" || req.body.password != "root")
+    if(req.body.email !== "root@gmail.com" || req.body.password !== "root")
     {
         console.log("invalide ou champs vide");
         res.redirect('/');
@@ -75,23 +88,27 @@ app.get('/logout', (req, res) => {
 
 
 
-app.get('/register', (req, res) => {
-    res.render('register');
-});
+
 
 app.get('/dashboard', auth, (req, res) => {
     res.render('dashboard');
 });
 
-app.post('/register', (req, res) => {
-    res.json(req.body);
-    // res.render('register');
-});
+
+
+// app.get('/register', (req, res) => {
+//     res.render('register');
+// });
+//
+// app.post('/register', (req, res) => {
+//     res.json(req.body);
+//     res.render('register');
+// });
 
 
 
 
-let port = 8081;
+
 app.listen(port);
 console.log("app running on port", port);
 
