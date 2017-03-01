@@ -2,7 +2,7 @@ let express = require('express');
 let bodyParser = require('body-parser');
 let session = require('express-session');
 let db = require('./db_start');
-let register = require('./register');
+let register = require('./route/register');
 
 
 let port = 8081;

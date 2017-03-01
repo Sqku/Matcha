@@ -42,7 +42,15 @@
             <form method="post">
                 <div class="col-sm-12">
                     <div class="row">
+                        <% if (locals.first_name_err)
+                        {
+                        %>
+                        <div class="col-sm-6 form-group has-error has-feedback">
+                            <label class="control-label" for="inputError1">Invalid</label>
+                        <% }
+                        else { %>
                         <div class="col-sm-6 form-group">
+                            <% } %>
                             <label>First Name</label>
                             <input type="text" name="first_name" placeholder="Enter your First Name" class="form-control">
                         </div>
@@ -76,13 +84,13 @@
                         <!--<input type="text" placeholder="Man or Woman" class="form-control">-->
                         <div class="radio-inline">
                             <label>
-                                <input type="radio" name="gender" id="optionsRadios1" value="man">
+                                <input type="radio" name="gender" id="gender_male" value="man">
                                 Man
                             </label>
                         </div>
                         <div class="radio-inline">
                             <label>
-                                <input type="radio" name="gender" id="optionsRadios2" value="woman">
+                                <input type="radio" name="gender" id="gender_female" value="woman">
                                 Woman
                             </label>
                         </div>
