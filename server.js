@@ -63,7 +63,7 @@ let auth = (req, res, next) => {
         console.log("veuillez vous connecter");
         return res.redirect('/');
     }
-}
+};
 
 
 app.post('/signin', (req, res) => {

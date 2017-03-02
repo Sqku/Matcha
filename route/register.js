@@ -21,74 +21,62 @@ let valid_form = (req, res, next) => {
         }
         else
         {
-            console.log("no radio checked");
             return false
         }
     };
 
-    let i = 0;
+    let errors = {};
 
-    if (form_validator.isName(req.body.first_name))
+
+    if (!form_validator.isName(req.body.first_name))
     {
-        console.log("valid first name");
-        i++;
-    }
-    else
-    {
-        req.session.first_name_err = "invalid First name !";
-        // res.redirect('/register');
-        // return
+        errors.first_name = "Invalid First name";
     }
 
-    if (form_validator.isName(req.body.last_name))
+    if (!form_validator.isName(req.body.last_name))
     {
-        console.log("valid last name");
-        i++;
+        errors.last_name = "Invalid Last name";
     }
 
-    if (form_validator.isUserName(req.body.user_name))
+    if (!form_validator.isUserName(req.body.user_name))
     {
-        console.log("valid user name");
-        i++;
+        errors.user_name = "Invalid User name";
     }
 
-    if (form_validator.isSafePass(req.body.password))
+    if (!form_validator.isSafePass(req.body.password))
     {
-        console.log("safe password");
-        i++;
+        errors.password = "Invalid Password";
     }
-    if (form_validator.isSamePass(req.body.password, req.body.confirm_password))
+    if (!form_validator.isSamePass(req.body.password, req.body.confirm_password))
     {
-        console.log("same password");
-        i++;
+        errors.confirm_password = "Not same Password";
     }
 
-    if (form_validator.isEmail(req.body.email))
+    if (!form_validator.isEmail(req.body.email))
     {
-        console.log("valid email");
-        i++;
+        errors.email = "Invalid Email";
     }
 
-    if (form_validator.isNum(req.body.age))
+    if (!form_validator.isNum(req.body.age))
     {
-        console.log("valid age");
-        i++;
+        errors.age = "Invalid Age";
     }
 
-    if (radioCheck())
+    if (!radioCheck())
     {
-        i++;
-        console.log(i);
+        errors.radio = "No Gender checked";
     }
 
-    console.log(i);
-
-    if (i === 8)
+    console.log(errors);
+    console.log(Object.keys(errors).length);
+    if (Object.keys(errors).length == 0)
     {
         return next();
     }
     else
     {
+        req.session.errors = errors;
+        req.session.body = req.body;
         console.log("invalid form");
         res.redirect('/register')
     }
@@ -103,73 +91,20 @@ let newUser = () => {
 
 router.route('/register')
     .get((req, res) => {
-        if (req.session.first_name_err){
-            console.log("err");
-            res.locals.first_name_err = req.session.first_name_err;
-            req.session.first_name_err = undefined;
+        if (req.session.errors){
+            res.locals.errors = req.session.errors;
+            req.session.errors = undefined;
+            console.log(req.body.gender);
         }
+        console.log(req.body.gender);
+        res.locals.body = req.session.body;
+        req.session.body = undefined;
         res.render('register');
     })
 
     .post(valid_form, (req, res) => {
         res.json(req.body);
 
-
-        // if (form_validator.isName(req.body.first_name))
-        // {
-        //     console.log("valid first name");
-        // }
-        //
-        // if (form_validator.isName(req.body.last_name))
-        // {
-        //     console.log("valid last name");
-        // }
-        //
-        // if (form_validator.isUserName(req.body.user_name))
-        // {
-        //     console.log("valid user name")
-        // }
-        //
-        // if (form_validator.isSafePass(req.body.password))
-        // {
-        //     console.log("safe password")
-        // }
-        // if (form_validator.isSamePass(req.body.password, req.body.confirm_password))
-        // {
-        //     console.log("same password")
-        // }
-        //
-        // if (form_validator.isEmail(req.body.email))
-        // {
-        //     console.log("valid email")
-        // }
-        //
-        // if (form_validator.isNum(req.body.age))
-        // {
-        //     console.log("valid age")
-        // }
-        //
-        // let radioCheck = () => {
-        //     if (req.body.gender)
-        //     {
-        //         if (req.body.gender === "man") {
-        //             console.log("man")
-        //         }
-        //         else if(req.body.gender === "woman") {
-        //             console.log("woman")
-        //         }
-        //     }
-        //     else
-        //     {
-        //         console.log("no radio checked")
-        //     }
-        // };
-        // radioCheck();
-
-        // else
-        // {
-        //     console.log("password must contain at least 8 characters, at least 1 Alphabet and 1 Number")
-        // }
     });
 
 
