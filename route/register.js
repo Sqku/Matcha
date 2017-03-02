@@ -2,9 +2,15 @@ let express = require('express');
 let form_validator = require('../form_validator');
 let db = require('../db_start');
 let session = require('express-session');
+let User = require('../model/user')
 
 
 let router = express.Router();
+
+let formCheck = () => {
+
+};
+
 
 let valid_form = (req, res, next) => {
 
@@ -42,6 +48,31 @@ let valid_form = (req, res, next) => {
     {
         errors.user_name = "Invalid User name";
     }
+    else
+    {
+        User.isUnique('user_name', req.body.user_name, (count) => {
+            if (count != 0)
+            {
+                errors.user_name = "User Name already taken";
+            }
+        });
+
+        // db.query('SELECT * FROM user WHERE user_name=?', [req.body.user_name], (err, result) => {
+        //     // db.end();
+        //     if (err)
+        //     {
+        //         throw err;
+        //     }
+        //     console.log(result[0]);
+        //     if (result[0] === undefined)
+        //     {
+        //         errors.user_name = "User Name already taken";
+        //         console.log('#2: ');
+        //         console.log(errors);
+        //     }
+        //
+        // });
+    }
 
     if (!form_validator.isSafePass(req.body.password))
     {
@@ -67,25 +98,28 @@ let valid_form = (req, res, next) => {
         errors.radio = "No Gender checked";
     }
 
+    console.log('#1: ');
     console.log(errors);
-    console.log(Object.keys(errors).length);
+    // console.log(Object.keys(errors).length);
     if (Object.keys(errors).length == 0)
     {
         return next();
     }
+    // console.log('#1: ');
+    // console.log(errors);
     else
     {
         req.session.errors = errors;
         req.session.body = req.body;
-        console.log("invalid form");
-        res.redirect('/register')
+        // console.log("invalid form");
+        res.redirect('/register');
     }
 };
 
 
-let newUser = () => {
-    db.connect();
-};
+// let newUser = () => {
+//     db.connect();
+// };
 
 
 
@@ -94,9 +128,7 @@ router.route('/register')
         if (req.session.errors){
             res.locals.errors = req.session.errors;
             req.session.errors = undefined;
-            console.log(req.body.gender);
         }
-        console.log(req.body.gender);
         res.locals.body = req.session.body;
         req.session.body = undefined;
         res.render('register');

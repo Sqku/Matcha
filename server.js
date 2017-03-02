@@ -5,7 +5,7 @@ let db = require('./db_start');
 let register = require('./route/register');
 
 
-let port = 8081;
+let port = 3000;
 
 
 let app = express();
@@ -29,16 +29,6 @@ app.use(session({
 }));
 
 
-
-
-// db.connect(function(err) {
-//     if (err) {
-//         console.error('error connecting: ' + err.stack);
-//         return;
-//     }
-//
-//     console.log('connected as id ' + db.threadId);
-// });
 
 app.use('/', register);
 
@@ -93,17 +83,6 @@ app.get('/logout', (req, res) => {
 app.get('/dashboard', auth, (req, res) => {
     res.render('dashboard');
 });
-
-
-
-// app.get('/register', (req, res) => {
-//     res.render('register');
-// });
-//
-// app.post('/register', (req, res) => {
-//     res.json(req.body);
-//     res.render('register');
-// });
 
 
 
