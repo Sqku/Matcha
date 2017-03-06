@@ -44,17 +44,21 @@
                     <div class="row">
                         <div class="col-sm-6 form-group <%= locals.errors !== undefined && locals.errors.first_name !== undefined ? "has-error has-feedback": ""%>">
                             <% if (locals.errors !== undefined && locals.errors.first_name !== undefined) { %>
-                            <label class="control-label" for="inputError1">Invalid</label>
-                            <% } %>
+                            <label class="control-label" for="inputError1"><%= locals.errors.first_name %></label>
+                            <% }
+                            else {%>
                             <label>First Name</label>
+                            <% }%>
                             <input value="<%= locals.body !== undefined ? locals.body.first_name : "" %>" type="text" name="first_name" placeholder="Enter your First Name" class="form-control">
 
                         </div>
                         <div class="col-sm-6 form-group <%= locals.errors !== undefined && locals.errors.last_name !== undefined ? "has-error has-feedback": ""%>">
                             <% if (locals.errors !== undefined && locals.errors.last_name !== undefined) { %>
-                            <label class="control-label" for="inputError1">Invalid</label>
-                            <% } %>
+                            <label class="control-label" for="inputError1"><%= locals.errors.last_name %></label>
+                            <% }
+                            else {%>
                             <label>Last Name</label>
+                            <%}%>
                             <input value="<%= locals.body !== undefined ? locals.body.last_name : "" %>" type="text" name="last_name" placeholder="Enter your Last Name" class="form-control">
                         </div>
                     </div>
@@ -70,37 +74,45 @@
                     </div>
                     <div class="form-group <%= locals.errors !== undefined && locals.errors.password !== undefined ? "has-error has-feedback": ""%>">
                         <% if (locals.errors !== undefined && locals.errors.password !== undefined) { %>
-                        <label class="control-label" for="inputError1">Invalid</label>
-                        <% } %>
+                        <label class="control-label" for="inputError1"><%= locals.errors.password %></label>
+                        <% } else {%>
                         <label>Password</label>
-                        <input type="password" name="password" placeholder="Enter your Password" class="form-control">
+                        <%}%>
+                        <input value="<%= locals.body !== undefined ? locals.body.password : "" %>" type="password" name="password" placeholder="Enter your Password" class="form-control">
                     </div>
                     <div class="form-group <%= locals.errors !== undefined && locals.errors.confirm_password !== undefined ? "has-error has-feedback": ""%>">
                         <% if (locals.errors !== undefined && locals.errors.confirm_password !== undefined) { %>
-                        <label class="control-label" for="inputError1">Invalid</label>
-                        <% } %>
+                        <label class="control-label" for="inputError1"><%= locals.errors.confirm_password %></label>
+                        <% } else {%>
                         <label>Password Confirmation</label>
-                        <input type="password" name="confirm_password" placeholder="Confirm your Password" class="form-control">
+                        <%}%>
+                        <input value="<%= locals.body !== undefined ? locals.body.confirm_password : "" %>" type="password" name="confirm_password" placeholder="Confirm your Password" class="form-control">
                     </div>
                     <div class="form-group <%= locals.errors !== undefined && locals.errors.email !== undefined ? "has-error has-feedback": ""%>">
                         <% if (locals.errors !== undefined && locals.errors.email !== undefined) { %>
-                        <label class="control-label" for="inputError1">Invalid</label>
-                        <% } %>
+                        <label class="control-label" for="inputError1"><%= locals.errors.email %></label>
+                        <% }
+                        else
+                        {%>
                         <label>Email</label>
+                        <%}%>
                         <input value="<%= locals.body !== undefined ? locals.body.email : "" %>" type="text" name="email" placeholder="Enter your Email" class="form-control">
                     </div>
                     <div class="form-group <%= locals.errors !== undefined && locals.errors.age !== undefined ? "has-error has-feedback": ""%>">
                         <% if (locals.errors !== undefined && locals.errors.age !== undefined) { %>
-                        <label class="control-label" for="inputError1">Invalid</label>
-                        <% } %>
+                        <label class="control-label" for="inputError1"><%= locals.errors.age %></label>
+                        <% }
+                        else
+                        {%>
                         <label>Age</label>
+                        <% } %>
                         <input value="<%= locals.body !== undefined ? locals.body.age : "" %>" type="text" name="age" placeholder="How old are you ?" class="form-control">
                     </div>
                     <div class="form-group <%= locals.errors !== undefined && locals.errors.radio !== undefined ? "has-error has-feedback": ""%>">
                         <% if (locals.errors !== undefined && locals.errors.radio !== undefined) { %>
-                        <label class="control-label" for="inputError1">Invalid</label>
-                        <% } %>
-                        <label>Gender</label>   </br>
+                        <label class="control-label" for="inputError1"><%= locals.errors.radio %></label>
+                        <% } else { %>
+                        <label>Gender</label><%}%>   </br>
                         <!--<input type="text" placeholder="Man or Woman" class="form-control">-->
                         <div class="radio-inline">
                             <label>

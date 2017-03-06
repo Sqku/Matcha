@@ -14,10 +14,8 @@ let valid_form = (req, res, next) => {
         if (req.body.gender)
         {
             if (req.body.gender === "man") {
-                console.log("man")
             }
             else if(req.body.gender === "woman") {
-                console.log("woman")
             }
             return true;
         }
@@ -69,53 +67,60 @@ let valid_form = (req, res, next) => {
         errors.radio = "No Gender checked";
     }
 
-    console.log('#1: ');
-    console.log(errors);
-    console.log(Object.keys(errors).length);
-    if (Object.keys(errors).length == 0)
-    {
-        User.isUnique("user_name", req.body.user_name, (count) => {
-            console.log(count);
-            if (count == 0)
+    form_validator.isUnique("user_name", req.body.user_name, (count) => {
+        console.log(count);
+        if (count != 0)
+        {
+            errors.user_name = "User Name already taken";
+            req.session.errors = errors;
+            req.session.body = req.body;
+
+            if(req.body.email)
             {
-                errors.user_name = "User Name already taken";
-                console.log(errors);
-                req.session.errors = errors;
-                req.session.body = req.body;
-                // console.log("invalid form");
-                res.redirect('/register');
-            }
-            else
-            {
-                User.isUnique("email", req.body.user_name, (count) => {
-                    if (count == 0)
+                form_validator.isUnique("email", req.body.email, (count) => {
+                    if (count != 0)
                     {
                         errors.email = "Email already taken";
                         console.log(errors);
                         req.session.errors = errors;
                         req.session.body = req.body;
-                        // console.log("invalid form");
                         res.redirect('/register');
-                    }
-                    else
-                    {
-                        next();
                     }
                 });
             }
-        });
-
-    }
-    // console.log('#1: ');
-    // console.log(errors);
-
-    else
-    {
-        req.session.errors = errors;
-        req.session.body = req.body;
-        // console.log("invalid form");
-        res.redirect('/register');
-    }
+            else
+            {
+                res.redirect('/register');
+            }
+        }
+        else
+        {
+            form_validator.isUnique("email", req.body.email, (count) => {
+                if (count != 0)
+                {
+                    errors.email = "Email already taken";
+                    console.log(errors);
+                    req.session.errors = errors;
+                    req.session.body = req.body;
+                    // console.log("invalid form");
+                    res.redirect('/register');
+                }
+                else
+                {
+                    if (Object.keys(errors).length == 0)
+                    {
+                        next();
+                    }
+                    else
+                    {
+                        req.session.errors = errors;
+                        req.session.body = req.body;
+                        res.redirect('/register');
+                    }
+                }
+            });
+        }
+    });
 };
 
 

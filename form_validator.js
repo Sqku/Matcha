@@ -1,3 +1,7 @@
+let db = require('./db_start');
+
+
+
 class Form_validator {
 
     static isEmail (input) {
@@ -52,6 +56,19 @@ class Form_validator {
         } else {
             return input.match(/^[0-9]+$/);
         }
+    }
+
+    static isUnique(input, value, callback)
+    {
+        db.query('SELECT COUNT(*) AS count FROM user WHERE ??=?', [input, value], (err, result) => {
+            if (err)
+            {
+                throw err;
+            }
+            console.log("input= ",input," value = ",value);
+            console.log(result);
+            callback(result[0].count);
+        });
     }
 
 }
