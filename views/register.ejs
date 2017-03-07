@@ -98,15 +98,15 @@
                         <%}%>
                         <input value="<%= locals.body !== undefined ? locals.body.email : "" %>" type="text" name="email" placeholder="Enter your Email" class="form-control">
                     </div>
-                    <div class="form-group <%= locals.errors !== undefined && locals.errors.age !== undefined ? "has-error has-feedback": ""%>">
-                        <% if (locals.errors !== undefined && locals.errors.age !== undefined) { %>
-                        <label class="control-label" for="inputError1"><%= locals.errors.age %></label>
+                    <div class="form-group <%= locals.errors !== undefined && locals.errors.date_of_birth !== undefined ? "has-error has-feedback": ""%>">
+                        <% if (locals.errors !== undefined && locals.errors.date_of_birth !== undefined) { %>
+                        <label class="control-label" for="inputError1"><%= locals.errors.date_of_birth %></label>
                         <% }
                         else
                         {%>
-                        <label>Age</label>
+                        <label>Date of birth</label>
                         <% } %>
-                        <input value="<%= locals.body !== undefined ? locals.body.age : "" %>" type="text" name="age" placeholder="How old are you ?" class="form-control">
+                        <input value="<%= locals.body !== undefined ? locals.body.date_of_birth : "" %>" type="text" name="date_of_birth" placeholder="dd/mm/yyyy" class="form-control">
                     </div>
                     <div class="form-group <%= locals.errors !== undefined && locals.errors.radio !== undefined ? "has-error has-feedback": ""%>">
                         <% if (locals.errors !== undefined && locals.errors.radio !== undefined) { %>
