@@ -27,7 +27,8 @@ router.route('/register')
         let salt = sha256(Math.random() + req.body.user_name);
         let password = sha256(salt + req.body.password);
         let dateSplit = req.body.date_of_birth.split("/");
-        let date_of_birth = new Date(Date.UTC(dateSplit[2], dateSplit[1], dateSplit[0]));
+        let date_of_birth = new Date(Date.UTC(dateSplit[2], dateSplit[1] - 1, dateSplit[0]));
+        let token = sha256(req.body.email + Date.now());
 
         User.create({
             first_name: req.body.first_name,
@@ -38,8 +39,8 @@ router.route('/register')
             date_of_birth : date_of_birth,
             gender : req.body.gender,
             salt : salt,
-            token : sha256(req.body.email + Date.now())
-        })
+            token : token
+        }, User.sendEmail(req.body.email, token))
     });
 
 

@@ -14,7 +14,6 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema matcha
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS 'matcha';
 
 CREATE SCHEMA IF NOT EXISTS `matcha` DEFAULT CHARACTER SET utf8 ;
 USE `matcha` ;
