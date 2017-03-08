@@ -37,7 +37,8 @@ router.route('/register')
             email : req.body.email,
             date_of_birth : date_of_birth,
             gender : req.body.gender,
-            salt : salt
+            salt : salt,
+            token : sha256(req.body.email + Date.now())
         })
     });
 

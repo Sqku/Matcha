@@ -14,6 +14,8 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema matcha
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS 'matcha';
+
 CREATE SCHEMA IF NOT EXISTS `matcha` DEFAULT CHARACTER SET utf8 ;
 USE `matcha` ;
 
@@ -30,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `matcha`.`user` (
   `salt` VARCHAR(255) NULL,
   `score` INT NULL,
   `date_of_birth` DATETIME NULL,
-  `gender` TINYINT(1) NULL,
+  `gender` enum('man','woman') DEFAULT NULL,
   `date_creation` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `date_connexion` DATETIME NULL,
   `activated` TINYINT(1) NULL DEFAULT 0,
