@@ -3,6 +3,7 @@ let bodyParser = require('body-parser');
 let session = require('express-session');
 let db = require('./db_start');
 let register = require('./route/register');
+let validate = require('./route/validate');
 
 
 let port = 3000;
@@ -31,7 +32,7 @@ app.use(session({
 
 
 app.use('/', register);
-
+app.use('/', validate);
 
 app.get('/', (req, res) => {
     res.render('index', {test: 'salut'});

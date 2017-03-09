@@ -56,7 +56,7 @@ let valid_form = (req, res, next) => {
 
     if (!form_validator.isDateofBirth(req.body.date_of_birth))
     {
-        errors.date_of_birth = "Invalid date of birth";
+        errors.date_of_birth = "Invalid date of birth (You have to be at least 18 years old and under 100 years old)";
     }
 
     if (!radioCheck())
@@ -65,7 +65,6 @@ let valid_form = (req, res, next) => {
     }
 
     form_validator.isUnique("user_name", req.body.user_name, (count) => {
-        console.log(count);
         if (count != 0)
         {
             errors.user_name = "User Name already taken";
@@ -78,7 +77,6 @@ let valid_form = (req, res, next) => {
                     if (count != 0)
                     {
                         errors.email = "Email already taken";
-                        console.log(errors);
                         req.session.errors = errors;
                         req.session.body = req.body;
                         res.redirect('/register');
@@ -96,7 +94,6 @@ let valid_form = (req, res, next) => {
                 if (count != 0)
                 {
                     errors.email = "Email already taken";
-                    console.log(errors);
                     req.session.errors = errors;
                     req.session.body = req.body;
                     // console.log("invalid form");

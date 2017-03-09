@@ -73,21 +73,18 @@ class Form_validator {
             let dateSplit = input.split("/");
             let now = new Date();
 
-            console.log("Age : ", (now.getFullYear() - parseInt(dateSplit[2])));
-            if (now.getFullYear() - parseInt(dateSplit[2]) > 18 )
+            if (now.getFullYear() - parseInt(dateSplit[2]) > 18 && now.getFullYear() - parseInt(dateSplit[2]) < 100)
             {
                 return true;
             }
             else if (now.getFullYear() - parseInt(dateSplit[2]) == 18 )
             {
-                console.log("Mois : ", (now.getMonth() - (parseInt(dateSplit[1]) - 1)));
                 if(now.getMonth() - (parseInt(dateSplit[1]) - 1)  > 0)
                 {
                     return true;
                 }
                 else if (now.getMonth() - (parseInt(dateSplit[1]) - 1)  == 0)
                 {
-                    console.log("jour : ", (now.getDate() - (parseInt(dateSplit[0]))));
                     return(now.getDate() - parseInt(dateSplit[0]) >= 0);
                 }
                 else

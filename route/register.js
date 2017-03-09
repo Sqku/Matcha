@@ -40,7 +40,7 @@ router.route('/register')
             gender : req.body.gender,
             salt : salt,
             token : token
-        }, User.sendEmail(req.body.email, token))
+        }, User.sendEmail(req.body.email, token, req.get('host'), req.body.user_name))
     });
 
 

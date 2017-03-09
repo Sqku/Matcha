@@ -6,7 +6,7 @@ let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'alanyu321@gmail.com',
-        pass: 'sakuragi1989'
+        pass: 'sakuragi1989!'
     }
 });
 
@@ -81,14 +81,16 @@ class User {
         })
     }
 
-    static sendEmail(email, token){
+    static sendEmail(email, token, host, user_name){
+
+        let link = "http://"+host+"/validate?token="+token+"&user_name="+user_name;
+
         let mailOptions = {
             from: 'Matcha', // sender address
             to: email, // list of receivers
             subject: 'Matcha - Account Validation', // Subject line
             text: 'Welcome to Matcha,\n\n\n' +
-            'to validate your account, please click the link below or copy/paste to your browser :\n\n' +
-            'http://localhost:3000/validate?id='+token, // plain text body
+            'to validate your account, please click the link below or copy/paste to your browser :\n\n' +link, // plain text body
             // html: '<b>Hello world ?</b>'
         };
 
@@ -98,6 +100,26 @@ class User {
             }
             console.log('Message %s sent: %s', info.messageId, info.response);
         });
+    }
+
+    static validate(user_name, cb){
+        db.query('SELECT token, activated FROM user WHERE user_name = ?', [user_name], (err, result) => {
+            if (err)
+            {
+                throw err;
+            }
+            cb(result);
+            // console.log(result);
+        } )
+    }
+
+    static activation(user_name, cb){
+        db.query('UPDATE user SET activated = 1, token = "" WHERE user_name = ?', [user_name], (err, result) => {
+            if (err)
+            {
+                throw err;
+            }
+        })
     }
 }
 
