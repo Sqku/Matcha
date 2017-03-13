@@ -12,7 +12,8 @@
 <!-- Begin page content -->
 <div class="container">
     <div class="page-header">
-        <h1>Your account is now active ! Click <a href="/signin">here</a> to connect</h1>
+
+        <h1><%= locals.errors !== undefined ? locals.errors : locals.success %> Click <a href="/signin">here</a> to connect</h1>
     </div>
 </div>
 

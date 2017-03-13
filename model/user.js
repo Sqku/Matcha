@@ -105,20 +105,24 @@ class User {
     static validate(user_name, cb){
         db.query('SELECT token, activated FROM user WHERE user_name = ?', [user_name], (err, result) => {
             if (err)
-            {
                 throw err;
-            }
-            cb(result);
-            // console.log(result);
+            cb(result[0]);
         } )
     }
 
     static activation(user_name, cb){
         db.query('UPDATE user SET activated = 1, token = "" WHERE user_name = ?', [user_name], (err, result) => {
             if (err)
-            {
                 throw err;
-            }
+            cb();
+        })
+    }
+
+    static findUser(user_name, cb){
+        db.query('SELECT password, salt, activated FROM user WHERE user_name = ?', [user_name], (err, result) => {
+            if (err)
+                throw err;
+            cb(result[0]);
         })
     }
 }

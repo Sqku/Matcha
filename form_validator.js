@@ -4,6 +4,12 @@ let db = require('./db_start');
 
 class Form_validator {
 
+    static notEmpty (input){
+        if (!(input != null)) {
+            return false;
+        }
+    }
+
     static isEmail (input) {
         if (!(input != null)) {
             return false;

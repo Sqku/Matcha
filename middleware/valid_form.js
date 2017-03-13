@@ -10,10 +10,10 @@ let valid_form = (req, res, next) => {
     let radioCheck = () => {
         if (req.body.gender)
         {
-            if (req.body.gender === "man") {
-            }
-            else if(req.body.gender === "woman") {
-            }
+            // if (req.body.gender === "man") {
+            // }
+            // else if(req.body.gender === "woman") {
+            // }
             return true;
         }
         else
