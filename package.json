@@ -20,6 +20,7 @@
     "emailjs": "^1.0.8",
     "express": "^4.14.1",
     "express-session": "^1.15.1",
+    "jsonwebtoken": "^7.3.0",
     "mysql": "^2.13.0",
     "nodemailer": "^3.1.5"
   }

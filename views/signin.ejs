@@ -37,17 +37,22 @@
 
 <div class="container">
 
-    <form class="form-signin" method="post" action="">
+    <form class="form-signin <%= locals.errors !== undefined ? "has-error has-feedback": ""%>" method="post">
+        <% if (locals.errors !== undefined)
+        {%>
+        <label class="control-label" for="inputError1"><%= locals.errors %></label>
+        <% } else { %>
         <h2 class="form-signin-heading">Please sign in</h2>
+        <% } %>
         <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="text" name="user_name" id="inputEmail" class="form-control" placeholder="User name">
+        <input value="<%= locals.body !== undefined ? locals.body.user_name : "" %>" type="text" name="user_name" id="inputEmail" class="form-control " placeholder="User name">
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password">
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
-        </div>
+        <!--<div class="checkbox">-->
+            <!--<label>-->
+                <!--<input type="checkbox" value="remember-me"> Remember me-->
+            <!--</label>-->
+        <!--</div>-->
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <a href="/register" class="btn btn-lg btn-block">Create an account</a>
     </form>

@@ -1,42 +1,26 @@
 let express = require('express');
 let router = express.Router();
+let session = require('express-session');
 let User = require('../model/user');
 let sha256 = require("crypto-js/sha256");
-let form_validator = require('../form_validator');
+let logged_in = require('../middleware/logged_in');
 
 router.route('/signin')
     .get((req, res) => {
+        if (req.session.errors){
+            res.locals.errors = req.session.errors;
+            req.session.errors = undefined;
+        }
+        res.locals.body = req.session.body;
+        req.session.body = undefined;
         res.render('signin');
 })
 
-    .post((req, res) => {
-        console.log("1");
-        console.log(req.body.user_name);
-        if(form_validator.notEmpty(req.body.user_name) && form_validator.notEmpty(req.body.password))
-        {
-            console.log("2");
-            User.findUser(req.body.user_name, (result) => {
-                if(result)
-                {
-                    if(sha256(result.salt + req.body.password) == result.password)
-                    {
-                        console.log("you are logged in");
-                    }
-                    else
-                    {
-                        // locals.errors = "Wrong Password";
-                        res.render('signin');
-                    }
-                }
-            });
-        }
-        else
-        {
+    .post(logged_in, (req, res) => {
+        console.log("welcome");
 
-            console.log("3");
-            // locals.errors = "User name or Password empty";
-            res.render('signin');
-        }
+        res.render('dashboard');
+        // creer token csrf
 });
 
 
