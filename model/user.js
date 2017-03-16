@@ -119,7 +119,7 @@ class User {
     }
 
     static findUser(user_name, cb){
-        db.query('SELECT password, salt, activated FROM user WHERE user_name = ?', [user_name], (err, result) => {
+        db.query('SELECT id, password, salt, activated FROM user WHERE user_name = ?', [user_name], (err, result) => {
             if (err)
                 throw err;
             cb(result[0]);

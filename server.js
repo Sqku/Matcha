@@ -4,6 +4,7 @@ let session = require('express-session');
 let db = require('./db_start');
 let register = require('./route/register');
 let validate = require('./route/validate');
+let dashboard = require('./route/dashboard');
 let signin = require('./route/signin');
 
 
@@ -21,7 +22,7 @@ app.locals.pretty = true;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/static', express.static('public'));
+app.use('/static', express.static('public', { redirect : false}));
 
 app.use(session({
     secret: 'matcha',
@@ -35,9 +36,10 @@ app.use(session({
 app.use('/', register);
 app.use('/', validate);
 app.use('/', signin);
+app.use('/', dashboard);
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.redirect('signin');
 });
 
 
