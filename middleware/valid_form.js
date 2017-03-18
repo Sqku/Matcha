@@ -42,7 +42,7 @@ let valid_form = (req, res, next) => {
 
     if (!form_validator.isSafePass(req.body.password))
     {
-        errors.password = "Invalid Password";
+        errors.password = "Password must contain at least 8 characters and at least 1 alphabet and 1 number";
     }
     if (!form_validator.isSamePass(req.body.password, req.body.confirm_password))
     {

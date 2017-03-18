@@ -5,12 +5,11 @@ let auth = (req, res, next) => {
 
     if (req.session && req.session.user_id)
     {
-        console.log("auth");
         next();
     }
     else
     {
-        console.log("not auth");
+        req.session.redirectTo = req.path;
         res.render('auth');
     }
 };

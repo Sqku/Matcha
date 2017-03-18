@@ -11,6 +11,16 @@
 
 
 <div class="container">
+    <% if(locals.success !== undefined && locals.success == "true")
+    { %>
+    <div class="page-header">
+        <h1>Welcome <strong style="color : dodgerblue"><%= locals.user_name %></strong>, you are now registered. <br></br>
+            A confirmation email has been sent to your email. <br></br>
+            Click <a href="/signin">here</a> to connect</h1>
+    </div>
+    <% } else { %>
+
+
     <h1 class="well">Create your account</h1>
     <div class="col-lg-12 well">
         <div class="row">
@@ -110,6 +120,7 @@
             </form>
         </div>
     </div>
+    <% } %>
 </div>
 
 

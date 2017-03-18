@@ -6,6 +6,7 @@ let register = require('./route/register');
 let validate = require('./route/validate');
 let dashboard = require('./route/dashboard');
 let signin = require('./route/signin');
+let profile = require('./route/profile');
 
 
 let port = 3000;
@@ -37,6 +38,7 @@ app.use('/', register);
 app.use('/', validate);
 app.use('/', signin);
 app.use('/', dashboard);
+app.use('/', profile);
 
 app.get('/', (req, res) => {
     res.redirect('signin');

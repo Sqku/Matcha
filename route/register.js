@@ -12,6 +12,13 @@ let router = express.Router();
 
 router.route('/register')
     .get((req, res) => {
+        if (req.session.success){
+            res.locals.success = req.session.success;
+            req.session.success = undefined;
+
+            res.locals.user_name = req.session.user_name;
+            req.session.user_name = undefined;
+        }
         if (req.session.errors){
             res.locals.errors = req.session.errors;
             req.session.errors = undefined;
@@ -22,7 +29,6 @@ router.route('/register')
     })
 
     .post(valid_form, (req, res) => {
-        res.json(req.body);
 
         let salt = sha256(Math.random() + req.body.user_name);
         let password = sha256(salt + req.body.password);
@@ -40,7 +46,12 @@ router.route('/register')
             gender : req.body.gender,
             salt : salt,
             token : token
-        }, User.sendEmail(req.body.email, token, req.get('host'), req.body.user_name))
+        }, User.sendEmail(req.body.email, token, req.get('host'), req.body.user_name));
+
+        req.session.success = "true";
+        req.session.user_name = req.body.user_name;
+
+        res.redirect('register');
     });
 
 

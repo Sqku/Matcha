@@ -19,7 +19,9 @@ router.route('/signin')
     .post(logged_in, (req, res) => {
         console.log("welcome");
 
-        res.render('dashboard');
+        let redirectTo = req.session.redirectTo !== undefined ? req.session.redirectTo : 'dashboard';
+        req.session.redirectTo = undefined;
+        res.redirect(redirectTo);
         // creer token csrf
 });
 
