@@ -7,6 +7,8 @@ let validate = require('./route/validate');
 let dashboard = require('./route/dashboard');
 let signin = require('./route/signin');
 let profile = require('./route/profile');
+let chat = require('./route/chat');
+let io = require ('socket.io')(00);
 
 
 let port = 3000;
@@ -39,6 +41,7 @@ app.use('/', validate);
 app.use('/', signin);
 app.use('/', dashboard);
 app.use('/', profile);
+app.use('/', chat);
 
 app.get('/', (req, res) => {
     res.redirect('signin');
@@ -79,7 +82,7 @@ app.get('/logout', (req, res) => {
     req.session.destroy();
     console.log("logout");
     res.redirect('/');
-})
+});
 
 
 

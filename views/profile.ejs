@@ -24,7 +24,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-            <img src="static/images/BEAUGOSSE.jpg" id="dashboard_picture" alt="" style="width: 100%">
+            <img src="static/images/BEAUGOSSE.jpg" id="dashboard_picture" class="img-responsive" alt="">
             <ul class="nav nav-sidebar">
                 <li class="active"><a href="#">Chat<span class="sr-only">(current)</span></a></li>
                 <li><a href="#">Visitors</a></li>
@@ -43,7 +43,7 @@
             <div class="row">
                 <div class="col-xs-6 col-sm-4 " style="">
                     <div class="row">
-                        <img src="static/images/BEAUGOSSE.jpg" width="100%" height="300" class="img-responsive center-block" alt="Generic placeholder thumbnail">
+                        <img src="static/images/BEAUGOSSE.jpg" width="100%" height="300" class="img-responsive img-thumbnail center-block" alt="Generic placeholder thumbnail">
                         <!--<span class="text-muted">Something else</span>-->
                     </div>
                     <div class="row" style="">
@@ -94,53 +94,58 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="panel panel-primary">-->
-                            <!--<div class="panel-heading">BLACK FRIDAY DEAL</div>-->
-                            <!--<div class="panel-body">dawd</div>-->
-                            <!--<div class="panel-footer">Buy 50 mobiles and get a gift card</div>-->
-                        <!--</div>-->
-
-
-
-
-
-
                     </div>
-
-
-
                 </div>
-                <div class="col-xs-6 col-sm-8 placeholder" style="border: solid;">
-                    <!--<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">-->
-                    <!--<h4>Label</h4>-->
-                    <!--<span class="text-muted">Something else</span>-->
 
-                    <div class="row" style="border: solid; text-align: unset;">
-                        connected---------------------------------------<br/>
-
-                        user_name-------------------------#tag #tag #tag<br/>
-                        age---------------------------------------------<br/>
-                        ------------------------------------------------report
-                        <br/><br/><br/><br/><br/>
-
-
+                <div class="col-xs-6 col-sm-8">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h4>Online</h4>
+                            </div>
+                            <div class="col-xs-12">
+                                <h1 style="font-size: 50px;"><%= locals.profile !== undefined && locals.profile.user_name !== undefined ? locals.profile.user_name : "random"%></h1>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-6" style="text-align: left">
+                                        <h4>28 ans</h4>
+                                    </div>
+                                    <div class="col-xs-6" style="text-align: right">
+                                        <h4>#tag #tag #tag</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12" style="text-align: right; margin-top: 20px">
+                                <button type="button" class="btn btn-warning">report as a fake</button>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="row" style="border: solid; text-align: unset;">
-                        <h4>Details</h4>
-                        Gender : man --------------
-                        Sexual orientation : female-------
-
-
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-xs-12" style="text-align: center">
+                                <h3>Details</h3>
+                            </div>
+                            <div class="col-xs-6" style="text-align: center">
+                                Gender : <%= locals.profile !== undefined && locals.profile.gender !== undefined ? locals.profile.gender : "random"%>
+                            </div>
+                            <div class="col-xs-6" style="text-align: center">
+                                Sexual orientation : female
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="row" style="border: solid; text-align: unset;">
-                        <h4>About</h4>
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-
-
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-xs-12" style="text-align: center;">
+                                <h3>About</h3>
+                            </div>
+                            <div class="col-xs-12">
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                            </div>
+                        </div>
                     </div>
-
 
                 </div>
                 <!--<div class="col-xs-6 col-sm-3 placeholder">-->

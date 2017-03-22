@@ -19,6 +19,13 @@ router.route('/signin')
     .post(logged_in, (req, res) => {
         console.log("welcome");
 
+        if(req.session.query_string)
+        {
+            let redirectTo = req.session.redirectTo !== undefined ? req.session.redirectTo : 'dashboard';
+            redirectTo = redirectTo+"?user_name="+req.session.query_string.user_name;
+            req.session.query_string.user_name = undefined;
+            res.redirect(redirectTo);
+        }
         let redirectTo = req.session.redirectTo !== undefined ? req.session.redirectTo : 'dashboard';
         req.session.redirectTo = undefined;
         res.redirect(redirectTo);

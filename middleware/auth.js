@@ -9,7 +9,15 @@ let auth = (req, res, next) => {
     }
     else
     {
-        req.session.redirectTo = req.path;
+        if(Object.keys(req.query).length != 0)
+        {
+            req.session.redirectTo = req.path;
+            req.session.query_string = req.query;
+            console.log("session", req.session.query_string);
+        }
+        else
+            req.session.redirectTo = req.path;
+
         res.render('auth');
     }
 };
