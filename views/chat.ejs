@@ -1,116 +1,50 @@
 <% include header %>
 
-<div class="menu">
-    <div class="back"><i class="fa fa-chevron-left"></i> <img src="http://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-    <div class="name">Alex</div>
-    <div class="last">18:09</div>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/dashboard">Matcha</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">My Account</a></li>
+                <li><a href="/profile">My Profile</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <img src="static/images/<%=locals.user.id%>.jpg" id="dashboard_picture" alt="" style="width: 100%">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="#">Chat<span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Visitors</a></li>
+                <li><a href="#">Matches</a></li>
+                <li id="online_members"><a href="#">Online Members</a></li>
+            </ul>
+            <!--<ul class="nav nav-sidebar">-->
+            <!--<li><a href="">Nav item again</a></li>-->
+            <!--<li><a href="">One more nav</a></li>-->
+            <!--<li><a href="">Another nav item</a></li>-->
+            <!--</ul>-->
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Chat</h1>
+            <div class="row">
+
+            </div>
+        </div>
+    </div>
 </div>
-<ol class="chat">
-    <li class="other">
-        <div class="avatar"><img src="http://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-        <div class="msg">
-            <p>Hola!</p>
-            <p>Te vienes a cenar al centro?</p>
-            <time>20:17</time>
-        </div>
-    </li>
-    <li class="self">
-        <div class="avatar"><img src="http://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
-        <div class="msg">
-            <p>Puff...</p>
-            <p>Aún estoy haciendo el contexto de Góngora...</p>
-            <p>Mejor otro día</p>
-            <time>20:18</time>
-        </div>
-    </li>
-    <li class="other">
-        <div class="avatar"><img src="http://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-        <div class="msg">
-            <p>Qué contexto de Góngora?</p>
-            <time>20:18</time>
-        </div>
-    </li>
-    <li class="self">
-        <div class="avatar"><img src="http://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
-        <div class="msg">
-            <p>El que mandó Marialu</p>
-            <p>Es para mañana...</p>
-            <time>20:18</time>
-        </div>
-    </li>
-    <li class="other">
-        <div class="avatar"><img src="http://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-        <div class="msg">
-            <time>20:18</time>
-        </div>
-    </li>
-    <li class="self">
-        <div class="avatar"><img src="http://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
-        <div class="msg">
-            <time>20:19</time>
-        </div>
-    </li>
-    <li class="other">
-        <div class="avatar"><img src="http://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-        <div class="msg">
-            <p>Gracias!</p>
-            <time>20:20</time>
-        </div>
-    </li>
-    <div class="day">Hoy</div>
-    <li class="self">
-        <div class="avatar"><img src="http://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
-        <div class="msg">
-            <p>Te apetece jugar a Minecraft?</p>
-            <time>18:03</time>
-        </div>
-    </li>
-    <li class="other">
-        <div class="avatar"><img src="http://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-        <div class="msg">
-            <p>Venga va, hace ya mucho que no juego...</p>
-            <time>18:07</time>
-        </div>
-    </li>
-    <li class="self">
-        <div class="avatar"><img src="http://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
-        <div class="msg">
-            <p>Ehh, me crashea el Launcher...</p>
-            <time>18:08</time>
-        </div>
-    </li>
-    <li class="other">
-        <div class="avatar"><img src="http://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-        <div class="msg">
-            <p><emoji class="lmao"/></p>
-            <time>18:08</time>
-        </div>
-    </li>
-    <li class="self">
-        <div class="avatar"><img src="http://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
-        <div class="msg">
-            <p>Es broma</p>
-            <p>Ataque Moai!</p>
-            <time>18:09</time>
-        </div>
-    </li>
-    <li class="other">
-        <div class="avatar"><img src="http://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-        <div class="msg">
-            <p>Copón</p>
-            <p><emoji class="funny"/></p>
-            <time>18:08</time>
-        </div>
-    </li>
-    <li class="self">
-        <div class="avatar"><img src="http://i.imgur.com/HYcn9xO.png" draggable="false"/></div>
-        <div class="msg">
-            <p>Hey there's a new update about this chat UI with more responsive elements! Check it now:</p>
-            <time>18:09</time>
-        </div>
-    </li>
-</ol>
-<input class="textarea" type="text" placeholder="Type here!"/>
 
 <% include footer %>
 
@@ -120,5 +54,22 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 <script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<script>
+    let socket = io.connect();
+
+    socket.emit('login', {
+        user_name : "<%=locals.user.user_name%>",
+        user_id : "<%=locals.user.id%>",
+        socket_id : socket.id
+    });
+
+    socket.on('new_user', function(){
+        $('#online_members').append('<img src="static/images/1.jpg" class="img-responsive">');
+    });
+
+</script>
 
 <% include fin %>

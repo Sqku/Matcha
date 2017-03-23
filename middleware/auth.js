@@ -3,7 +3,7 @@ let session = require('express-session');
 
 let auth = (req, res, next) => {
 
-    if (req.session && req.session.user_id)
+    if (req.session && req.session.user)
     {
         next();
     }
@@ -13,7 +13,6 @@ let auth = (req, res, next) => {
         {
             req.session.redirectTo = req.path;
             req.session.query_string = req.query;
-            console.log("session", req.session.query_string);
         }
         else
             req.session.redirectTo = req.path;

@@ -18,7 +18,8 @@ let logged_in = (req, res, next) => {
                 {
                     if(result.activated == 1)
                     {
-                        req.session.user_id = result.id;
+                        // req.session.user_id = result.id;
+                        req.session.user = result;
                         next();
                     }
                     else

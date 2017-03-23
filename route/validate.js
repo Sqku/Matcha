@@ -9,7 +9,6 @@ router.route('/validate')
         User.validate(req.query.user_name, (result) => {
             if(result)
             {
-                console.log("allo");
                 if(result.activated == 1) {
                     res.locals.errors = "Your account is already active";
                     res.render('validate');

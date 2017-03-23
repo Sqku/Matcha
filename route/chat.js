@@ -5,6 +5,7 @@ let User = require('../model/user');
 let auth = require('../middleware/auth');
 
 
+
 router.route('/chat')
     .get(auth, (req, res) => {
         // if (req.session.errors){
@@ -29,8 +30,16 @@ router.route('/chat')
         //         res.status(404).send('404 No Permission');
         //     }
         // });
+        res.locals.user = req.session.user;
+
         res.render('chat');
 
+
+
     });
+
+
+
+
 
 module.exports = router;

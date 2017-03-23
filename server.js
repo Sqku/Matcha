@@ -8,13 +8,16 @@ let dashboard = require('./route/dashboard');
 let signin = require('./route/signin');
 let profile = require('./route/profile');
 let chat = require('./route/chat');
-let io = require ('socket.io')(00);
+
+
 
 
 let port = 3000;
 
 
 let app = express();
+let http = require('http').Server(app);
+let io = require('socket.io')(http);
 
 
 app.set('view engine', 'ejs');
@@ -98,6 +101,31 @@ app.get('*', function(req, res){
     res.status('404').send('404 No Permission');
 });
 
-app.listen(port);
-console.log("app running on port", port);
+
+let users = {};
+
+io.on('connection', function(socket){
+    console.log('a user connected with id = '+socket.id);
+
+    let me;
+
+    for(let k in users)
+    {
+        socket.emit('new_user', users[k]);
+    }
+
+    socket.on('login', (user) => {
+        me = user;
+        users[me] = me;
+        io.sockets.emit('new_user');
+    })
+});
+
+
+http.listen(port, function(){
+    console.log('listening on *:3000');
+});
+
+// app.listen(port);
+// console.log("app running on port", port);
 
