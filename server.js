@@ -107,23 +107,44 @@ let users = {};
 io.on('connection', function(socket){
     console.log('a user connected with id = '+socket.id);
 
-    let me;
+    let me = false;
 
     for(let k in users)
     {
+        // console.log("users =", users);
+        // console.log("userS", users[k]);
         socket.emit('new_user', users[k]);
     }
 
+    socket.on('new_message', () => {
+        message.user = me;
+        date = new Date();
+        message.h = date.getHours();
+        message.m = date.getMinutes();
+        io.sockets.emit('new_message', message);
+    });
+
     socket.on('login', (user) => {
         me = user;
-        users[me] = me;
-        io.sockets.emit('new_user');
+        me.id = user.user_id;
+        console.log("me", me);
+        users[me.id] = me;
+        io.sockets.emit('new_user', me);
+    });
+
+    socket.on('disconnect', () => {
+        if(!me){
+            return false;
+        }
+        delete users[me.id];
+        io.sockets.emit('logout', me);
     })
 });
 
 
+
 http.listen(port, function(){
-    console.log('listening on *:3000');
+    console.log('listening on localhost:3000');
 });
 
 // app.listen(port);
