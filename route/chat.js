@@ -6,6 +6,12 @@ let auth = require('../middleware/auth');
 
 
 
+// let port = 3000;
+// let app = express();
+// let http = require('http').Server(app);
+// let io = require('socket.io')(http);
+
+
 router.route('/chat')
     .get(auth, (req, res) => {
         // if (req.session.errors){
@@ -33,6 +39,10 @@ router.route('/chat')
         res.locals.user = req.session.user;
 
         res.render('chat');
+
+        // http.listen(port, function(){
+        //     console.log('listening on localhost:3000');
+        // });
 
 
 

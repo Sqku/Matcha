@@ -42,73 +42,39 @@
             <h1 class="page-header">Chat</h1>
 
             <div class="row">
-                <div class="col-sm-9 message_section">
+                <div class="col-sm-12 message_section">
                     <div class="row">
-                        <div class="new_message_head">
-                            <div class="pull-left"><button><i class="fa fa-plus-square-o" aria-hidden="true"></i> New Message</button></div><div class="pull-right"><div class="dropdown">
-                                    <button class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-cogs" aria-hidden="true"></i>  Setting
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                                        <li><a href="#">Action</a></li>
-                                        <li><a href="#">Profile</a></li>
-                                        <li><a href="#">Logout</a></li>
-                                    </ul>
-                                </div></div>
-                        </div><!--new_message_head-->
 
                         <div class="chat_area">
-                            <ul class="list-unstyled">
-
-                                <li class="left clearfix admin_chat">
-                                    <span class="chat-img1 pull-right">
-                                        <img src="static/images/<%=locals.user.id%>.jpg" width="100%" height="300" class="img-responsive img-thumbnail center-block" alt="Generic placeholder thumbnail">
-                                    </span>
-                                    <div class="chat-body1 clearfix">
-                                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</p>
-                                        <div class="chat_time pull-left">09:40PM</div>
-                                    </div>
-                                </li>
-                                <li class="left clearfix admin_chat">
-                                    <span class="chat-img1 pull-right">
-                                        <img src="static/images/<%=locals.user.id%>.jpg" width="100%" height="300" class="img-responsive img-thumbnail center-block" alt="Generic placeholder thumbnail">
-                                    </span>
-                                    <div class="chat-body1 clearfix">
-                                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</p>
-                                        <div class="chat_time pull-left">09:40PM</div>
-                                    </div>
-                                </li>
-
-
-
+                            <ul id="msg_list" class="list-unstyled">
 
                             </ul>
                         </div><!--chat_area-->
                         <div class="message_write">
-                            <textarea class="form-control" placeholder="type a message"></textarea>
-                            <div class="clearfix"></div>
-                            <div class="chat_bottom">
-                                <a href="#" class="pull-right btn btn-success">Send</a>
-                                <input id="send" type="submit" class="btn btn-primary btn-sm" id="btn-chat">Send</input>
-                            </div>
+                            <form id="msg_form" action="">
+                                <textarea id="message" class="form-control" placeholder="type a message"></textarea>
+                                <div class="clearfix"></div>
+                                <div class="chat_bottom">
+                                    <input id="send" type="submit" value="Send" class="pull-right btn btn-success"></input>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div> <!--message_section-->
             </div>
 
-            <div class="row">
-                <div class="panel-footer">
-                    <form id="form" action="">
-                        <div class="input-group">
-                            <input id="message" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." />
-                            <span class="input-group-btn">
-                            <input id="send" type="submit" class="btn btn-primary btn-sm" id="btn-chat">Send</input>
-                        </span>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            <!--<div class="row">-->
+                <!--<div class="panel-footer">-->
+                    <!--<form id="form" action="">-->
+                        <!--<div class="input-group">-->
+                            <!--<input id="message" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." />-->
+                            <!--<span class="input-group-btn">-->
+                            <!--<input id="send" type="submit" class="btn btn-primary btn-sm" id="btn-chat">Send</input>-->
+                        <!--</span>-->
+                        <!--</div>-->
+                    <!--</form>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
 
     </div>
@@ -126,18 +92,75 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 <script>
+
+    var entityMap = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+        '/': '&#x2F;',
+        '`': '&#x60;',
+        '=': '&#x3D;'
+    };
+
+    function escapeHtml (string) {
+        return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+            return entityMap[s];
+        });
+    }
+
+    String.prototype.replaceAll = function(search, replacement) {
+        let target = this;
+        return target.replace(new RegExp(search, 'g'), replacement);
+    };
+
+    function newLineInP (string) {
+        return String(string).replaceAll("\n", "<br>");
+    }
+
     let socket = io.connect();
 
+    $('#msgtpl').remove();
+
     $('#message').focus();
-    $('#form').submit(function(event){
+
+    $('#msg_form').submit(function(event){
         event.preventDefault();
         socket.emit('new_message', {message: $('#message').val()})
         $('#message').val('');
         $('#message').focus();
     });
 
-    socket.on('new_message', (message)=>{
-
+    socket.on('new_message', (message) => {
+        console.log(message.message);
+        if(message.user.id != "<%=locals.user.id%>")
+        {
+            msgtpl = "<li id='msgtpl' class='left clearfix' >" +
+                "<span class='chat-img1 pull-left'>" +
+                "<img src='static/images/" + message.user.id + ".jpg' width='100%' height='300' class='img-responsive img-circle center-block' alt='Generic placeholder thumbnail'>" +
+                "</span>" +
+                "<div class='chat-body1 clearfix'>" +
+                "<p>" + ((message !== undefined && message.message !== undefined) ? newLineInP(escapeHtml(message.message)) : '') + "</p>" +
+                "<div class='chat_time pull-left'>" + message.h + "h" + message.m + "</div>" +
+                "</div>" +
+                "</li>";
+        }
+        else
+        {
+            msgtpl = "<li id='msgtpl' class='left clearfix admin_chat'>" +
+                "<span class='chat-img1 pull-right'>" +
+                "<img src='static/images/" + message.user.id + ".jpg' width='100%' height='300' class='img-responsive img-circle center-block' alt='Generic placeholder thumbnail'>" +
+                "</span>" +
+                "<div class='chat-body1 clearfix' style='text-align: right;'>" +
+                "<p>" + ((message !== undefined && message.message !== undefined) ? newLineInP(escapeHtml(message.message)) : '') + "</p>" +
+                "<div class='chat_time pull-right'>" + message.h + "h" + message.m +  "</div>" +
+                "</div>" +
+                "</li>";
+        }
+        console.log(newLineInP(message.message));
+        $('#msg_list').append(msgtpl);
+        $('.chat_area').animate({scrollTop : $('#msg_list').prop('scrollHeight')}, 500);
     })
 
 

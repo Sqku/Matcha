@@ -103,6 +103,8 @@ app.get('*', function(req, res){
 
 
 let users = {};
+let messages = [];
+let history = 2;
 
 io.on('connection', function(socket){
     console.log('a user connected with id = '+socket.id);
@@ -115,20 +117,32 @@ io.on('connection', function(socket){
         // console.log("userS", users[k]);
         socket.emit('new_user', users[k]);
     }
+    for(let k in messages)
+    {
+        // console.log("users =", users);
+        // console.log("userS", users[k]);
+        socket.emit('new_message', messages[k]);
+    }
 
-    socket.on('new_message', () => {
+    socket.on('new_message', (message) => {
         message.user = me;
         date = new Date();
         message.h = date.getHours();
         message.m = date.getMinutes();
+        messages.push(message);
+        if(messages.length > history)
+        {
+            messages.shift();
+        }
         io.sockets.emit('new_message', message);
+
     });
 
     socket.on('login', (user) => {
         me = user;
         me.id = user.user_id;
-        console.log("me", me);
         users[me.id] = me;
+        console.log(me);
         io.sockets.emit('new_user', me);
     });
 
