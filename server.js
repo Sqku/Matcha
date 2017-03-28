@@ -125,16 +125,41 @@ io.on('connection', function(socket){
     }
 
     socket.on('new_message', (message) => {
-        message.user = me;
-        date = new Date();
-        message.h = date.getHours();
-        message.m = date.getMinutes();
-        messages.push(message);
-        if(messages.length > history)
+
+        message.message = message.message.trim();
+        if(message.message === '')
         {
-            messages.shift();
+            return false;
         }
-        io.sockets.emit('new_message', message);
+
+        message.user = me;
+
+        message.created_at = new Date();
+
+        db.query('INSERT INTO messages SET user_id = ?, message = ?, created_at = ?', [
+            message.user.id,
+            message.message,
+            message.created_at
+        ], (err) => {
+            if(err){
+                socket.emit('error', err);
+            }
+
+            message.h = message.created_at.getHours();
+            message.m = message.created_at.getMinutes();
+            io.sockets.emit('new_message', message);
+        });
+
+        // message.user = me;
+        // date = new Date();
+        // message.h = date.getHours();
+        // message.m = date.getMinutes();
+        // messages.push(message);
+        // if(messages.length > history)
+        // {
+        //     messages.shift();
+        // }
+        // io.sockets.emit('new_message', message);
 
     });
 
@@ -144,6 +169,31 @@ io.on('connection', function(socket){
         users[me.id] = me;
         console.log(me);
         io.sockets.emit('new_user', me);
+
+        let getPreviousMsg = () => {
+            db.query('SELECT messages.user_id, messages.message, messages.created_at FROM messages LEFT JOIN user ON user.id = messages.user_id LIMIT 30', (err, result) => {
+                if(err){
+                    socket.emit('error', err.code);
+                    return true;
+                }
+                console.log(result);
+                for (k in result){
+                    let row = result[k];
+                    message = {
+                        message: row.message,
+                        h: row.created_at.getHours(),
+                        m: row.created_at.getMinutes(),
+                        // created_at: row.created_at,
+                        user: {
+                            id: row.user_id,
+                        }
+                    };
+                    socket.emit('new_message', message);
+                }
+            })
+        };
+
+        getPreviousMsg();
     });
 
     socket.on('disconnect', () => {

@@ -180,6 +180,23 @@ CREATE TABLE IF NOT EXISTS `matcha`.`block` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `matcha`.`messages`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matcha`.`messages` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `message` MEDIUMTEXT NULL,
+  `created_at` DATETIME NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_messages_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_messages_user1`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `matcha`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
