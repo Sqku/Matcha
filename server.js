@@ -7,6 +7,8 @@ let validate = require('./route/validate');
 let dashboard = require('./route/dashboard');
 let signin = require('./route/signin');
 let profile = require('./route/profile');
+let editProfile = require('./route/editProfile');
+let myProfile = require('./route/myProfile');
 let chat = require('./route/chat');
 
 
@@ -44,6 +46,8 @@ app.use('/', validate);
 app.use('/', signin);
 app.use('/', dashboard);
 app.use('/', profile);
+app.use('/', myProfile);
+app.use('/', editProfile);
 app.use('/', chat);
 
 app.get('/', (req, res) => {
@@ -103,8 +107,6 @@ app.get('*', function(req, res){
 
 
 let users = {};
-let messages = [];
-let history = 2;
 
 io.on('connection', function(socket){
     console.log('a user connected with id = '+socket.id);
@@ -117,12 +119,7 @@ io.on('connection', function(socket){
         // console.log("userS", users[k]);
         socket.emit('new_user', users[k]);
     }
-    for(let k in messages)
-    {
-        // console.log("users =", users);
-        // console.log("userS", users[k]);
-        socket.emit('new_message', messages[k]);
-    }
+
 
     socket.on('new_message', (message) => {
 
@@ -176,7 +173,6 @@ io.on('connection', function(socket){
                     socket.emit('error', err.code);
                     return true;
                 }
-                console.log(result);
                 for (k in result){
                     let row = result[k];
                     message = {

@@ -1,0 +1,137 @@
+<% include header %>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/dashboard">Matcha</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="#">My Account</a></li>
+                <li><a href="/myProfile">My Profile</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <img src="static/images/<%=locals.profile.id%>.jpg" id="dashboard_picture" class="img-responsive" alt="">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="#">Chat<span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Visitors</a></li>
+                <li><a href="#">Matches</a></li>
+                <!--<li><a href="#">Export</a></li>-->
+            </ul>
+            <!--<ul class="nav nav-sidebar">-->
+            <!--<li><a href="">Nav item again</a></li>-->
+            <!--<li><a href="">One more nav</a></li>-->
+            <!--<li><a href="">Another nav item</a></li>-->
+            <!--</ul>-->
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <% if(locals.success !== undefined && locals.success == "true")
+            { %>
+            <div class="page-header">
+                <h1>Welcome <strong style="color : dodgerblue"><%= locals.user_name %></strong>, you are now registered. <br></br>
+                    A confirmation email has been sent to your email. <br></br>
+                    Click <a href="/signin">here</a> to connect</h1>
+            </div>
+            <% } else { %>
+
+
+            <h1 class="well">Edit my profile</h1>
+            <div class="col-lg-12 well">
+                <div class="row">
+                    <form method="post">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-6 form-group <%= locals.errors !== undefined && locals.errors.first_name !== undefined ? "has-error has-feedback": ""%>">
+                                    <% if (locals.errors !== undefined && locals.errors.first_name !== undefined) { %>
+                                    <label class="control-label" for="inputError1"><%= locals.errors.first_name %></label>
+                                    <% }
+                                    else {%>
+                                    <label>First Name</label>
+                                    <% }%>
+                                    <input value="<%= locals.body !== undefined ? locals.body.first_name : locals.profile.first_name %>" type="text" name="first_name" placeholder="Enter your First Name" class="form-control">
+
+                                </div>
+                                <div class="col-sm-6 form-group <%= locals.errors !== undefined && locals.errors.last_name !== undefined ? "has-error has-feedback": ""%>">
+                                    <% if (locals.errors !== undefined && locals.errors.last_name !== undefined) { %>
+                                    <label class="control-label" for="inputError1"><%= locals.errors.last_name %></label>
+                                    <% }
+                                    else {%>
+                                    <label>Last Name</label>
+                                    <%}%>
+                                    <input value="<%= locals.body !== undefined ? locals.body.last_name : locals.profile.last_name %>" type="text" name="last_name" placeholder="Enter your Last Name" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group <%= locals.errors !== undefined && locals.errors.email !== undefined ? "has-error has-feedback": ""%>">
+                                <% if (locals.errors !== undefined && locals.errors.email !== undefined) { %>
+                                <label class="control-label" for="inputError1"><%= locals.errors.email %></label>
+                                <% }
+                                else
+                                {%>
+                                <label>Email</label>
+                                <%}%>
+                                <input value="<%= locals.body !== undefined ? locals.body.email : locals.profile.email %>" type="text" name="email" placeholder="Enter your Email" class="form-control">
+                            </div>
+                            <div class="form-group <%= locals.errors !== undefined && locals.errors.radio !== undefined ? "has-error has-feedback": ""%>">
+                                <% if (locals.errors !== undefined && locals.errors.radio !== undefined) { %>
+                                <label class="control-label" for="inputError1"><%= locals.errors.radio %></label>
+                                <% } else { %>
+                                <label>Gender</label><%}%>   </br>
+                                <!--<input type="text" placeholder="Man or Woman" class="form-control">-->
+                                <div class="radio-inline">
+                                    <label>
+                                        <input type="radio" name="gender" id="gender_male" value="man" <%= locals.body !== undefined && locals.body.gender == 'man' ? "checked" : (locals.profile.gender == 'man' ? "checked" : "") %>>
+                                        Man
+                                    </label>
+                                </div>
+                                <div class="radio-inline">
+                                    <label>
+                                        <input type="radio" name="gender" id="gender_female" value="woman" <%= locals.body !== undefined && locals.body.gender == 'woman' ? "checked" : (locals.profile.gender == 'woman' ? "checked" : "") %>>
+                                        Woman
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group <%= locals.errors !== undefined && locals.errors.bio !== undefined ? "has-error has-feedback": ""%>">
+                                <% if (locals.errors !== undefined && locals.errors.bio !== undefined) { %>
+                                <label class="control-label" for="inputError1"><%= locals.errors.bio %></label>
+                                <% }
+                                else {%>
+                                <label>About me (maximum 500 characters)</label>
+                                <%}%>
+
+                                <textarea maxlength="500" name="bio" placeholder="About me..." class="form-control" style="text-align: left;"><%=locals.body !== undefined ? locals.body.bio :locals.profile.last_name%></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-lg btn-info" value="submit">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<% include footer %>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+
+<% include fin %>
+
+

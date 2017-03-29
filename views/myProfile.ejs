@@ -1,0 +1,183 @@
+<% include header %>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/dashboard">Matcha</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="#">My Account</a></li>
+                <li><a href="/myProfile">My Profile</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <img src="static/images/<%=locals.profile.id%>.jpg" id="dashboard_picture" class="img-responsive" alt="">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="#">Chat<span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Visitors</a></li>
+                <li><a href="#">Matches</a></li>
+                <!--<li><a href="#">Export</a></li>-->
+            </ul>
+            <!--<ul class="nav nav-sidebar">-->
+            <!--<li><a href="">Nav item again</a></li>-->
+            <!--<li><a href="">One more nav</a></li>-->
+            <!--<li><a href="">Another nav item</a></li>-->
+            <!--</ul>-->
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">My Profiles</h1>
+
+            <div class="row">
+                <div class="col-xs-6 col-sm-4 " style="">
+                    <div class="row">
+                        <img src="static/images/<%=locals.profile.id%>.jpg" width="100%" height="300" class="img-responsive img-thumbnail center-block" alt="Generic placeholder thumbnail">
+                        <!--<span class="text-muted">Something else</span>-->
+                    </div>
+                    <div class="row" style="">
+                        <button type="button" class="btn btn-info" style="width: 100%;">LIKE</button>
+                    </div>
+                    <div class="row" style="border: solid;">
+                        geolocatisation <br><br><br><br><br><br><br>
+                    </div>
+                    <div class="row">
+                        <h4 style="border-bottom: 1px solid #eee;" >Popularity</h4>
+                        <div class="panel-body" style="padding-bottom: 0">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    visited
+                                </div>
+                                <div class="col-xs-8" style="text-align: right">
+                                    <strong style="color: orangered;">20</strong> x 123 = 1230
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body" style="padding-bottom: 0">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    liked
+                                </div>
+                                <div class="col-xs-8" style="text-align: right">
+                                    <strong style="color: orangered;">20</strong> x 123 = 1230
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    matches
+                                </div>
+                                <div class="col-xs-8" style="text-align: right">
+                                    <strong style="color: orangered;">20</strong> x 123 = 1230
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <h5>Total score</h5>
+                                </div>
+                                <div class="col-xs-8">
+                                    <h5 style="text-align: right; font-size: large">= 1230</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-sm-8">
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <h4>Online</h4>
+                            </div>
+                            <div class="col-xs-6" style="text-align: right">
+                                <a href="/editProfile" class="btn btn-info">Edit my profile</a>
+                            </div>
+                            <div class="col-xs-12">
+                                <h1 style="font-size: 50px;"><%= locals.profile !== undefined && locals.profile.user_name !== undefined ? locals.profile.user_name : "random"%></h1>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-6" style="text-align: left">
+                                        <h4>28 ans</h4>
+                                    </div>
+                                    <div class="col-xs-6" style="text-align: right">
+                                        <h4>#tag #tag #tag</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12" style="text-align: right; margin-top: 20px">
+                                <button type="button" class="btn btn-warning">report as a fake</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-xs-12" style="text-align: center">
+                                <h3>Details</h3>
+                            </div>
+                            <div class="col-xs-6" style="text-align: center">
+                                Gender : <%= locals.profile !== undefined && locals.profile.gender !== undefined ? locals.profile.gender : "random"%>
+                            </div>
+                            <div class="col-xs-6" style="text-align: center">
+                                Sexual orientation : female
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-xs-12" style="text-align: center;">
+                                <h3>About</h3>
+                            </div>
+                            <div class="col-xs-12">
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!--<div class="col-xs-6 col-sm-3 placeholder">-->
+                <!--<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">-->
+                <!--<h4>Label</h4>-->
+                <!--<span class="text-muted">Something else</span>-->
+                <!--</div>-->
+                <!--<div class="col-xs-6 col-sm-3 placeholder">-->
+                <!--<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">-->
+                <!--<h4>Label</h4>-->
+                <!--<span class="text-muted">Something else</span>-->
+                <!--</div>-->
+            </div>
+
+            <!--<h2 class="sub-header">Section title</h2>-->
+            <!--<div class="table-responsive">-->
+
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+
+<% include footer %>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+
+<% include fin %>
