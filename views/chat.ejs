@@ -133,7 +133,6 @@
     });
 
     socket.on('new_message', (message) => {
-        console.log(message.message);
         if(message.user.id != "<%=locals.user.id%>")
         {
             msgtpl = "<li id='msgtpl' class='left clearfix' >" +
@@ -158,7 +157,6 @@
                 "</div>" +
                 "</li>";
         }
-        console.log(newLineInP(message.message));
         $('#msg_list').append(msgtpl);
         $('.chat_area').animate({scrollTop : $('#msg_list').prop('scrollHeight')}, 0);
     })
