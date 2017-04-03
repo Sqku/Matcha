@@ -40,7 +40,6 @@ app.use(session({
 }));
 
 
-
 app.use('/', register);
 app.use('/', validate);
 app.use('/', signin);
@@ -49,6 +48,7 @@ app.use('/', profile);
 app.use('/', myProfile);
 app.use('/', editProfile);
 app.use('/', chat);
+
 
 app.get('/', (req, res) => {
     res.redirect('signin');

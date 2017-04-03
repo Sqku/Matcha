@@ -51,7 +51,7 @@
             <h1 class="well">Edit my profile</h1>
             <div class="col-lg-12 well">
                 <div class="row">
-                    <form method="post">
+                    <form method="post" enctype="multipart/form-data">
                         <div class="col-sm-12">
                             <div class="row">
                                 <div class="col-sm-6 form-group <%= locals.errors !== undefined && locals.errors.first_name !== undefined ? "has-error has-feedback": ""%>">
@@ -104,9 +104,9 @@
                                 </div>
                             </div>
 
-                            <div class="form-group <%= locals.errors !== undefined && locals.errors.radio_orientation !== undefined ? "has-error has-feedback": ""%>">
-                                <% if (locals.errors !== undefined && locals.errors.radio_orientation !== undefined) { %>
-                                <label class="control-label" for="inputError1"><%= locals.errors.radio_orientation %></label>
+                            <div class="form-group <%= locals.errors !== undefined && locals.errors.sex_orientation !== undefined ? "has-error has-feedback": ""%>">
+                                <% if (locals.errors !== undefined && locals.errors.sex_orientation !== undefined) { %>
+                                <label class="control-label" for="inputError1"><%= locals.errors.sex_orientation %></label>
                                 <% } else { %>
                                 <label>Sexual orientation</label><%}%>   </br>
                                 <!--<input type="text" placeholder="Man or Woman" class="form-control">-->
@@ -150,11 +150,21 @@
                                 <% }
                                 else
                                 {%>
-                                <label>Tags (use existing tags or create new ones)</label>
+                                <label>Tags (use existing tags or create new ones, maximum 20 characters per tag)</label>
                                 <%}%>
-                                <input type="text" class="form-control tokenfield" id="tags" value="red,green,blue" placeholder="Type a tag and press enter"/>
+                                <input type="text" name="tags" class="form-control tokenfield" id="tags" value="<%=locals.body !== undefined ? locals.body.tags : "red,blue"%>" placeholder="Type a tag and press enter"/>
                             </div>
 
+                            <div class="form-group <%= locals.errors !== undefined && locals.errors.images !== undefined ? "has-error has-feedback": ""%>">
+                                <% if (locals.errors !== undefined && locals.errors.images !== undefined) { %>
+                                <label class="control-label" for="inputError1"><%= locals.errors.images %></label>
+                                <% }
+                                else
+                                {%>
+                                <label>My images</label>
+                                <%}%>
+                                <input type="file" class="form-control" name="img" value="" enctype="multipart/form-data"/>
+                            </div>
 
                             <button type="submit" class="btn btn-lg btn-info" value="submit">Save changes</button>
                         </div>
@@ -188,13 +198,16 @@
             delay: 100
         },
         showAutocompleteOnFocus: true
+
     })
 
     $('#tags').on('tokenfield:createtoken', function (event) {
         var existingTokens = $(this).tokenfield('getTokens');
         $.each(existingTokens, function(index, token) {
             if (token.value === event.attrs.value || event.attrs.value.length > 20)
+            {
                 event.preventDefault();
+            }
         });
     });
 

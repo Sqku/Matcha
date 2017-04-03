@@ -4,59 +4,86 @@ let express = require('express');
 // let session = require('express-session');
 let User = require('../model/user');
 let sha256 = require("crypto-js/sha256");
+let multer = require('multer');
+let upload = multer({ destination: '../public/images/' });
+// let upload = multer();
 
-let valid_form = require('../middleware/valid_form');
+let valid_editProfile = require('../middleware/valid_editProfile');
 let auth = require('../middleware/auth');
+
+
+// let upload = multer({
+//     dest: __dirname + '../public/images/',
+// });
+
 
 let router = express.Router();
 
 
-router.route('/editProfile')
-    .get(auth, (req, res) => {
-        if (req.session.success){
-            res.locals.success = req.session.success;
-            req.session.success = undefined;
+router.get('/editProfile', auth, (req, res) => {
+    if (req.session.success){
+        res.locals.success = req.session.success;
+        req.session.success = undefined;
 
-            res.locals.user_name = req.session.user_name;
-            req.session.user_name = undefined;
-        }
-        if (req.session.errors){
-            res.locals.errors = req.session.errors;
-            req.session.errors = undefined;
-        }
-        res.locals.body = req.session.body;
-        req.session.body = undefined;
+        res.locals.user_name = req.session.user_name;
+        req.session.user_name = undefined;
+    }
+    if (req.session.errors){
+        res.locals.errors = req.session.errors;
+        req.session.errors = undefined;
+    }
+    res.locals.body = req.session.body;
+    req.session.body = undefined;
 
-        res.locals.profile = req.session.user;
-        // console.log(res.locals.profile);
-        res.render('editProfile');
-    });
+    res.locals.profile = req.session.user;
 
-    // .post(valid_form, (req, res) => {
-    //
-    //     let salt = sha256(Math.random() + req.body.user_name);
-    //     let password = sha256(salt + req.body.password);
-    //     let dateSplit = req.body.date_of_birth.split("/");
-    //     let date_of_birth = new Date(Date.UTC(dateSplit[2], dateSplit[1] - 1, dateSplit[0]));
-    //     let token = sha256(req.body.email + Date.now());
-    //
-    //     User.create({
-    //         first_name: req.body.first_name,
-    //         last_name: req.body.last_name,
-    //         user_name : req.body.user_name,
-    //         password : password,
-    //         email : req.body.email,
-    //         date_of_birth : date_of_birth,
-    //         gender : req.body.gender,
-    //         salt : salt,
-    //         token : token
-    //     }, User.sendEmail(req.body.email, token, req.get('host'), req.body.user_name));
-    //
-    //     req.session.success = "true";
-    //     req.session.user_name = req.body.user_name;
-    //
-    //     res.redirect('editProfile');
-    // });
+    // console.log("res.locals.body :", res.locals.body)
+
+    res.render('editProfile');
+});
+
+
+router.post('/editProfile', upload.single('img'), function(req, res) {
+    console.log("req.file :", req.file);
+    console.log("req.files :", req.files);
+    console.log(req.body);
+
+
+    res.redirect('editProfile');
+});
+
+// router.route('/editProfile')
+//     .get(auth, (req, res) => {
+//         if (req.session.success){
+//             res.locals.success = req.session.success;
+//             req.session.success = undefined;
+//
+//             res.locals.user_name = req.session.user_name;
+//             req.session.user_name = undefined;
+//         }
+//         if (req.session.errors){
+//             res.locals.errors = req.session.errors;
+//             req.session.errors = undefined;
+//         }
+//         res.locals.body = req.session.body;
+//         req.session.body = undefined;
+//
+//         res.locals.profile = req.session.user;
+//
+//
+//         res.render('editProfile');
+//     })
+//
+//     .post(upload, (req, res) => {
+//
+//         console.log("req.file :", req.file);
+//         console.log("req.files :", req.files);
+//         console.log(req.body);
+//
+//
+//         res.redirect('editProfile');
+//
+//     });
 
 
 module.exports = router;

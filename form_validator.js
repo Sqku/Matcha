@@ -42,7 +42,7 @@ class Form_validator {
         if (!(input != null)) {
             return false;
         } else {
-            return input.match(/^[a-zA-Z0-9]{1,20}$/);
+            return input.match(/^[a-zA-Z0-9_-]{1,20}$/);
         }
     }
 

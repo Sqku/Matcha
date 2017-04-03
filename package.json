@@ -14,7 +14,7 @@
   "author": "ahua",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.16.1",
+    "body-parser": "^1.17.1",
     "crypto-js": "^3.1.9-1",
     "ejs": "^2.5.6",
     "emailjs": "^1.0.8",
@@ -22,6 +22,7 @@
     "express-session": "^1.15.1",
     "jsonwebtoken": "^7.3.0",
     "moment": "^2.18.1",
+    "multer": "^1.3.0",
     "mysql": "^2.13.0",
     "nodemailer": "^3.1.5",
     "socket.io": "^1.7.3"
