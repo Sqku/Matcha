@@ -23,6 +23,8 @@ let valid_editProfile = (req, res, next) => {
     };
 
     let bioCheck = (input) => {
+        console.log(input);
+        console.log(req.body);
         if(input.length <= 500)
             return true;
         else
@@ -42,6 +44,13 @@ let valid_editProfile = (req, res, next) => {
 
     let errors = {};
 
+    if(Object.keys(req.body).length == 0)
+    {
+        errors.err = "an error occured, please reload the page";
+        req.session.errors = errors;
+        // req.session.body = req.body;
+        res.redirect('/editProfile');
+    }
 
     if (!form_validator.isName(req.body.first_name))
     {

@@ -9,6 +9,7 @@ let signin = require('./route/signin');
 let profile = require('./route/profile');
 let editProfile = require('./route/editProfile');
 let myProfile = require('./route/myProfile');
+let myPictures = require('./route/myPictures');
 let chat = require('./route/chat');
 
 
@@ -27,7 +28,7 @@ app.locals.pretty = true;
 
 
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/static', express.static('public', { redirect : false}));
@@ -47,6 +48,7 @@ app.use('/', dashboard);
 app.use('/', profile);
 app.use('/', myProfile);
 app.use('/', editProfile);
+app.use('/', myPictures);
 app.use('/', chat);
 
 
