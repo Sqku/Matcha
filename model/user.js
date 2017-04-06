@@ -81,6 +81,21 @@ class User {
         })
     }
 
+    static defaultProfile(user_id){
+        db.query('INSERT INTO profil SET orientation = "bisexual", user_id = ?', [user_id], (err, result) => {
+            if(err)
+                throw err;
+        })
+    }
+
+    static findProfile(user_id, cb){
+        db.query('SELECT orientation, bio FROM profil where user_id = ?', [user_id], (err, result) => {
+            if(err)
+                throw err;
+            cb(result[0]);
+        })
+    }
+
     static sendEmail(email, token, host, user_name){
 
         let link = "http://"+host+"/validate?token="+token+"&user_name="+user_name;

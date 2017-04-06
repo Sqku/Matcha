@@ -48,6 +48,10 @@ router.route('/register')
             token : token
         }, User.sendEmail(req.body.email, token, req.get('host'), req.body.user_name));
 
+        User.findUser(req.body.user_name, (result) => {
+            User.defaultProfile(result.id);
+        });
+
         req.session.success = "true";
         req.session.user_name = req.body.user_name;
 

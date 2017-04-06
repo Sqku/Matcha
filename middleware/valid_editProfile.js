@@ -23,8 +23,6 @@ let valid_editProfile = (req, res, next) => {
     };
 
     let bioCheck = (input) => {
-        console.log(input);
-        console.log(req.body);
         if(input.length <= 500)
             return true;
         else

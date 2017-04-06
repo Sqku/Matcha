@@ -103,7 +103,7 @@
                                 <!--<input type="text" placeholder="Man or Woman" class="form-control">-->
                                 <div class="radio-inline">
                                     <label>
-                                        <input type="radio" name="gender" id="gender_male" value="man" <%= locals.body !== undefined && locals.body.gender == 'man' ? "checked" : (locals.profile.gender == 'man' ? "checked" : "") %>>
+                                        <input type="radio" name="gender" id="gender_male" value="man" <%=locals.body !== undefined && locals.body.gender == 'man' ? "checked" : (locals.profile.gender == 'man' ? "checked" : "") %>>
                                         Man
                                     </label>
                                 </div>
@@ -123,19 +123,19 @@
                                 <!--<input type="text" placeholder="Man or Woman" class="form-control">-->
                                 <div class="radio-inline">
                                     <label>
-                                        <input type="radio" name="sex_orientation" value="heterosexual" <%= locals.body !== undefined && locals.body.sex_orientation == 'heterosexual' ? "checked" : (locals.profile.sex_orientation == 'heterosexual' ? "checked" : "") %>>
+                                        <input type="radio" name="sex_orientation" id="heterosexual" value="heterosexual" <%= locals.body !== undefined && locals.body.sex_orientation == 'heterosexual' ? "checked" : (locals.profile.sex_orientation == "heterosexual" ? "checked" : "") %>>
                                         heterosexual
                                     </label>
                                 </div>
                                 <div class="radio-inline">
                                     <label>
-                                        <input type="radio" name="sex_orientation" value="homosexual" <%= locals.body !== undefined && locals.body.sex_orientation == 'homosexual' ? "checked" : (locals.profile.sex_orientation == 'homosexual' ? "checked" : "") %>>
+                                        <input type="radio" name="sex_orientation" id="homosexual" value="homosexual" <%= locals.body !== undefined && locals.body.sex_orientation == 'homosexual' ? "checked" : (locals.profile.sex_orientation == "homosexual" ? "checked" : "") %>>
                                         homosexual
                                     </label>
                                 </div>
                                 <div class="radio-inline">
                                     <label>
-                                        <input type="radio" name="sex_orientation" value="bisexual" <%= locals.body === undefined  || (locals.body !== undefined && locals.body.sex_orientation === undefined) ? "checked" : (locals.profile.sex_orientation == 'bisexual' ? "checked" : "") %>>
+                                        <input type="radio" name="sex_orientation" id="bisexual" value="bisexual" <%= locals.body !== undefined && locals.body.sex_orientation == 'bisexual' ? "checked" : (locals.profile.sex_orientation == "bisexual" ? "checked" : "") %>>
                                         bisexual
                                     </label>
                                 </div>
@@ -152,7 +152,7 @@
                                 <label>About me (maximum 500 characters)</label>
                                 <%}%>
 
-                                <textarea maxlength="500" name="bio" placeholder="About me..." class="form-control" style="text-align: left;"><%=locals.body !== undefined ? locals.body.bio : locals.profile.last_name%></textarea>
+                                <textarea maxlength="500" name="bio" placeholder="About me..." class="form-control" style="text-align: left;"><%=locals.body !== undefined ? locals.body.bio : locals.profile.bio %></textarea>
                             </div>
 
                             <div class="form-group <%= locals.errors !== undefined && locals.errors.tags !== undefined ? "has-error has-feedback": ""%>">
@@ -221,7 +221,6 @@
             }
         });
     });
-
 </script>
 
 

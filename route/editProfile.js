@@ -54,39 +54,6 @@ let auth = require('../middleware/auth');
 
 let router = express.Router();
 
-
-// router.get('/editProfile', auth, (req, res) => {
-//     if (req.session.success){
-//         res.locals.success = req.session.success;
-//         req.session.success = undefined;
-//
-//         res.locals.user_name = req.session.user_name;
-//         req.session.user_name = undefined;
-//     }
-//     if (req.session.errors){
-//         res.locals.errors = req.session.errors;
-//         req.session.errors = undefined;
-//     }
-//     res.locals.body = req.session.body;
-//     req.session.body = undefined;
-//
-//     res.locals.profile = req.session.user;
-//
-//     // console.log("res.locals.body :", res.locals.body)
-//
-//     res.render('editProfile');
-// });
-//
-//
-// router.post('/editProfile', upload.single('img'), function(req, res) {
-//     console.log("req.file :", req.file);
-//     console.log("req.files :", req.files);
-//     console.log(req.body);
-//
-//
-//     res.redirect('editProfile');
-// });
-
 router.route('/editProfile')
     .get(auth, (req, res) => {
         if (req.session.success){
@@ -105,31 +72,38 @@ router.route('/editProfile')
 
         res.locals.profile = req.session.user;
 
+        User.findProfile(req.session.user.id, (result) => {
+            console.log(res.locals.profile);
+            res.locals.profile.sex_orientation = result.orientation;
+            res.locals.profile.bio = result.bio;
+            console.log(res.locals.profile);
+            console.log(res.locals.body);
 
-        res.render('editProfile');
+            res.render('editProfile');
+        });
+
+        //to do : check condition pour les radio si woman dans db
+
+
     })
 
     .post(valid_editProfile, (req, res) => {
 
-        upload(req, res, (err) => {
-            console.log("req.file :", req.file);
-            // console.log("req.files :", req.files);
-            // console.log(req.body);
-            if(err)
-            {
-                res.send(err);
-            }
-            else
-                res.redirect('editProfile');
+        User.findUser(req.session.user.user_name, (result) => {
+            req.session.user = result;
+            res.redirect('editProfile');
         });
-
-
-        // console.log("req.file :", req.file);
-        // console.log("req.files :", req.files);
-        // console.log(req.body);
-
-
-        // res.redirect('editProfile');
+        // upload(req, res, (err) => {
+        //     console.log("req.file :", req.file);
+        //     console.log("req.files :", req.files);
+        //     console.log(req.body);
+        //     if(err)
+        //     {
+        //         res.send(err);
+        //     }
+        //     else
+        //         res.redirect('editProfile');
+        // });
 
     });
 

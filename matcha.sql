@@ -73,8 +73,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `matcha`.`profil` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `sexe` VARCHAR(45) NULL,
-  `orientation` VARCHAR(45) NULL,
+  `sex_orientation` enum('bisexual','heterosexual','homosexual') DEFAULT NULL,
   `bio` MEDIUMTEXT NULL,
   `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
