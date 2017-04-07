@@ -62,37 +62,44 @@ class User {
         return this.row.gender
     }
 
-
-
-    // static create (first_name, last_name, user_name, password, email, date_of_birth, gender, salt, cb){
-    //     db.query('INSERT INTO user SET first_name = ?, last_name = ?, user_name = ?, password = ?, email = ?, age = ?, gender = ?, salt = ?', [])
-    // }
     static create (user, cb){
 
-
-
-        db.query('INSERT INTO user SET ?',
-            user,
-            (err, result) => {
-                if (err)
-                {
-                    throw err;
-                }
+        db.query('INSERT INTO user SET ?', user, (err, result) => {
+            if (err)
+            {
+                throw err;
+            }
         })
     }
 
     static defaultProfile(user_id){
-        db.query('INSERT INTO profil SET orientation = "bisexual", user_id = ?', [user_id], (err, result) => {
+        db.query('INSERT INTO profil SET sex_orientation = "bisexual", user_id = ?', [user_id], (err, result) => {
             if(err)
                 throw err;
         })
     }
 
     static findProfile(user_id, cb){
-        db.query('SELECT orientation, bio FROM profil where user_id = ?', [user_id], (err, result) => {
+        db.query('SELECT sex_orientation, bio FROM profil where user_id = ?', [user_id], (err, result) => {
             if(err)
                 throw err;
             cb(result[0]);
+        })
+    }
+
+    static updateProfil(profile, cb){
+        db.query('UPDATE profil SET sex_orientation = ?, bio = ? WHERE user_id = ?', [profile.sex_orientation, profile.bio, profile.user_id], (err, result) => {
+            if(err)
+                throw err;
+            // cb();
+        })
+    }
+
+    static updateUser(user, cb){
+        db.query('UPDATE user SET ?', user, (err, result) => {
+            if(err)
+                throw err;
+            // cb();
         })
     }
 
@@ -141,8 +148,5 @@ class User {
         })
     }
 }
-
-
-
 
 module.exports = User;

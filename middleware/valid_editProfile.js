@@ -10,10 +10,6 @@ let valid_editProfile = (req, res, next) => {
     let radioCheck = () => {
         if (req.body.sex_orientation)
         {
-            // if (req.body.gender === "man") {
-            // }
-            // else if(req.body.gender === "woman") {
-            // }
             return true;
         }
         else
@@ -42,13 +38,13 @@ let valid_editProfile = (req, res, next) => {
 
     let errors = {};
 
-    if(Object.keys(req.body).length == 0)
-    {
-        errors.err = "an error occured, please reload the page";
-        req.session.errors = errors;
-        // req.session.body = req.body;
-        res.redirect('/editProfile');
-    }
+    // if(Object.keys(req.body).length == 0)
+    // {
+    //     errors.err = "an error occured, please reload the page";
+    //     req.session.errors = errors;
+    //     // req.session.body = req.body;
+    //     res.redirect('/editProfile');
+    // }
 
     if (!form_validator.isName(req.body.first_name))
     {
@@ -60,29 +56,17 @@ let valid_editProfile = (req, res, next) => {
         errors.last_name = "Invalid Last name";
     }
 
-    if (!form_validator.isUserName(req.body.user_name))
-    {
-        errors.user_name = "Invalid User name";
-    }
+    // if (!form_validator.isUserName(req.body.user_name))
+    // {
+    //     errors.user_name = "Invalid User name";
+    // }
 
-    // if (!form_validator.isSafePass(req.body.password))
-    // {
-    //     errors.password = "Password must contain at least 8 characters and at least 1 alphabet and 1 number";
-    // }
-    // if (!form_validator.isSamePass(req.body.password, req.body.confirm_password))
-    // {
-    //     errors.confirm_password = "Not same Password";
-    // }
 
     if (!form_validator.isEmail(req.body.email))
     {
         errors.email = "Invalid Email";
     }
 
-    // if (!form_validator.isDateofBirth(req.body.date_of_birth))
-    // {
-    //     errors.date_of_birth = "Invalid date of birth (You have to be at least 18 years old and under 100 years old)";
-    // }
 
     if (!radioCheck())
     {
@@ -99,6 +83,7 @@ let valid_editProfile = (req, res, next) => {
         errors.tags = "Tags cannot contain special char except '_' and '-' and cannot exceed 20 char"
     }
 
+    console.log("errors :", errors);
     if(req.body.email != req.session.user.email)
     {
         form_validator.isUnique("email", req.body.email, (count) => {
@@ -114,6 +99,7 @@ let valid_editProfile = (req, res, next) => {
         {
             if (Object.keys(errors).length == 0)
             {
+                req.session.body = req.body;
                 next();
             }
             else
@@ -129,6 +115,7 @@ let valid_editProfile = (req, res, next) => {
     {
         if (Object.keys(errors).length == 0)
         {
+            req.session.body = req.body;
             next();
         }
         else

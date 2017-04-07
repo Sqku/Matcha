@@ -38,14 +38,7 @@
             <!--</ul>-->
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <% if(locals.success !== undefined && locals.success == "true")
-            { %>
-            <div class="page-header">
-                <h1>Welcome <strong style="color : dodgerblue"><%= locals.user_name %></strong>, you are now registered. <br></br>
-                    A confirmation email has been sent to your email. <br></br>
-                    Click <a href="/signin">here</a> to connect</h1>
-            </div>
-            <% } else { %>
+
 
             <div class="well">
                 <div class="row">
@@ -60,6 +53,12 @@
                     </div>
                 </div>
             </div>
+            <% if(locals.success !== undefined && locals.success == "true")
+            { %>
+            <div class="alert alert-success">
+                <strong>You changes have been successfully saved.</strong>
+            </div>
+            <% } %>
             <div class="col-lg-12 well">
                 <div class="row">
                     <form method="post">
@@ -103,13 +102,13 @@
                                 <!--<input type="text" placeholder="Man or Woman" class="form-control">-->
                                 <div class="radio-inline">
                                     <label>
-                                        <input type="radio" name="gender" id="gender_male" value="man" <%=locals.body !== undefined && locals.body.gender == 'man' ? "checked" : (locals.profile.gender == 'man' ? "checked" : "") %>>
+                                        <input type="radio" name="gender" id="gender_male" value="man" <%=locals.body !== undefined && locals.body.gender == 'man' ? "checked" : (locals.profile.gender == 'man' && locals.body === undefined ? "checked" : "") %>>
                                         Man
                                     </label>
                                 </div>
                                 <div class="radio-inline">
                                     <label>
-                                        <input type="radio" name="gender" id="gender_female" value="woman" <%= locals.body !== undefined && locals.body.gender == 'woman' ? "checked" : (locals.profile.gender == 'woman' ? "checked" : "") %>>
+                                        <input type="radio" name="gender" id="gender_female" value="woman" <%= locals.body !== undefined && locals.body.gender == 'woman' ? "checked" : (locals.profile.gender == 'woman' && locals.body === undefined ? "checked" : "") %>>
                                         Woman
                                     </label>
                                 </div>
@@ -123,19 +122,19 @@
                                 <!--<input type="text" placeholder="Man or Woman" class="form-control">-->
                                 <div class="radio-inline">
                                     <label>
-                                        <input type="radio" name="sex_orientation" id="heterosexual" value="heterosexual" <%= locals.body !== undefined && locals.body.sex_orientation == 'heterosexual' ? "checked" : (locals.profile.sex_orientation == "heterosexual" ? "checked" : "") %>>
+                                        <input type="radio" name="sex_orientation" id="heterosexual" value="heterosexual" <%= locals.body !== undefined && locals.body.sex_orientation == 'heterosexual' ? "checked" : (locals.profile.sex_orientation == "heterosexual" && locals.body === undefined ? "checked" : "") %>>
                                         heterosexual
                                     </label>
                                 </div>
                                 <div class="radio-inline">
                                     <label>
-                                        <input type="radio" name="sex_orientation" id="homosexual" value="homosexual" <%= locals.body !== undefined && locals.body.sex_orientation == 'homosexual' ? "checked" : (locals.profile.sex_orientation == "homosexual" ? "checked" : "") %>>
+                                        <input type="radio" name="sex_orientation" id="homosexual" value="homosexual" <%= locals.body !== undefined && locals.body.sex_orientation == 'homosexual' ? "checked" : (locals.profile.sex_orientation == "homosexual" && locals.body === undefined ? "checked" : "") %>>
                                         homosexual
                                     </label>
                                 </div>
                                 <div class="radio-inline">
                                     <label>
-                                        <input type="radio" name="sex_orientation" id="bisexual" value="bisexual" <%= locals.body !== undefined && locals.body.sex_orientation == 'bisexual' ? "checked" : (locals.profile.sex_orientation == "bisexual" ? "checked" : "") %>>
+                                        <input type="radio" name="sex_orientation" id="bisexual" value="bisexual" <%= locals.body !== undefined && locals.body.sex_orientation == 'bisexual' ? "checked" : (locals.profile.sex_orientation == "bisexual" && locals.body === undefined ? "checked" : "") %>>
                                         bisexual
                                     </label>
                                 </div>
@@ -166,23 +165,11 @@
                                 <input type="text" name="tags" class="form-control tokenfield" id="tags" value="<%=locals.body !== undefined ? locals.body.tags : "red,blue"%>" placeholder="Type a tag and press enter"/>
                             </div>
 
-                            <div class="form-group <%= locals.errors !== undefined && locals.errors.images !== undefined ? "has-error has-feedback": ""%>">
-                                <% if (locals.errors !== undefined && locals.errors.images !== undefined) { %>
-                                <label class="control-label" for="inputError1"><%= locals.errors.images %></label>
-                                <% }
-                                else
-                                {%>
-                                <label>My images</label>
-                                <%}%>
-                                <input type="file" class="form-control" name="img" value="" enctype="multipart/form-data"/>
-                            </div>
-
                             <button type="submit" class="btn btn-lg btn-info" value="submit">Save changes</button>
                         </div>
                     </form>
                 </div>
             </div>
-            <% } %>
         </div>
     </div>
 </div>
