@@ -80,7 +80,7 @@ class User {
     }
 
     static findProfile(user_id, cb){
-        db.query('SELECT sex_orientation, bio FROM profil where user_id = ?', [user_id], (err, result) => {
+        db.query('SELECT sex_orientation, bio FROM profil WHERE user_id = ?', [user_id], (err, result) => {
             if(err)
                 throw err;
             cb(result[0]);
@@ -96,7 +96,7 @@ class User {
     }
 
     static updateUser(user, cb){
-        db.query('UPDATE user SET ?', user, (err, result) => {
+        db.query('UPDATE user SET first_name = ?, last_name = ?, email = ?, gender = ? WHERE id = ?', [user.first_name, user.last_name, user.email, user.gender, user.id], (err, result) => {
             if(err)
                 throw err;
             // cb();
@@ -147,6 +147,19 @@ class User {
             cb(result[0]);
         })
     }
+
+    static getTags(cb){
+        db.query('SELECT tag FROM interets', (err, result) => {
+            if(err)
+                throw err;
+            cb(result[0]);
+        })
+    }
+    // 'SELECT messages.user_id, messages.message, messages.created_at FROM messages LEFT JOIN user ON user.id = messages.user_id LIMIT 30'
+    static findUserTags(user_id){
+        // faire req pour recuperer les tags associes a l user
+    }
+
 }
 
 module.exports = User;

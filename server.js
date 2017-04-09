@@ -88,6 +88,7 @@ app.get('/', (req, res) => {
 
 
 app.get('/logout', (req, res) => {
+    req.session.user = undefined;
     req.session.destroy();
     console.log("logout");
     res.redirect('/');

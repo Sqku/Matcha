@@ -68,15 +68,11 @@ router.route('/editProfile')
         res.locals.body = req.session.body;
         req.session.body = undefined;
 
-        console.log("before update :",req.session.user);
         res.locals.profile = req.session.user;
 
         User.findProfile(req.session.user.id, (result) => {
-            // console.log(res.locals.profile);
             res.locals.profile.sex_orientation = result.sex_orientation;
             res.locals.profile.bio = result.bio;
-            console.log(res.locals.profile);
-            // console.log(res.locals.body);
 
             res.render('editProfile');
         });
@@ -84,36 +80,41 @@ router.route('/editProfile')
 
     .post(valid_editProfile, (req, res) => {
 
-        // String.prototype.replaceAll = function(search, replacement) {
-        //     let target = this;
-        //     return target.replace(new RegExp(search, 'g'), replacement);
-        // };
+        String.prototype.replaceAll = function(search, replacement) {
+            let target = this;
+            return target.replace(new RegExp(search, 'g'), replacement);
+        };
 
         console.log("req.body :",req.body);
-        let profile = {};
-        let user = {};
-        profile.sex_orientation = req.body.sex_orientation;
-        // profile.bio = functions.newLineInP(functions.escapeHtml(req.body.bio));
-        profile.bio = req.body.bio;
-        profile.user_id = req.session.user.id;
+        let profile = {
+            sex_orientation : req.body.sex_orientation,
+            bio : functions.newLineInP(functions.escapeHtml(req.body.bio)),
+            // bio : req.body.bio,
+            user_id : req.session.user.id,
+        };
+        let user = {
+            id : req.session.user.id,
+            first_name : req.body.first_name,
+            last_name : req.body.last_name,
+            email : req.body.email,
+            gender : req.body.gender
+        };
 
-        user.first_name = req.body.first_name;
-        user.last_name = req.body.last_name;
-        user.email = req.body.email;
-        user.gender = req.body.gender;
 
-        User.updateProfil(profile, User.updateUser(user, User.findUser(req.session.user.user_name, (result) => {
+
+        User.updateProfil(profile);
+
+        User.updateUser(user);
+
+        User.findUser(req.session.user.user_name, (result) => {
             console.log("result",result); // check les valeurs de result qui ne sont pas bon
             req.session.user = result;
             console.log("req.session.user", req.session.user);
             req.session.success = "true";
 
-
             res.redirect('editProfile');
-        })))
-
+        });
     });
-
 
 module.exports = router;
 
