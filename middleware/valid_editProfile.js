@@ -26,12 +26,14 @@ let valid_editProfile = (req, res, next) => {
     };
 
     let tagsCheck = (input) => {
-        let split = input.split(",");
-        for (k in split)
+        if(form_validator.notEmpty(input))
         {
-            let trim = split[k].trim();
-            if (!form_validator.isUserName(trim))
-                return false;
+            let split = input.split(",");
+            for (k in split) {
+                let trim = split[k].trim();
+                if (!form_validator.isUserName(trim))
+                    return false;
+            }
         }
         return true;
     };

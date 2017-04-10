@@ -162,7 +162,7 @@
                                 {%>
                                 <label>Tags (use existing tags or create new ones, maximum 20 characters per tag)</label>
                                 <%}%>
-                                <input type="text" name="tags" class="form-control tokenfield" id="tags" value="<%=locals.body !== undefined ? locals.body.tags : "red,blue"%>" placeholder="Type a tag and press enter"/>
+                                <input type="text" name="tags" class="form-control tokenfield" id="tags" value="<%=locals.body !== undefined ? locals.body.tags : locals.profile.tags %>" placeholder="Type a tag and press enter"/>
                             </div>
 
                             <button type="submit" class="btn btn-lg btn-info" value="submit">Save changes</button>
@@ -193,6 +193,7 @@
     $('#tags').tokenfield({
         autocomplete: {
             source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
+
             delay: 100
         },
         showAutocompleteOnFocus: true

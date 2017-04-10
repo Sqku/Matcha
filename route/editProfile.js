@@ -5,6 +5,7 @@ let path = require('path');
 // let session = require('express-session');
 let functions = require('../middleware/functions');
 let User = require('../model/user');
+let form_validator = require('../form_validator');
 let sha256 = require("crypto-js/sha256");
 let multer = require('multer');
 let storage = multer.diskStorage({
@@ -70,6 +71,38 @@ router.route('/editProfile')
 
         res.locals.profile = req.session.user;
 
+        User.getTags((result) => {
+            if(result)
+            {
+                let tags = [];
+                console.log("tags :",result);
+                for (k in result){
+                    tags.push(result[k].tag);
+                    // if(tags == "")
+                    //     tags = result[k].tag;
+                    // else
+                    //     tags = tags + "," + result[k].tag;
+                }
+                res.locals.tags = tags;
+            }
+            else
+                res.locals.tags = "";
+        });
+
+        User.findUserTags(req.session.user.id, (result) => {
+            if(result)
+            {
+                let tags = "";
+                for (k in result){
+                    if(tags == "")
+                        tags = result[k].tag;
+                    else
+                        tags = tags + "," + result[k].tag;
+                }
+                res.locals.profile.tags = tags;
+            }
+        });
+
         User.findProfile(req.session.user.id, (result) => {
             res.locals.profile.sex_orientation = result.sex_orientation;
             res.locals.profile.bio = result.bio;
@@ -100,7 +133,17 @@ router.route('/editProfile')
             gender : req.body.gender
         };
 
-
+        if(form_validator.notEmpty(req.body.tags))
+        {
+            let split = req.body.tags.split(",");
+            for (k in split) {
+                let trim = split[k].trim();
+                User.isUniqueTag("tag", trim, (count) => {
+                    if(count == 0)
+                        User.createTags(trim);
+                });
+            }
+        }
 
         User.updateProfil(profile);
 

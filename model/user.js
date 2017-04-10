@@ -152,12 +152,41 @@ class User {
         db.query('SELECT tag FROM interets', (err, result) => {
             if(err)
                 throw err;
-            cb(result[0]);
+            cb(result);
         })
     }
     // 'SELECT messages.user_id, messages.message, messages.created_at FROM messages LEFT JOIN user ON user.id = messages.user_id LIMIT 30'
-    static findUserTags(user_id){
-        // faire req pour recuperer les tags associes a l user
+    static findUserTags(user_id, cb){
+        db.query('SELECT tag FROM interets LEFT JOIN user_interet ON interets.id = user_interet.interets_id WHERE user_interet.user_id = ?', [user_id], (err, result) => {
+            if(err)
+                throw err;
+            cb(result);
+        })
+    }
+
+    static createTags(tag, cb){
+        db.query('INSERT INTO interets SET tag = ?', [tag], (err, result) => {
+            if(err)
+                throw err;
+        })
+    }
+
+    static isUniqueTag(input, value, cb)
+    {
+        db.query('SELECT COUNT(*) AS count FROM interets WHERE ??=?', [input, value], (err, result) => {
+            if (err)
+            {
+                throw err;
+            }
+            // console.log("input= ",input," value = ",value);
+            // console.log(result);
+            cb(result[0].count);
+        });
+    }
+
+    static updateUserTags(user_id, interets_id)
+    {
+
     }
 
 }

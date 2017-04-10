@@ -14,14 +14,12 @@ let logged_in = (req, res, next) => {
         User.findUser(req.body.user_name, (result) => {
             if(result)
             {
-                console.log("login result :", result);
                 if(sha256(result.salt + req.body.password) == result.password)
                 {
                     if(result.activated == 1)
                     {
                         // req.session.user_id = result.id;
                         req.session.user = result;
-                        console.log("login session.user :", req.session.user);
                         next();
                     }
                     else
