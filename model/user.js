@@ -178,15 +178,33 @@ class User {
             {
                 throw err;
             }
-            // console.log("input= ",input," value = ",value);
-            // console.log(result);
             cb(result[0].count);
         });
     }
 
-    static updateUserTags(user_id, interets_id)
+    static getTagid(tag, cb)
     {
+        db.query('SELECT * FROM interets WHERE tag = ?', [tag], (err, result) => {
+            if (err)
+                throw err;
+            cb(result[0].id);
+        });
+    }
 
+    static addUserTags(interets_id, user_id, cb)
+    {
+        db.query('REPLACE INTO user_interet SET interets_id = ?, user_id = ?', [interets_id, user_id], (err, result) => {
+            if (err)
+                throw err;
+        })
+    }
+
+    static deleteUserTags(interets_id, user_id, cb)
+    {
+        db.query('DELETE FROM user_interet WHERE EXISTS (SELECT * FROM interets WHERE interets.id = ? AND user_interet.user_id = ?)', [interets_id, user_id], (err, result) => {
+            if (err)
+                throw err;
+        })
     }
 
 }

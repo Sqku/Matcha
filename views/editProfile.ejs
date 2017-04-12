@@ -165,6 +165,9 @@
                                 <input type="text" name="tags" class="form-control tokenfield" id="tags" value="<%=locals.body !== undefined ? locals.body.tags : locals.profile.tags %>" placeholder="Type a tag and press enter"/>
                             </div>
 
+                            <input type="hidden" name="data" id="data" value="<%=locals.tags%>">
+                            <input type="hidden" name="deleted_tags" id="deleted_tags" value="">
+
                             <button type="submit" class="btn btn-lg btn-info" value="submit">Save changes</button>
                         </div>
                     </form>
@@ -190,9 +193,14 @@
 
 <script>
 
+    let data = $('#data').val().split(",");
+    let deleted = "";
+
+
     $('#tags').tokenfield({
         autocomplete: {
-            source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
+//            source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
+            source: data,
 
             delay: 100
         },
@@ -209,6 +217,17 @@
             }
         });
     });
+
+    $('#tags').on('tokenfield:removedtoken', function (e) {
+//        alert('Token removed! Token value was: ' + e.attrs.value)
+
+        if(deleted == "")
+            deleted = e.attrs.value;
+        else
+            deleted = deleted + "," + e.attrs.value;
+        document.getElementById("deleted_tags").value = deleted;
+    });
+
 </script>
 
 

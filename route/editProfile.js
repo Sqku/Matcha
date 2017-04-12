@@ -112,6 +112,7 @@ router.route('/editProfile')
     })
 
     .post(valid_editProfile, (req, res) => {
+        // console.log("DELETED TAGS",req.body.deleted_tags);
 
         String.prototype.replaceAll = function(search, replacement) {
             let target = this;
@@ -140,8 +141,24 @@ router.route('/editProfile')
                 let trim = split[k].trim();
                 User.isUniqueTag("tag", trim, (count) => {
                     if(count == 0)
+                    {
                         User.createTags(trim);
+                    }
+                    User.getTagid(trim, (result) => {
+                        User.addUserTags(result, req.session.user.id);
+                    });
                 });
+            }
+        }
+
+        if(form_validator.notEmpty(req.body.deleted_tags))
+        {
+            let split = req.body.deleted_tags.split(",");
+            for (k in split) {
+                let trim = split[k].trim();
+                User.getTagid(trim, (result) => {
+                    User.deleteUserTags(result, req.session.user.id);
+                })
             }
         }
 
@@ -150,9 +167,7 @@ router.route('/editProfile')
         User.updateUser(user);
 
         User.findUser(req.session.user.user_name, (result) => {
-            console.log("result",result); // check les valeurs de result qui ne sont pas bon
             req.session.user = result;
-            console.log("req.session.user", req.session.user);
             req.session.success = "true";
 
             res.redirect('editProfile');
