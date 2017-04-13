@@ -38,25 +38,46 @@
             <!--</ul>-->
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="well">My pictures</h1>
             <% if(locals.success !== undefined && locals.success == "true")
             { %>
-            <div class="page-header">
-                <h1>Welcome <strong style="color : dodgerblue"><%= locals.user_name %></strong>, you are now registered. <br></br>
-                    A confirmation email has been sent to your email. <br></br>
-                    Click <a href="/signin">here</a> to connect</h1>
+            <div class="alert alert-success">
+                <strong>You changes have been successfully saved.</strong>
             </div>
-            <% } else { %>
+            <% } %>
 
-
-            <h1 class="well">My pictures</h1>
+            <div class="col-lg-12">
+                <div class="row">
+                    <%
+                        if (locals.profile.images !== undefined)
+                        {
+                            for (k in locals.profile.images)
+                            {
+                                %>
+                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-2">
+                                    <img src="/static/images/<%=locals.profile.images[k].img%>" alt="" class="img-responsive">
+                                    <button type="button" class="btn btn-default" aria-label="Left Align">
+                                        <span>set as profile picture</span>
+                                    </button>
+                                    <button type="button" class="btn btn-default" aria-label="Left Align">
+                                        Delete
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true" style="color: firebrick;"></span>
+                                    </button>
+                                </div>
+                                <%
+                            }
+                        }
+                    %>
+                </div>
+            </div>
 
             <div class="col-lg-12 well">
                 <div class="row">
-                    <form method="post" >
+                    <form method="post" enctype="multipart/form-data">
                         <div class="col-sm-12">
-                            <div class="form-group <%= locals.errors !== undefined && locals.errors.images !== undefined ? "has-error has-feedback": ""%>">
-                                <% if (locals.errors !== undefined && locals.errors.images !== undefined) { %>
-                                <label class="control-label" for="inputError1"><%= locals.errors.images %></label>
+                            <div class="form-group <%= locals.errors !== undefined && locals.errors.file !== undefined  ? "has-error has-feedback": ""%>">
+                                <% if (locals.errors !== undefined && locals.errors.file !== undefined) { %>
+                                <label class="control-label" for="inputError1"><%= locals.errors.file %></label>
                                 <% }
                                 else
                                 {%>
@@ -70,7 +91,6 @@
                     </form>
                 </div>
             </div>
-            <% } %>
         </div>
     </div>
 </div>

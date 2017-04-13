@@ -11,7 +11,7 @@ let storage = multer.diskStorage({
         cb(null, 'public/images/')
     },
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname).toLowerCase());
+        cb(null, req.session.user.user_name + '-' + Date.now() + path.extname(file.originalname).toLowerCase());
     }
 });
 
@@ -27,7 +27,7 @@ let upload = multer({
         if (mimetype && extname) {
             return cb(null, true);
         }
-        cb("Error: only images filetypes are allowed");
+        cb("Only images filetypes are allowed");
     }
 }).single('img');
 
@@ -57,36 +57,51 @@ router.route('/myPictures')
 
         res.locals.profile = req.session.user;
 
+        User.getUserImages(req.session.user.id, (result) => {
+            if (result)
+            {
+                // console.log("result :", result);
+                res.locals.profile.images = result;
+                res.render('myPictures');
+            }
+            else
+                res.render('myPictures');
+        });
 
-        res.render('myPictures');
+
+
+
     })
 
     .post((req, res) => {
 
-        upload(req, res, (err) => {
-            console.log("req.file :", req.file);
-            // if(!req.file)
-            // {
-            //     res.locals.errors.images = "Please select a image to upload";
-            //     res.redirect('myPictures');
-            // }
+        let errors = {};
 
+        upload(req, res, (err) => {
             if(err)
             {
-                res.send(err);
+                errors.file = err;
+                req.session.errors = errors;
+                res.redirect('myPictures');
+            }
+
+            else if(req.file === undefined)
+            {
+                errors.file = "Please select a image to upload";
+                req.session.errors = errors;
+                res.redirect('myPictures');
             }
             else
-                res.redirect('myPictures');
+            {
+                console.log(req.file);
+                User.addUserImages(req.file.filename, req.session.user.id, () => {
+                    req.session.success = "true";
+                    res.redirect('myPictures');
+                });
+            }
+
+
         });
-
-
-        // console.log("req.file :", req.file);
-        // console.log("req.files :", req.files);
-        // console.log(req.body);
-
-
-        // res.redirect('editProfile');
-
     });
 
 

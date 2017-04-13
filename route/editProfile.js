@@ -7,49 +7,6 @@ let functions = require('../middleware/functions');
 let User = require('../model/user');
 let form_validator = require('../form_validator');
 let sha256 = require("crypto-js/sha256");
-let multer = require('multer');
-let storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'public/images/')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname).toLowerCase());
-    }
-});
-
-
-
-
-// fileFilter : function(req, file, cb){
-//     let filetypes = /jpeg|jpg/;
-//     let mimetype = filetypes.test(file.mimetype);
-//     let extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-//
-//     if (mimetype && extname) {
-//         return cb(null, true);
-//     }
-//     cb("Error: File upload only supports the following filetypes - " + filetypes);
-// }
-
-
-
-// let upload = multer({ destination: '../public/images/' });
-let upload = multer({
-    storage : storage,
-    limits : {fileSize : 8000000, files : 1},
-    fileFilter : function(req, file, cb){
-    let filetypes = /jpeg|jpg|gif|png/;
-    let mimetype = filetypes.test(file.mimetype);
-    let extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-
-    if (mimetype && extname) {
-        return cb(null, true);
-    }
-    cb("Error: only images filetypes are allowed");
-    }
-    }).single('img');
-
-
 let valid_editProfile = require('../middleware/valid_editProfile');
 let auth = require('../middleware/auth');
 
@@ -145,7 +102,7 @@ router.route('/editProfile')
                         User.createTags(trim);
                     }
                     User.getTagid(trim, (result) => {
-                        User.addUserTags(result, req.session.user.id);
+                        User.addUserTags(result.id, req.session.user.id);
                     });
                 });
             }
@@ -157,7 +114,8 @@ router.route('/editProfile')
             for (k in split) {
                 let trim = split[k].trim();
                 User.getTagid(trim, (result) => {
-                    User.deleteUserTags(result, req.session.user.id);
+                    if (result)
+                        User.deleteUserTags(result.id, req.session.user.id);
                 })
             }
         }

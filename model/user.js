@@ -187,7 +187,7 @@ class User {
         db.query('SELECT * FROM interets WHERE tag = ?', [tag], (err, result) => {
             if (err)
                 throw err;
-            cb(result[0].id);
+            cb(result[0]);
         });
     }
 
@@ -207,6 +207,23 @@ class User {
         })
     }
 
+    static getUserImages(user_id, cb)
+    {
+        db.query('SELECT * FROM images WHERE user_id = ?', [user_id], (err, result) => {
+            if (err)
+                throw err;
+            cb(result);
+        })
+    }
+
+    static addUserImages(img, user_id, cb)
+    {
+        db.query('INSERT INTO images SET img = ?, user_id = ?', [img, user_id], (err, result) => {
+            if (err)
+                throw err;
+        });
+        cb();
+    }
 }
 
 module.exports = User;
