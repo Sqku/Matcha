@@ -54,12 +54,15 @@
                             for (k in locals.profile.images)
                             {
                                 %>
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-2">
-                                    <img src="/static/images/<%=locals.profile.images[k].img%>" alt="" class="img-responsive">
-                                    <button type="button" class="btn btn-default" aria-label="Left Align">
+                                <div class="col-xs-6 col-sm-5 col-md-5 col-lg-2 photo">
+                                    <img src="static/images/<%=locals.profile.images[k].img%>" alt="" class="img-responsive" style="<%=locals.profile.profile_picture == locals.profile.images[k].img ? "border: 3px solid black" : ""%>">
+                                    <button type="button" class="btn btn-default picture" aria-label="Left Align" style="<%=locals.profile.profile_picture == locals.profile.images[k].img ? "display:none;" : ""%>">
                                         <span>set as profile picture</span>
                                     </button>
-                                    <button type="button" class="btn btn-default" aria-label="Left Align">
+                                    <div class="btn btn-default current" style="<%=locals.profile.profile_picture == locals.profile.images[k].img ? "" : "display: none;"%>">
+                                        <strong>Current profile picture</strong>
+                                    </div>
+                                    <button type="button" class="btn btn-default delete" aria-label="Left Align">
                                         Delete
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true" style="color: firebrick;"></span>
                                     </button>
@@ -86,6 +89,9 @@
                                 <input type="file" class="form-control" name="img" value="" enctype="multipart/form-data"/>
                             </div>
 
+                            <input type="hidden" name="profile_picture" value="" id="profile_picture">
+                            <input type="hidden" name="delete" value="" id="delete">
+
                             <button type="submit" class="btn btn-lg btn-info" value="submit">Save changes</button>
                         </div>
                     </form>
@@ -105,6 +111,29 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+
+
+<script>
+//    let $photo = $('.photo');
+
+    $('.picture').click(function () {
+        $('.picture').show();
+        $('.img-responsive').css("border", "");
+        $(this).hide();
+        $('.current').hide();
+        $(this).parent('.photo').children('.current').show();
+        $(this).parent('.photo').children('.img-responsive').css("border", "3px solid black");
+
+        document.getElementById("profile_picture").value = $(this).parent('.photo').children('.img-responsive').attr('src');
+    })
+
+    $('.delete').click(function () {
+        $(this).parent('.photo').hide();
+
+        document.getElementById("delete").value = $(this).parent('.photo').children('.img-responsive').attr('src');
+    })
+</script>
+
 
 
 

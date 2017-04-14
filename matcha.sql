@@ -56,7 +56,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `matcha`.`images` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `img` VARCHAR(45) NULL,
+  `img` VARCHAR(255) NULL,
   `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_images_user1_idx` (`user_id` ASC),
@@ -76,6 +76,7 @@ CREATE TABLE IF NOT EXISTS `matcha`.`profil` (
   `sex_orientation` enum('bisexual','heterosexual','homosexual') DEFAULT NULL,
   `bio` MEDIUMTEXT NULL,
   `user_id` INT NOT NULL,
+  `profile_picture` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_profil_user_idx` (`user_id` ASC),
   CONSTRAINT `fk_profil_user`

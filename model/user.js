@@ -80,7 +80,7 @@ class User {
     }
 
     static findProfile(user_id, cb){
-        db.query('SELECT sex_orientation, bio FROM profil WHERE user_id = ?', [user_id], (err, result) => {
+        db.query('SELECT * FROM profil WHERE user_id = ?', [user_id], (err, result) => {
             if(err)
                 throw err;
             cb(result[0]);
@@ -223,6 +223,23 @@ class User {
                 throw err;
         });
         cb();
+    }
+
+    static countUserImages(user_id, cb)
+    {
+        db.query('SELECT COUNT(*) AS count FROM images WHERE user_id = ?', [user_id], (err, result) => {
+            if (err)
+                throw err;
+            cb(result[0].count);
+        })
+    }
+
+    static updateProfilePicture(profile_picture, user_id, cb)
+    {
+        db.query('UPDATE profil SET profile_picture = ? WHERE user_id = ?', [profile_picture, user_id], (err, result) => {
+            if (err)
+                throw err;
+        })
     }
 }
 
