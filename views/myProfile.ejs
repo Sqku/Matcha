@@ -41,7 +41,7 @@
             <h1 class="page-header">My Profiles</h1>
 
             <div class="row">
-                <div class="col-xs-6 col-sm-4 " style="">
+                <div class="col-xs-12 col-sm-4 " style="">
                     <div class="row">
                         <img src="static/images/<%=locals.profile.id%>.jpg" width="100%" height="300" class="img-responsive img-thumbnail center-block" alt="Generic placeholder thumbnail">
                         <!--<span class="text-muted">Something else</span>-->
@@ -49,8 +49,8 @@
                     <div class="row" style="">
                         <button type="button" class="btn btn-info" style="width: 100%;">LIKE</button>
                     </div>
-                    <div class="row" style="border: solid;">
-                        geolocatisation <br><br><br><br><br><br><br>
+                    <div id="map-container" class="row" style="border: solid;">
+                        <div id="map" style="height: 100%"></div>
                     </div>
                     <div class="row">
                         <h4 style="border-bottom: 1px solid #eee;" >Popularity</h4>
@@ -97,7 +97,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-sm-8">
+                <div class="col-xs-12 col-sm-8">
                     <div class="well">
                         <div class="row">
                             <div class="col-xs-6">
@@ -179,5 +179,95 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 <script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="../static/js/myProfile.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGJIJcckh-FIJHoBfaC-7e-s6uxIMUfIE&callback=initMap"></script>
+
+
+<!--<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>-->
+<!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrdsX8YnjnjPor5XG866JMn3po6M73TH0&callback=initMap"-->
+        <!--type="text/javascript"></script>-->
+
+<!--<script type="text/javascript"-->
+        <!--src="https://maps.googleapis.com/maps/api/js?sensor=SET_TO_TRUE_OR_FALSE">-->
+<!--</script>-->
+
+<!--<script>-->
+    <!--var centerpos = new google.maps.LatLng(48.579400,7.7519);-->
+
+    <!--// Options relatives à la carte-->
+    <!--var optionsGmaps = {-->
+        <!--center:centerpos,-->
+        <!--mapTypeId: google.maps.MapTypeId.ROADMAP,-->
+        <!--zoom: 15-->
+    <!--};-->
+    <!--// ROADMAP peut être remplacé par SATELLITE, HYBRID ou TERRAIN-->
+    <!--// Zoom : 0 = terre entière, 19 = au niveau de la rue-->
+
+    <!--// Initialisation de la carte pour l'élément portant l'id "map"-->
+    <!--var map = new google.maps.Map(document.getElementById("map"), optionsGmaps);-->
+
+    <!--// .. et la variable qui va stocker les coordonnées-->
+    <!--var latlng;-->
+
+
+    <!--function maPosition(position) {-->
+
+        <!--var infopos = "Position déterminée :\n";-->
+        <!--infopos += "Latitude : "+position.coords.latitude +"\n";-->
+        <!--infopos += "Longitude: "+position.coords.longitude+"\n";-->
+        <!--infopos += "Altitude : "+position.coords.altitude +"\n";-->
+        <!--infopos += "Vitesse  : "+position.coords.speed +"\n";-->
+        <!--document.getElementById("infoposition").innerHTML = infopos;-->
+
+        <!--// Un nouvel objet LatLng pour Google Maps avec les paramètres de position-->
+        <!--latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);-->
+
+        <!--// Ajout d'un marqueur à la position trouvée-->
+        <!--var marker = new google.maps.Marker({-->
+            <!--position: latlng,-->
+            <!--map: map,-->
+            <!--title:"Vous êtes ici"-->
+        <!--});-->
+
+        <!--// Permet de centrer la carte sur la position latlng-->
+        <!--map.panTo(latlng);-->
+
+    <!--}-->
+
+    <!--function erreurPosition(error) {-->
+        <!--var info = "Erreur lors de la géolocalisation : ";-->
+        <!--switch(error.code) {-->
+            <!--case error.TIMEOUT:-->
+                <!--info += "Timeout !";-->
+                <!--break;-->
+            <!--case error.PERMISSION_DENIED:-->
+                <!--info += "Vous n’avez pas donné la permission";-->
+                <!--break;-->
+            <!--case error.POSITION_UNAVAILABLE:-->
+                <!--info += "La position n’a pu être déterminée";-->
+                <!--break;-->
+            <!--case error.UNKNOWN_ERROR:-->
+                <!--info += "Erreur inconnue";-->
+                <!--break;-->
+        <!--}-->
+        <!--document.getElementById("infoposition").innerHTML = info;-->
+    <!--}-->
+
+    <!--if(navigator.geolocation) {-->
+        <!--survId = navigator.geolocation.getCurrentPosition(maPosition,erreurPosition);-->
+    <!--} else {-->
+        <!--alert("Ce navigateur ne supporte pas la géolocalisation");-->
+    <!--}-->
+
+    <!--marker = new google.maps.Marker({-->
+        <!--position: latlng,-->
+        <!--map: map,-->
+        <!--title:"Vous êtes ici",-->
+        <!--icon: "fleche.png"-->
+    <!--});-->
+
+
+<!--</script>-->
 
 <% include fin %>

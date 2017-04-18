@@ -5,6 +5,7 @@ let form_validator = require('../form_validator');
 // let session = require('express-session');
 let User = require('../model/user');
 let sha256 = require("crypto-js/sha256");
+let fs = require('fs');
 let multer = require('multer');
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -61,6 +62,7 @@ router.route('/myPictures')
             res.locals.profile.profile_picture = result.profile_picture;
 
             User.getUserImages(req.session.user.id, (result) => {
+                console.log("getuserimages :", result);
                 if (result)
                 {
                     // console.log("result :", result);
@@ -70,6 +72,7 @@ router.route('/myPictures')
                 else
                     res.render('myPictures');
             });
+
 
         });
 
@@ -93,7 +96,6 @@ router.route('/myPictures')
 
         let errors = {};
 
-        console.log(req.body)
         upload(req, res, (err) => {
             if(err)
             {
@@ -105,14 +107,26 @@ router.route('/myPictures')
             else if(req.file === undefined)
             {
                 console.log("req.body :", req.body);
-                if(form_validator.notEmpty(req.body.profile_picture))
+                if(form_validator.notEmpty(req.body.delete))
                 {
                     let split = req.body.delete.split("/");
                     User.findProfile(req.session.user.id, (result) => {
-                       if (result.profile_picture == split[2])
-                       {
-                           User.updateProfilePicture("", req.session.user.id);
-                       }
+                        console.log(result);
+                        if (result.profile_picture == split[2])
+                        {
+                            fs.unlink('public/images/'+split[2], (err) => {
+                                if (err) throw err;
+                            });
+                            User.deleteUserImages(split[2], req.session.user.id);
+                            User.updateProfilePicture("", req.session.user.id);
+                        }
+                        else
+                        {
+                            fs.unlink('public/images/'+split[2], (err) => {
+                                if (err) throw err;
+                            });
+                            User.deleteUserImages(split[2], req.session.user.id);
+                        }
                     }); // TO DO : DELETE PICTURE
 
                 }
@@ -128,9 +142,38 @@ router.route('/myPictures')
             }
             else
             {
-                console.log(req.body)
+                console.log(req.body);
                 User.countUserImages(req.session.user.id, (result) => {
                     console.log(result);
+                    if(form_validator.notEmpty(req.body.delete))
+                    {
+                        let split = req.body.delete.split("/");
+                        User.findProfile(req.session.user.id, (result) => {
+                            console.log(result);
+                            if (result.profile_picture == split[2])
+                            {
+                                fs.unlink('public/images/'+split[2], (err) => {
+                                    if (err) throw err;
+                                });
+                                User.deleteUserImages(split[2], req.session.user.id);
+                                User.updateProfilePicture("", req.session.user.id);
+                            }
+                            else
+                            {
+                                fs.unlink('public/images/'+split[2], (err) => {
+                                    if (err) throw err;
+                                });
+                                User.deleteUserImages(split[2], req.session.user.id);
+                            }
+                        }); // TO DO : DELETE PICTURE
+
+                    }
+                    if(form_validator.notEmpty(req.body.profile_picture))
+                    {
+                        let split = req.body.profile_picture.split("/");
+
+                        User.updateProfilePicture(split[2], req.session.user.id);
+                    }
                     if (result < 5)
                     {
                         User.addUserImages(req.file.filename, req.session.user.id, () => {

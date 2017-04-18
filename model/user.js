@@ -241,6 +241,14 @@ class User {
                 throw err;
         })
     }
+
+    static deleteUserImages(img, user_id, cb)
+    {
+        db.query('DELETE FROM images WHERE img = ? AND user_id = ?', [img, user_id], (err, result) => {
+            if (err)
+                throw err;
+        })
+    }
 }
 
 module.exports = User;
