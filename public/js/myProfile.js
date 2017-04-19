@@ -1,12 +1,5 @@
-/**
- * Created by ahua on 4/18/17.
- */
-
 // $('#map-container').height($('#map-container').width());
 $('#map-container').height('250px');
-
-
-
 
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
