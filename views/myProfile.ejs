@@ -1,59 +1,24 @@
 <% include header %>
-
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/dashboard">Matcha</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="#">My Account</a></li>
-                <li><a href="/myProfile">My Profile</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-            <img src="static/images/<%=locals.profile.id%>.jpg" id="dashboard_picture" class="img-responsive" alt="">
-            <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">Chat<span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Visitors</a></li>
-                <li><a href="#">Matches</a></li>
-                <!--<li><a href="#">Export</a></li>-->
-            </ul>
-            <!--<ul class="nav nav-sidebar">-->
-            <!--<li><a href="">Nav item again</a></li>-->
-            <!--<li><a href="">One more nav</a></li>-->
-            <!--<li><a href="">Another nav item</a></li>-->
-            <!--</ul>-->
-        </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">My Profiles</h1>
 
             <div class="row">
                 <div class="col-xs-12 col-sm-4 " style="">
                     <div class="row">
-                        <img src="static/images/<%=locals.profile.id%>.jpg" width="100%" height="300" class="img-responsive img-thumbnail center-block" alt="Generic placeholder thumbnail">
+                        <img src="static/images/<%=locals.profile.profile_picture%>" width="100%" height="300" class="img-responsive img-thumbnail center-block" alt="Generic placeholder thumbnail">
                         <!--<span class="text-muted">Something else</span>-->
                     </div>
-                    <div class="row" style="">
-                        <button type="button" class="btn btn-info" style="width: 100%;">LIKE</button>
-                    </div>
+                    <!--<div class="row" style="">-->
+                        <!--<button type="button" class="btn btn-info" style="width: 100%;">LIKE</button>-->
+                    <!--</div>-->
                     <div class="row" id="floating-panel">
-                        <form action="">
+                        <form action="" method="post">
                             <input id="address" type="textbox" value="paris">
-                            <input id="submit" type="button" value="Change location">
-                            <input id="default_location" type="button" value="Default location">
+                            <input id="change_location" type="button" value="Change location">
+                            <input id="default_location" type="button" value="Reset location">
+                            <input type="hidden" name="lat" id="lat" value="">
+                            <input type="hidden" name="lng" id="lng" value="">
+                            <button type="submit" class="btn btn-lg btn-info" value="submit">Save changes</button>
                         </form>
                     </div>
                     <div id="map-container" class="row" style="border: solid;">
@@ -119,16 +84,27 @@
                             <div class="col-xs-12">
                                 <div class="row">
                                     <div class="col-xs-6" style="text-align: left">
-                                        <h4>28 ans</h4>
+                                        <h4><%=locals.profile.age%> ans</h4>
                                     </div>
                                     <div class="col-xs-6" style="text-align: right">
-                                        <h4>#tag #tag #tag</h4>
+                                        <h4><% for (k in locals.profile.tags)
+                                        {
+                                            if(k == 0)
+                                            {
+                                            %>#<%=locals.profile.tags[k].tag%><%
+                                            }
+                                            else
+                                            {
+                                            %>, #<%=locals.profile.tags[k].tag%><%
+                                            }
+                                        }%></h4>
+                                        <!--<h4>#tag #tag #tag</h4>-->
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-12" style="text-align: right; margin-top: 20px">
-                                <button type="button" class="btn btn-warning">report as a fake</button>
-                            </div>
+                            <!--<div class="col-xs-12" style="text-align: right; margin-top: 20px">-->
+                                <!--<button type="button" class="btn btn-warning">report as a fake</button>-->
+                            <!--</div>-->
                         </div>
                     </div>
 
@@ -141,7 +117,7 @@
                                 Gender : <%= locals.profile !== undefined && locals.profile.gender !== undefined ? locals.profile.gender : "random"%>
                             </div>
                             <div class="col-xs-6" style="text-align: center">
-                                Sexual orientation : female
+                                Sexual orientation : <%=locals.profile.sex_orientation%>
                             </div>
                         </div>
                     </div>
@@ -152,7 +128,7 @@
                                 <h3>About</h3>
                             </div>
                             <div class="col-xs-12">
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                                <%= locals.profile.bio %>
                             </div>
                         </div>
                     </div>
@@ -198,9 +174,44 @@
 //            zoom: 11
 //        });
 
-
         // Try HTML5 geolocation.
         if (navigator.geolocation) {
+            console.log(<%=locals.profile.user_location%>)
+            console.log($('#lat').val())
+            if (<%=locals.profile.user_location == "true"%> && (($('#lat').val() != 0 || $('#lat').val() == "") && ($('#lng').val() != 0 || $('#lng').val() == ""))) {
+                var pos = {
+                    lat: <%= locals.profile.ip.lat %>,
+                    lng: <%= locals.profile.ip.lng %>
+                };
+
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: <%= locals.profile.ip.lat %>, lng: <%= locals.profile.ip.lng %>},
+                    zoom: 11
+                });
+
+                var marker = new google.maps.Marker({
+                    position: {lat: <%= locals.profile.ip.lat %>, lng: <%= locals.profile.ip.lng %>},
+                    map: map,
+                    title: 'Hello World!'
+                });
+                map.setCenter(pos);
+                change = "";
+
+//                navigator.geolocation.getCurrentPosition(function (position) {
+//                    var pos = {
+//                        lat: position.coords.latitude,
+//                        lng: position.coords.longitude
+//                    };
+//                    var marker = new google.maps.Marker({
+//                        position: {lat: pos.lat, lng: pos.lng},
+//                        map: map,
+//                        title: 'Hello World!'
+//                    });
+//                    map.setCenter(pos);
+//                });
+            }
+            else
+            {
                 var pos = {
                     lat: <%= locals.profile.ip.lat %>,
                     lng: <%= locals.profile.ip.lng %>
@@ -218,18 +229,19 @@
                 });
                 map.setCenter(pos);
 
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
-                var marker = new google.maps.Marker({
-                    position: {lat: pos.lat, lng: pos.lng},
-                    map: map,
-                    title: 'Hello World!'
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    var marker = new google.maps.Marker({
+                        position: {lat: pos.lat, lng: pos.lng},
+                        map: map,
+                        title: 'Hello World!'
+                    });
+                    map.setCenter(pos);
                 });
-                map.setCenter(pos);
-            });
+            }
         }
         else
         {
@@ -257,9 +269,12 @@
 
         var geocoder = new google.maps.Geocoder();
 
-        document.getElementById('submit').addEventListener('click', function() {
+//        document.getElementById('change_location').addEventListener('click', function() {
+//            geocodeAddress(geocoder, map);
+//        });
+        $('#change_location').click(function () {
             geocodeAddress(geocoder, map);
-        });
+        })
     }
 
 
@@ -268,16 +283,27 @@
         geocoder.geocode({'address': address}, function(results, status) {
             if (status === 'OK') {
                 resultsMap.setCenter(results[0].geometry.location);
-                console.log(results[0].geometry.location.lat());
                 var marker = new google.maps.Marker({
                     map: resultsMap,
                     position: results[0].geometry.location
                 });
+                document.getElementById("lat").value = results[0].geometry.location.lat();
+                document.getElementById("lng").value = results[0].geometry.location.lng();
+                console.log($('#lat').val());
+                console.log($('#lng').val());
+
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
             }
         });
     }
+
+    $('#default_location').click(function () {
+        document.getElementById("lat").value = 0;
+        document.getElementById("lng").value = 0;
+        initMap();
+
+    })
 
 
 </script>

@@ -92,7 +92,7 @@ router.route('/myPictures')
 
     })
 
-    .post((req, res) => {
+    .post(auth, (req, res) => {
 
         let errors = {};
 

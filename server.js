@@ -11,7 +11,7 @@ let editProfile = require('./route/editProfile');
 let myProfile = require('./route/myProfile');
 let myPictures = require('./route/myPictures');
 let chat = require('./route/chat');
-
+let functions = require('./middleware/functions');
 
 
 
@@ -138,7 +138,7 @@ io.on('connection', function(socket){
 
         db.query('INSERT INTO messages SET user_id = ?, message = ?, created_at = ?', [
             message.user.id,
-            message.message,
+            functions.escapeHtml(message.message),
             message.created_at
         ], (err) => {
             if(err){

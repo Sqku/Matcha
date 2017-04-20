@@ -68,7 +68,7 @@ router.route('/editProfile')
         });
     })
 
-    .post(valid_editProfile, (req, res) => {
+    .post(auth, valid_editProfile, (req, res) => {
         // console.log("DELETED TAGS",req.body.deleted_tags);
 
         String.prototype.replaceAll = function(search, replacement) {
@@ -76,7 +76,6 @@ router.route('/editProfile')
             return target.replace(new RegExp(search, 'g'), replacement);
         };
 
-        console.log("req.body :",req.body);
         let profile = {
             sex_orientation : req.body.sex_orientation,
             bio : functions.newLineInP(functions.escapeHtml(req.body.bio)),

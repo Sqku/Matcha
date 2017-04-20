@@ -13,54 +13,54 @@ let transporter = nodemailer.createTransport({
 
 class User {
 
-    constructor (row) {
-        this.row = row;
-    }
-
-    get first_name()
-    {
-        return this.row.first_name;
-    }
-
-    get last_name()
-    {
-        return this.row.last_name;
-    }
-
-    get user_name()
-    {
-        return this.row.user_name;
-    }
-
-    get password()
-    {
-        return this.row.password;
-    }
-
-    get email()
-    {
-        return this.row.email;
-    }
-
-    get date_of_birth()
-    {
-        return this.row.date_of_birth;
-    }
-
-    get gender()
-    {
-        return this.row.gender;
-    }
-
-    get salt()
-    {
-        return this.row.gender;
-    }
-
-    get date_creation()
-    {
-        return this.row.gender
-    }
+    // constructor (row) {
+    //     this.row = row;
+    // }
+    //
+    // get first_name()
+    // {
+    //     return this.row.first_name;
+    // }
+    //
+    // get last_name()
+    // {
+    //     return this.row.last_name;
+    // }
+    //
+    // get user_name()
+    // {
+    //     return this.row.user_name;
+    // }
+    //
+    // get password()
+    // {
+    //     return this.row.password;
+    // }
+    //
+    // get email()
+    // {
+    //     return this.row.email;
+    // }
+    //
+    // get date_of_birth()
+    // {
+    //     return this.row.date_of_birth;
+    // }
+    //
+    // get gender()
+    // {
+    //     return this.row.gender;
+    // }
+    //
+    // get salt()
+    // {
+    //     return this.row.gender;
+    // }
+    //
+    // get date_creation()
+    // {
+    //     return this.row.gender
+    // }
 
     static create (user, cb){
 
@@ -247,6 +247,23 @@ class User {
         db.query('DELETE FROM images WHERE img = ? AND user_id = ?', [img, user_id], (err, result) => {
             if (err)
                 throw err;
+        })
+    }
+
+    static updateUserLocation(lat, lng, user_id, cb)
+    {
+        db.query('UPDATE profil SET lat = ?, lng = ? WHERE user_id = ?', [lat, lng, user_id], (err, result) => {
+            if (err)
+                throw err;
+        })
+    }
+
+    static getUserLocation(user_id, cb)
+    {
+        db.query('SELECT lat, lng FROM profil WHERE user_id = ?', [user_id], (err, result) => {
+            if (err)
+                throw err;
+            cb(result[0]);
         })
     }
 }
