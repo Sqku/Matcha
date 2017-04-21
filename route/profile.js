@@ -29,17 +29,13 @@ router.route('/profile')
         //         res.status(404).send('404 No Permission');
         //     }
         // });
-        console.log(User.findUserName('1'));
         User.getAllprofiles((result) => {
             res.locals.profile = [];
-            let user = []
             if(result)
             {
+                console.log(result);
                 for(k in result)
                 {
-                    console.log("id",result[k].user_id);
-                    console.log(User.findUserName(1));
-                    console.log(user);
                     res.locals.profile.push(result[k]);
                 }
                 console.log(res.locals.profile);

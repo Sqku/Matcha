@@ -13,55 +13,6 @@ let transporter = nodemailer.createTransport({
 
 class User {
 
-    // constructor (row) {
-    //     this.row = row;
-    // }
-    //
-    // get first_name()
-    // {
-    //     return this.row.first_name;
-    // }
-    //
-    // get last_name()
-    // {
-    //     return this.row.last_name;
-    // }
-    //
-    // get user_name()
-    // {
-    //     return this.row.user_name;
-    // }
-    //
-    // get password()
-    // {
-    //     return this.row.password;
-    // }
-    //
-    // get email()
-    // {
-    //     return this.row.email;
-    // }
-    //
-    // get date_of_birth()
-    // {
-    //     return this.row.date_of_birth;
-    // }
-    //
-    // get gender()
-    // {
-    //     return this.row.gender;
-    // }
-    //
-    // get salt()
-    // {
-    //     return this.row.gender;
-    // }
-    //
-    // get date_creation()
-    // {
-    //     return this.row.gender
-    // }
-
     static create (user, cb){
 
         db.query('INSERT INTO user SET ?', user, (err, result) => {
@@ -145,15 +96,6 @@ class User {
             if (err)
                 throw err;
             cb(result[0]);
-        })
-    }
-
-    static findUserName(user_id, cb){
-        db.query('SELECT user_name FROM user WHERE id = ?', [user_id], (err, result) => {
-            if (err)
-                throw err;
-            console.log("query", result);
-            return(result[0]);
         })
     }
 
@@ -278,7 +220,7 @@ class User {
 
     static getAllprofiles(cb)
     {
-        db.query('SELECT user_id, profile_picture FROM profil', (err, result) => {
+        db.query('SELECT user_id, profile_picture, user_name FROM profil AS p, user AS u WHERE p.user_id = u.id', (err, result) => {
             if(err)
                 throw err;
             cb(result);
