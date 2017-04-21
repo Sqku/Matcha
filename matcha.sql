@@ -77,6 +77,8 @@ CREATE TABLE IF NOT EXISTS `matcha`.`profil` (
   `bio` MEDIUMTEXT NULL,
   `user_id` INT NOT NULL,
   `profile_picture` VARCHAR(255) NULL,
+  `lat` FLOAT DEFAULT 0,
+  `lng` FLOAT DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_profil_user_idx` (`user_id` ASC),
   CONSTRAINT `fk_profil_user`

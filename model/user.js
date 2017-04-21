@@ -148,6 +148,15 @@ class User {
         })
     }
 
+    static findUserName(user_id, cb){
+        db.query('SELECT user_name FROM user WHERE id = ?', [user_id], (err, result) => {
+            if (err)
+                throw err;
+            console.log("query", result);
+            return(result[0]);
+        })
+    }
+
     static getTags(cb){
         db.query('SELECT tag FROM interets', (err, result) => {
             if(err)
@@ -258,12 +267,21 @@ class User {
         })
     }
 
-    static getUserLocation(user_id, cb)
+    static getAllUsers(cb)
     {
-        db.query('SELECT lat, lng FROM profil WHERE user_id = ?', [user_id], (err, result) => {
-            if (err)
+        db.query('SELECT id, user_name FROM user', (err, result) => {
+            if(err)
                 throw err;
-            cb(result[0]);
+            cb(result);
+        })
+    }
+
+    static getAllprofiles(cb)
+    {
+        db.query('SELECT user_id, profile_picture FROM profil', (err, result) => {
+            if(err)
+                throw err;
+            cb(result);
         })
     }
 }
