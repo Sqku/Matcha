@@ -220,7 +220,7 @@ class User {
 
     static getAllprofiles(cb)
     {
-        db.query('SELECT user_id, profile_picture, user_name FROM profil AS p, user AS u WHERE p.user_id = u.id', (err, result) => {
+        db.query('SELECT user_id, profile_picture, user_name FROM profil AS p, user AS u WHERE p.user_id = u.id AND u.activated = 1', (err, result) => {
             if(err)
                 throw err;
             cb(result);

@@ -28,6 +28,8 @@
                 <!--<input type="checkbox" value="remember-me"> Remember me-->
             <!--</label>-->
         <!--</div>-->
+        <input type="hidden" name="lat" id="lat" value="">
+        <input type="hidden" name="lng" id="lng" value="">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <a href="/register" class="btn btn-lg btn-block">Create an account</a>
     </form>
@@ -40,5 +42,17 @@
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="static/bootstrap-3.3.7/assets/js/ie10-viewport-bug-workaround.js"></script>
 
+<script>
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+//            var pos = {
+//                lat: position.coords.latitude,
+//                lng: position.coords.longitude
+//            };
+            document.getElementById("lat").value = position.coords.latitude;
+            document.getElementById("lng").value = position.coords.longitude;
+        });
+    }
+</script>
 
 <% include fin %>

@@ -5,16 +5,17 @@ let User = require('../model/user');
 let auth = require('../middleware/auth');
 let where = require('node-where');
 let form_validator = require('../form_validator');
+let publicIp = require('public-ip');
 
 router.route('/myProfile')
     .get(auth, (req, res) => {
         res.locals.profile = req.session.user;
 
-        var ip = req.headers['x-forwarded-for'] ||
-            req.connection.remoteAddress ||
-            req.socket.remoteAddress ||
-            req.connection.socket.remoteAddress;
-        console.log(ip);
+        // var ip = req.headers['x-forwarded-for'] ||
+        //     req.connection.remoteAddress ||
+        //     req.socket.remoteAddress ||
+        //     req.connection.socket.remoteAddress;
+        // console.log(ip);
 
 
         let split = req.session.user.date_of_birth.split("-");
@@ -28,75 +29,56 @@ router.route('/myProfile')
             }
         });
 
-        where.is(ip, function(err, result) {
-            if (result) {
-
-                User.findProfile(req.session.user.id, (profile) => {
-                    res.locals.profile.sex_orientation = profile.sex_orientation;
-                    res.locals.profile.bio = profile.bio;
-                    res.locals.profile.profile_picture = profile.profile_picture;
-
-                    if (profile.lat !== 0 && profile.lng !== 0)
-                    {
-                        res.locals.profile.ip = {
-                            lat : profile.lat,
-                            lng : profile.lng
-                        };
-                        res.locals.profile.user_location = "true";
-                        res.render('myProfile');
-                    }
-                    else
-                    {
-                        res.locals.profile.ip = {
-                            lat : result.get('lat'),
-                            lng : result.get('lng')
-                        };
-                        res.locals.profile.user_location = "false";
-                        res.render('myProfile');
-                    }
-                });
+        User.findProfile(req.session.user.id, (profile) => {
+            res.locals.profile.sex_orientation = profile.sex_orientation;
+            res.locals.profile.bio = profile.bio;
+            res.locals.profile.profile_picture = profile.profile_picture;
 
 
-            }
-            else
-            {
-                User.findProfile(req.session.user.id, (profile) => {
-                    res.locals.profile.sex_orientation = profile.sex_orientation;
-                    res.locals.profile.bio = profile.bio;
-                    res.locals.profile.profile_picture = profile.profile_picture;
+            res.locals.profile.ip = {
+                lat : profile.lat,
+                lng : profile.lng
+            };
+            res.locals.profile.user_location = "true";
+            res.render('myProfile');
 
-                    if (profile.lat !== 0 && profile.lng !== 0)
-                    {
-                        res.locals.profile.ip = {
-                            lat : profile.lat,
-                            lng : profile.lng
-                        };
-                        res.locals.profile.user_location = "true";
-                        res.render('myProfile');
-                    }
-                    else
-                    {
-                        res.locals.profile.ip = {
-                            lat : result.get('lat'),
-                            lng : result.get('lng')
-                        };
-                        res.locals.profile.user_location = "false";
-                        res.render('myProfile');
-                    }
-                });
-            }
         });
-
     })
+
 
     .post(auth, (req, res) => {
 
-        if(form_validator.notEmpty(req.body.lat) && form_validator.notEmpty(req.body.lng))
+        if((form_validator.notEmpty(req.body.lat) && req.body.lat !== '0') && (form_validator.notEmpty(req.body.lng) && req.body.lng !== '0'))
         {
+            console.log("body not empty");
+            console.log(req.body);
             User.updateUserLocation(req.body.lat, req.body.lng, req.session.user.id);
+            res.redirect('myProfile');
         }
 
-        res.redirect('myProfile');
+        else if (req.body.lat === '0' && req.body.lng === '0')
+        {
+            console.log("reset location");
+            console.log(req.body);
+            publicIp.v4().then(ip => {
+                console.log("my ip: ", ip);
+                where.is(ip, function(err, result1) {
+                    if (result1) {
+                        console.log(result1);
+                        User.updateUserLocation(result1.get('lat'), result1.get('lng'), req.session.user.id);
+                        res.redirect('myProfile');
+                    }
+                });
+            });
+
+        }
+        else
+        {
+            console.log("body empty");
+            console.log(req.body);
+
+            res.redirect('myProfile');
+        }
 });
 
 module.exports = router;

@@ -26,6 +26,7 @@
     "mysql": "^2.13.0",
     "node-where": "^1.0.0",
     "nodemailer": "^3.1.5",
+    "public-ip": "^2.3.3",
     "socket.io": "^1.7.3"
   }
 }
