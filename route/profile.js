@@ -45,6 +45,10 @@ router.route('/profile')
             else
                 res.render('profile');
         });
-    });
+    })
+
+    .post(auth, (req, res) => {
+
+});
 
 module.exports = router;

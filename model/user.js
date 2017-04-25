@@ -201,9 +201,9 @@ class User {
         })
     }
 
-    static updateUserLocation(lat, lng, user_id, cb)
+    static updateUserLocation(lat, lng, city, departement, country, user_id, cb)
     {
-        db.query('UPDATE profil SET lat = ?, lng = ? WHERE user_id = ?', [lat, lng, user_id], (err, result) => {
+        db.query('UPDATE profil SET lat = ?, lng = ?, city = ?, departement = ?, country = ? WHERE user_id = ?', [lat, lng, city, departement, country, user_id], (err, result) => {
             if (err)
                 throw err;
         })
@@ -224,6 +224,23 @@ class User {
             if(err)
                 throw err;
             cb(result);
+        })
+    }
+
+    static setLike(like_user_id, liked_user_id, cb)
+    {
+        db.query('INSERT INTO `like` SET like_user_id = ?, liked_user_id = ?', [like_user_id, liked_user_id], (err, result) => {
+            if(err)
+                throw err;
+        })
+    }
+
+    static isLiked(like_user_id, liked_user_id, cb)
+    {
+        db.query('SELECT COUNT(*) AS count FROM `like` AS l WHERE l.like_user_id = ? AND l.liked_user_id = ?', [like_user_id, liked_user_id], (err, result) => {
+            if(err)
+                throw err;
+            cb(result[0].count);
         })
     }
 }

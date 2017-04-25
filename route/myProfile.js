@@ -33,7 +33,7 @@ router.route('/myProfile')
             res.locals.profile.sex_orientation = profile.sex_orientation;
             res.locals.profile.bio = profile.bio;
             res.locals.profile.profile_picture = profile.profile_picture;
-
+console.log(res.locals.profile.profile_picture)
 
             res.locals.profile.ip = {
                 lat : profile.lat,
@@ -52,7 +52,7 @@ router.route('/myProfile')
         {
             console.log("body not empty");
             console.log(req.body);
-            User.updateUserLocation(req.body.lat, req.body.lng, req.session.user.id);
+            User.updateUserLocation(req.body.lat, req.body.lng, req.body.city, req.body.departement, req.body.country, req.session.user.id);
             res.redirect('myProfile');
         }
 
@@ -65,7 +65,7 @@ router.route('/myProfile')
                 where.is(ip, function(err, result1) {
                     if (result1) {
                         console.log(result1);
-                        User.updateUserLocation(result1.get('lat'), result1.get('lng'), req.session.user.id);
+                        User.updateUserLocation(result1.get('lat'), result1.get('lng'), result1.get('city'), result1.get('postalCode'), result1.get('country'), req.session.user.id);
                         res.redirect('myProfile');
                     }
                 });

@@ -30,6 +30,9 @@
         <!--</div>-->
         <input type="hidden" name="lat" id="lat" value="">
         <input type="hidden" name="lng" id="lng" value="">
+        <input type="hidden" name="city" id="city" value="">
+        <input type="hidden" name="departement" id="departement" value="">
+        <input type="hidden" name="country" id="country" value="">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <a href="/register" class="btn btn-lg btn-block">Create an account</a>
     </form>
@@ -39,20 +42,87 @@
 
 <% include footer %>
 
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="static/bootstrap-3.3.7/assets/js/ie10-viewport-bug-workaround.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
 
 <script>
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
+//    if (navigator.geolocation) {
+//        navigator.geolocation.getCurrentPosition(function (position) {
+//            document.getElementById("lat").value = position.coords.latitude;
+//            document.getElementById("lng").value = position.coords.longitude;
+//            geocodeLatLng(geocoder, position.coords.latitude, position.coords.longitude);
+//        });
+//    }
+
+    function initMap() {
+        var geocoder = new google.maps.Geocoder;
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
 //            var pos = {
 //                lat: position.coords.latitude,
 //                lng: position.coords.longitude
 //            };
-            document.getElementById("lat").value = position.coords.latitude;
-            document.getElementById("lng").value = position.coords.longitude;
+                document.getElementById("lat").value = position.coords.latitude;
+                document.getElementById("lng").value = position.coords.longitude;
+                geocodeLatLng(geocoder, position.coords.latitude, position.coords.longitude);
+            });
+        }
+    }
+
+    function geocodeLatLng(geocoder, lat, lng) {
+        var latlng = {lat: parseFloat(lat), lng: parseFloat(lng)};
+        geocoder.geocode({'location': latlng}, function(results, status) {
+            if (status === 'OK') {
+                if (results[0]) {
+//                    let split = results[0].split(",");
+                    console.log(results[0]);
+                    let city = "";
+                    let departement = "";
+                    let country = "";
+                    results.forEach(function(element){
+                        element.address_components.forEach(function(element2){
+                            element2.types.forEach(function(element3){
+                                switch(element3){
+                                    case 'postal_code':
+                                        departement = element2.long_name;
+                                        break;
+//                                    case 'administrative_area_level_1':
+//                                        country = element2.long_name;
+//                                        console.log("country :",country);
+//                                        break;
+                                    case 'country':
+                                        country = element2.long_name;
+                                        break;
+                                    case 'locality':
+                                        city = element2.long_name;
+                                        break;
+                                }
+                            })
+                        });
+                    });
+                    console.log("city :",city);
+                    console.log("country :",country);
+                    console.log("departement :",departement);
+                    document.getElementById("city").value = city;
+                    console.log("#city value :", $('#city').val());
+                    document.getElementById("country").value = country;
+                    document.getElementById("departement").value = departement;
+
+                } else {
+                    window.alert('No results found');
+                }
+            } else {
+                window.alert('Geocoder failed due to: ' + status);
+            }
         });
     }
+
+
+
 </script>
 
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGJIJcckh-FIJHoBfaC-7e-s6uxIMUfIE&callback=initMap"></script>
 <% include fin %>

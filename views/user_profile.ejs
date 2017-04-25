@@ -1,0 +1,207 @@
+<% include header %>
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header">Users Profiles</h1>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 " style="">
+            <div class="row">
+                <%if (locals.profile.profile_picture !== null && locals.profile.profile_picture !== ""){
+                %><img src="static/images/<%=locals.profile.profile_picture%>" width="100%" height="300" class="img-responsive img-thumbnail center-block" alt="">
+                <% }else { %>    <img src="static/images/No_Image.jpg" width="100%" height="300" class="img-responsive img-thumbnail center-block" alt="">
+                <% } %>
+                <!--<span class="text-muted">Something else</span>-->
+            </div>
+            <div class="row" style="">
+                <form action="" method="post">
+                    <% if (locals.profile.like !== undefined && locals.profile.like == "true") {
+                        %><button type="submit" id="like" class="btn btn-info" style="width: 100%;">LIKE</button><%
+                    } else { %>
+                    <button type="submit" id="like" class="btn btn-danger" style="width: 100%;">DISLIKE</button>
+                    <% } %>
+                </form>
+            </div>
+
+            <div id="map-container" class="row" style="border: solid;">
+                <div id="map" style="height: 100%"></div>
+            </div>
+            <div class="row">
+                <h4 style="border-bottom: 1px solid #eee;" >Popularity</h4>
+                <div class="panel-body" style="padding-bottom: 0">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            visited
+                        </div>
+                        <div class="col-xs-8" style="text-align: right">
+                            <strong style="color: orangered;">20</strong> x 123 = 1230
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body" style="padding-bottom: 0">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            liked
+                        </div>
+                        <div class="col-xs-8" style="text-align: right">
+                            <strong style="color: orangered;">20</strong> x 123 = 1230
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            matches
+                        </div>
+                        <div class="col-xs-8" style="text-align: right">
+                            <strong style="color: orangered;">20</strong> x 123 = 1230
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <h5>Total score</h5>
+                        </div>
+                        <div class="col-xs-8">
+                            <h5 style="text-align: right; font-size: large">= 1230</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-8">
+            <div class="well">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h4>Online</h4>
+                    </div>
+                    <div class="col-xs-12">
+                        <h1 style="font-size: 50px;"><%= locals.profile !== undefined && locals.profile.user_name !== undefined ? locals.profile.user_name : "random"%></h1>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class="col-xs-6" style="text-align: left">
+                                <h4><%=locals.profile.age%> ans</h4>
+                            </div>
+                            <div class="col-xs-6" style="text-align: right">
+                                <h4><% for (k in locals.profile.tags)
+                                    {
+                                    if(k == 0)
+                                    {
+                                    %>#<%=locals.profile.tags[k].tag%><%
+                                    }
+                                    else
+                                    {
+                                    %>, #<%=locals.profile.tags[k].tag%><%
+                                    }
+                                    }%></h4>
+                                <!--<h4>#tag #tag #tag</h4>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12" style="text-align: right; margin-top: 20px">
+                    <button type="button" class="btn btn-warning">report as a fake</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="well">
+                <div class="row">
+                    <div class="col-xs-12" style="text-align: center">
+                        <h3>Details</h3>
+                    </div>
+                    <div class="col-xs-6" style="text-align: center">
+                        Last Name : <%= locals.profile !== undefined && locals.profile.last_name !== undefined ? locals.profile.last_name : "random"%>
+                    </div>
+                    <div class="col-xs-6" style="text-align: center">
+                        First Name : <%= locals.profile !== undefined && locals.profile.first_name!== undefined ? locals.profile.first_name : "random"%>
+                    </div>
+                    <div class="col-xs-6" style="text-align: center">
+                        Gender : <%= locals.profile !== undefined && locals.profile.gender !== undefined ? locals.profile.gender : "random"%>
+                    </div>
+                    <div class="col-xs-6" style="text-align: center">
+                        Sexual orientation : <%=locals.profile.sex_orientation%>
+                    </div>
+                </div>
+            </div>
+
+            <div class="well">
+                <div class="row">
+                    <div class="col-xs-12" style="text-align: center;">
+                        <h3>About</h3>
+                    </div>
+                    <div class="col-xs-12">
+                        <%= locals.profile.bio %>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--<div class="col-xs-6 col-sm-3 placeholder">-->
+        <!--<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">-->
+        <!--<h4>Label</h4>-->
+        <!--<span class="text-muted">Something else</span>-->
+        <!--</div>-->
+        <!--<div class="col-xs-6 col-sm-3 placeholder">-->
+        <!--<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">-->
+        <!--<h4>Label</h4>-->
+        <!--<span class="text-muted">Something else</span>-->
+        <!--</div>-->
+    </div>
+
+    <!--<h2 class="sub-header">Section title</h2>-->
+    <!--<div class="table-responsive">-->
+
+    <!--</div>-->
+</div>
+</div>
+</div>
+
+<% include footer %>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!--<script src="../static/js/myProfile.js"></script>-->
+
+<script>
+    $('#map-container').height('250px');
+
+    function initMap() {
+
+        var geocoder = new google.maps.Geocoder();
+
+        if (<%=locals.profile.ip.lat%> != undefined && <%=locals.profile.ip.lng%> != undefined)
+        {
+            var pos = {
+                lat: <%= locals.profile.ip.lat %>,
+                lng: <%= locals.profile.ip.lng %>
+            };
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: <%=locals.profile.ip.lat%>, lng: <%=locals.profile.ip.lng%>},
+                zoom: 11
+            });
+            var marker = new google.maps.Marker({
+                position: {lat: <%=locals.profile.ip.lat%>, lng: <%=locals.profile.ip.lng%>},
+                map: map,
+                title: 'Hello World!'
+            });
+            map.setCenter(pos);
+        }
+    }
+
+
+
+</script>
+
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGJIJcckh-FIJHoBfaC-7e-s6uxIMUfIE&callback=initMap"></script>
+
+
+
+<% include fin %>

@@ -50,12 +50,11 @@ router.route('/register')
 
         User.findUser(req.body.user_name, (result) => {
             User.defaultProfile(result.id);
+            req.session.success = "true";
+            req.session.user_name = req.body.user_name;
+
+            res.redirect('register');
         });
-
-        req.session.success = "true";
-        req.session.user_name = req.body.user_name;
-
-        res.redirect('register');
     });
 
 

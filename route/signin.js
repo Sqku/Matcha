@@ -33,7 +33,7 @@ router.route('/signin')
            {
                if(form_validator.notEmpty(req.body.lat) && form_validator.notEmpty(req.body.lng))
                {
-                   User.updateUserLocation(req.body.lat, req.body.lng, req.session.user.id);
+                   User.updateUserLocation(req.body.lat, req.body.lng, req.body.city, req.body.departement, req.body.country, req.session.user.id);
                    let redirectTo = req.session.redirectTo !== undefined ? req.session.redirectTo : 'dashboard';
                    req.session.redirectTo = undefined;
                    res.redirect(redirectTo);
@@ -42,9 +42,9 @@ router.route('/signin')
                {
                    publicIp.v4().then(ip => {
                        console.log("my ip: ", ip);
-                       where.is(ip, function(err, result) {
-                           if (result) {
-                               User.updateUserLocation(result.get('lat'), result.get('lng'), req.session.user.id);
+                       where.is(ip, function(err, result1) {
+                           if (result1) {
+                               User.updateUserLocation(result1.get('lat'), result1.get('lng'), result1.get('city'), result1.get('postalCode'), result1.get('country'), req.session.user.id);
                                let redirectTo = req.session.redirectTo !== undefined ? req.session.redirectTo : 'dashboard';
                                req.session.redirectTo = undefined;
                                res.redirect(redirectTo);

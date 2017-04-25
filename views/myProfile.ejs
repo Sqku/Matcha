@@ -5,7 +5,10 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-4 " style="">
                     <div class="row">
-                        <img src="static/images/<%=locals.profile.profile_picture%>" width="100%" height="300" class="img-responsive img-thumbnail center-block" alt="Generic placeholder thumbnail">
+                        <%if (locals.profile.profile_picture !== null && locals.profile.profile_picture !== ""){
+                            %><img src="static/images/<%=locals.profile.profile_picture%>" width="100%" height="300" class="img-responsive img-thumbnail center-block" alt="">
+                        <% }else { %>    <img src="static/images/No_Image.jpg" width="100%" height="300" class="img-responsive img-thumbnail center-block" alt="">
+                        <% } %>
                         <!--<span class="text-muted">Something else</span>-->
                     </div>
                     <!--<div class="row" style="">-->
@@ -19,6 +22,9 @@
                             <input type="hidden" name="lat" id="lat" value="">
                             <input type="hidden" name="lng" id="lng" value="">
                             <input type="hidden" name="reset" id="reset" value="">
+                            <input type="hidden" name="city" id="city" value="">
+                            <input type="hidden" name="departement" id="departement" value="">
+                            <input type="hidden" name="country" id="country" value="">
                             <button type="submit" class="btn btn-lg btn-info" value="submit">Save changes</button>
                         </form>
                     </div>
@@ -202,7 +208,6 @@
                             title: 'Hello World!'
                         });
                         map.setCenter(pos);
-                        geocodeLatLng(geocoder, <%=locals.profile.ip.lat%>, <%=locals.profile.ip.lng%>)
                         $('#change_location').click(function () {
                             geocodeAddress(geocoder, map);
                         })
@@ -229,7 +234,6 @@
                             document.getElementById("lng").value = pos.lng;
                             console.log($('#lat').val());
                             map.setCenter(pos);
-                            geocodeLatLng(geocoder, pos.lat, pos.lng)
                             $('#change_location').click(function () {
                                 geocodeAddress(geocoder, map);
                             })
@@ -256,7 +260,6 @@
                         title: 'Hello World!'
                     });
                     map.setCenter(pos);
-                    geocodeLatLng(geocoder, <%=locals.profile.ip.lat%>, <%=locals.profile.ip.lng%>)
                     $('#change_location').click(function () {
                         geocodeAddress(geocoder, map);
                     })
@@ -284,7 +287,6 @@
                     title: 'Hello World!'
                 });
                 map.setCenter(pos);
-                geocodeLatLng(geocoder, <%=locals.profile.ip.lat%>, <%=locals.profile.ip.lng%>)
             }
             $('#change_location').click(function () {
                 geocodeAddress(geocoder, map);
@@ -300,8 +302,40 @@
         var latlng = {lat: parseFloat(lat), lng: parseFloat(lng)};
         geocoder.geocode({'location': latlng}, function(results, status) {
             if (status === 'OK') {
-                if (results[1]) {
+                if (results[0]) {
+//                    let split = results[0].split(",");
                     console.log(results[0]);
+                    let city = "";
+                    let departement = "";
+                    let country = "";
+                    results.forEach(function(element){
+                        element.address_components.forEach(function(element2){
+                            element2.types.forEach(function(element3){
+                                switch(element3){
+                                    case 'postal_code':
+                                        departement = element2.long_name;
+                                        break;
+//                                    case 'administrative_area_level_1':
+//                                        country = element2.long_name;
+//                                        console.log("country :",country);
+//                                        break;
+                                    case 'country':
+                                        country = element2.long_name;
+                                        break;
+                                    case 'locality':
+                                        city = element2.long_name;
+                                        break;
+                                }
+                            })
+                        });
+                    });
+                    console.log("cityA :",city);
+                    console.log("country :",country);
+                    console.log("departement :",departement);
+                    document.getElementById("city").value = city;
+                    document.getElementById("country").value = country;
+                    document.getElementById("departement").value = departement;
+
                 } else {
                     window.alert('No results found');
                 }
@@ -325,6 +359,7 @@
                 document.getElementById("lng").value = results[0].geometry.location.lng();
                 console.log($('#lat').val());
                 console.log($('#lng').val());
+                geocodeLatLng(geocoder, results[0].geometry.location.lat(), results[0].geometry.location.lng());
 
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
@@ -339,8 +374,14 @@
 
         navigator.permissions && navigator.permissions.query({name: 'geolocation'}).then(function(PermissionStatus) {
             if(PermissionStatus.state == 'granted'){
-                //allowed
-            }else{
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    document.getElementById("lat").value = position.coords.latitude;
+                    document.getElementById("lng").value = position.coords.longitude;
+                    geocodeLatLng(geocoder, position.coords.latitude, position.coords.longitude);
+                });
+            }
+            else
+            {
                 document.getElementById("lat").value = 0;
                 document.getElementById("lng").value = 0;
             }
