@@ -41,19 +41,33 @@ router.route('/user_profile')
             console.log(req.query.user_name);
             if(result)
             {
+                // if (result.id == req.session.user.id)
+                // {
+                //     res.redirect('myProfile');
+                // }
                 req.session.liked_id = result.id;
                 req.session.liked_user = result.user_name;
                 res.locals.profile = result;
+                User.isBlocked(req.session.user.id, req.session.liked_id, (count) => {
+                    if (count == 0)
+                    {
+                        res.locals.profile.blocked = "true";
+                    }
+                });
                 User.isLiked(req.session.user.id, req.session.liked_id, (count) => {
                     if (count == 0)
                     {
                         res.locals.profile.like = "true";
                     }
                 });
-                res.locals.profile = result;
+                User.countLike(req.session.liked_id, (count) => {
+                   res.locals.profile.count_like = count;
+                });
                 let split = result.date_of_birth.toString().split(" ");
                 let now = new Date();
                 res.locals.profile.age = now.getFullYear() - split[3];
+
+
 
                 User.findUserTags(result.id, (result1) => {
                     if(result1)
@@ -71,8 +85,10 @@ router.route('/user_profile')
                         lat : profile.lat,
                         lng : profile.lng
                     };
-                    res.render('user_profile');
-
+                    User.findProfile(req.session.user.id, (profile1) => {
+                        res.locals.profile.liker_profile_picture = profile1.profile_picture;
+                        res.render('user_profile');
+                    });
                 });
 
                 console.log(res.locals.profile);
@@ -93,17 +109,53 @@ router.route('/user_profile')
         console.log(req.session.user.id)
         console.log(req.session.liked_id)
 
-        // User.setLike(req.session.user.id, req.session.liked_id);
-        // res.redirect('user_profile?user_name=' + req.session.liked_user);
-        User.isLiked(req.session.user.id, req.session.liked_id, (count) => {
-            if (count == 0)
-            {
-                User.setLike(req.session.user.id, req.session.liked_id);
-                res.redirect('user_profile?user_name=' + req.session.liked_user);
-            }
-            else
-                res.redirect('user_profile?user_name=' + req.session.liked_user);
-        })
+        if(form_validator.notEmpty(req.body.block) && req.body.block == "block")
+        {
+            User.isBlocked(req.session.user.id, req.session.liked_id, (count) => {
+                if (count == 0)
+                {
+                    User.setBlock(req.session.user.id, req.session.liked_id);
+                }
+            })
+        }
+        if(form_validator.notEmpty(req.body.unblock) && req.body.unblock == "unblock")
+        {
+            User.isBlocked(req.session.user.id, req.session.liked_id, (count) => {
+                if (count != 0) {
+                    User.unBlock(req.session.user.id, req.session.liked_id);
+                }
+            })
+        }
+
+        if (form_validator.notEmpty(req.body.like) && req.body.like == "like")
+        {
+            User.isLiked(req.session.user.id, req.session.liked_id, (count) => {
+                if (count == 0)
+                {
+                    User.setLike(req.session.user.id, req.session.liked_id);
+                    res.redirect('user_profile?user_name=' + req.session.liked_user);
+                }
+                else
+                    res.redirect('user_profile?user_name=' + req.session.liked_user);
+            })
+        }
+        else if (form_validator.notEmpty(req.body.dislike) && req.body.dislike == "dislike")
+        {
+            User.isLiked(req.session.user.id, req.session.liked_id, (count) => {
+                if (count != 0)
+                {
+                    User.disLike(req.session.user.id, req.session.liked_id);
+                    res.redirect('user_profile?user_name=' + req.session.liked_user);
+                }
+                else
+                    res.redirect('user_profile?user_name=' + req.session.liked_user);
+            })
+        }
+        else
+            res.redirect('user_profile?user_name=' + req.session.liked_user);
+
+
+
     });
 
 module.exports = router;

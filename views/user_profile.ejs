@@ -13,11 +13,29 @@
             </div>
             <div class="row" style="">
                 <form action="" method="post">
-                    <% if (locals.profile.like !== undefined && locals.profile.like == "true") {
-                        %><button type="submit" id="like" class="btn btn-info" style="width: 100%;">LIKE</button><%
-                    } else { %>
-                    <button type="submit" id="like" class="btn btn-danger" style="width: 100%;">DISLIKE</button>
-                    <% } %>
+                    <%
+                    if (locals.profile.liker_profile_picture !== null && locals.profile.liker_profile_picture !== "")
+                    {
+                        if (locals.profile.like !== undefined && locals.profile.like == "true") {
+                            %><button type="submit" id="like_btn" class="btn btn-success" style="width: 100%;">LIKE</button><%
+                        } else { %>
+                        <button type="submit" id="dislike_btn" class="btn btn-danger" style="width: 100%;">DISLIKE</button>
+                        <%
+                        }
+                    }
+                    else
+                        {
+                        if (locals.profile.like !== undefined && locals.profile.like == "true") {
+
+                        } else { %>
+                        <button type="submit" id="dislike_btn" class="btn btn-danger" style="width: 100%;">DISLIKE</button>
+                        <%
+                        }
+                    }
+
+                    %>
+                    <input type="hidden" name="like" id="like" value="">
+                    <input type="hidden" name="dislike" id="dislike" value="">
                 </form>
             </div>
 
@@ -32,30 +50,30 @@
                             visited
                         </div>
                         <div class="col-xs-8" style="text-align: right">
-                            <strong style="color: orangered;">20</strong> x 123 = 1230
-                        </div>
-                    </div>
-                </div>
-                <div class="panel-body" style="padding-bottom: 0">
-                    <div class="row">
-                        <div class="col-xs-4">
-                            liked
-                        </div>
-                        <div class="col-xs-8" style="text-align: right">
-                            <strong style="color: orangered;">20</strong> x 123 = 1230
+                            <strong style="color: orangered;">10</strong> x 123 = 1230
                         </div>
                     </div>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-4">
-                            matches
+                            liked
                         </div>
                         <div class="col-xs-8" style="text-align: right">
-                            <strong style="color: orangered;">20</strong> x 123 = 1230
+                            <strong style="color: orangered;">20</strong> x <%=locals.profile.count_like%> = <%= 20 * locals.profile.count_like%>
                         </div>
                     </div>
                 </div>
+                <!--<div class="panel-body">-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-xs-4">-->
+                            <!--matches-->
+                        <!--</div>-->
+                        <!--<div class="col-xs-8" style="text-align: right">-->
+                            <!--<strong style="color: orangered;">20</strong> x 123 = 1230-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="panel-footer col-xs-12">
                     <div class="row">
                         <div class="col-xs-4">
@@ -101,6 +119,22 @@
                     </div>
                     <div class="col-xs-12" style="text-align: right; margin-top: 20px">
                     <button type="button" class="btn btn-warning">report as a fake</button>
+                    </div>
+                    <div class="col-xs-12" style="text-align: right; margin-top: 20px">
+                        <!--<button type="button" class="btn btn-danger">block this user</button>-->
+                        <form action="" method="post">
+                            <%
+                                console.log(locals.profile.blocked);
+                            if (locals.profile.blocked !== undefined && locals.profile.blocked == "true") {
+                            %><button type="submit" id="block_btn" class="btn btn-danger">Block this user</button><%
+                            } else {
+                            %><button type="submit" id="unblock_btn" class="btn btn-info">Unblock this user</button><%
+                            }
+                            %>
+                            <input type="hidden" name="block" id="block" value="">
+                            <input type="hidden" name="unblock" id="unblock" value="">
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -194,6 +228,22 @@
             map.setCenter(pos);
         }
     }
+
+    $('#like_btn').click(function () {
+        document.getElementById('like').value = "like";
+    })
+
+    $('#dislike_btn').click(function () {
+        document.getElementById('dislike').value = "dislike";
+    })
+
+    $('#block_btn').click(function () {
+        document.getElementById('block').value = "block";
+    })
+
+    $('#unblock_btn').click(function () {
+        document.getElementById('unblock').value = "unblock";
+    })
 
 
 

@@ -3,13 +3,82 @@
             <h1 class="page-header">Profiles</h1>
 
             <div class="row placeholders">
+                <form method="post" class="col-xs-12">
+                    <fieldset>
+
+                        <!-- Form Name -->
+                        <legend>Filter</legend>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="location">Location</label>
+                            <div class="col-md-4">
+                                <input id="location" name="location" type="text" placeholder="placeholder" class="form-control input-md">
+                                <span class="help-block">help</span>
+                            </div>
+                        </div>
+
+                        <!-- Select Basic -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="radius">Search radius</label>
+                            <div class="col-md-4">
+                                <select id="radius" name="radius" class="form-control">
+                                    <option value="1">Option one</option>
+                                    <option value="2">Option two</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Select Basic -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="property_type">Property type</label>
+                            <div class="col-md-4">
+                                <select id="property_type" name="property_type" class="form-control">
+                                    <option value="1">Option one</option>
+                                    <option value="2">Option two</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Select Basic -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="price_min">Price range</label>
+                            <div class="col-md-2">
+                                <select id="price_min" name="price_min" class="form-control">
+                                    <option value="1">Option one</option>
+                                    <option value="2">Option two</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Select Basic -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="selectbasic"></label>
+                            <div class="col-md-2">
+                                <select id="selectbasic" name="selectbasic" class="form-control">
+                                    <option value="1">Option one</option>
+                                    <option value="2">Option two</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Button -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="submit"></label>
+                            <div class="col-md-4">
+                                <button id="submit" name="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+
                 <% for (k in locals.profile)
                 {
                 %>
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 placeholders">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 thumbnail placeholders">
                         <% if (locals.profile[k].profile_picture !== null && locals.profile[k].profile_picture !== ""){
-                        %><img src="static/images/<%=locals.profile[k].profile_picture%>" width="100%" height="300" class="img-responsive img-thumbnail center-block" alt="">
-                        <% }else { %>    <img src="static/images/No_Image.jpg" width="100%" height="300" class="img-responsive img-thumbnail center-block" alt="">
+                        %><img src="static/images/<%=locals.profile[k].profile_picture%>" width="100%" height="200" class="img-responsive center-block" alt="">
+                        <% }else { %>    <img src="static/images/No_Image.jpg" width="100%" height="200" class="img-responsive center-block" alt="">
                         <% } %>
                         <a href="/user_profile?user_name=<%=locals.profile[k].user_name%>"><h3><%=locals.profile[k].user_name%></h3></a>
                     </div>

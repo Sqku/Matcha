@@ -243,6 +243,49 @@ class User {
             cb(result[0].count);
         })
     }
+
+    static disLike(like_user_id, liked_user_id, cb)
+    {
+        db.query('DELETE FROM `like` WHERE like_user_id = ? AND liked_user_id = ?', [like_user_id, liked_user_id], (err, result) => {
+            if(err)
+                throw err;
+        })
+    }
+
+    static countLike(liked_user_id, cb)
+    {
+        db.query('SELECT COUNT(*) AS count FROM `like` WHERE liked_user_id = ?', [liked_user_id], (err, result) => {
+            if (err)
+                throw err;
+            cb(result[0].count);
+        })
+    }
+
+    static setBlock(block_user_id, blocked_user_id, cb)
+    {
+        db.query('INSERT INTO `block` SET block_user_id = ?, blocked_user_id = ?', [block_user_id, blocked_user_id], (err, result) => {
+            if(err)
+                throw err;
+        })
+    }
+
+    static isBlocked(block_user_id, blocked_user_id, cb)
+    {
+        db.query('SELECT COUNT(*) AS count FROM `block` AS b WHERE b.block_user_id = ? AND b.blocked_user_id = ?', [block_user_id, blocked_user_id], (err, result) => {
+            if(err)
+                throw err;
+            cb(result[0].count);
+        })
+    }
+
+    static unBlock(block_user_id, blocked_user_id, cb)
+    {
+        db.query('DELETE FROM `block` WHERE block_user_id = ? AND blocked_user_id = ?', [block_user_id, blocked_user_id], (err, result) => {
+            if(err)
+                throw err;
+        })
+    }
+
 }
 
 module.exports = User;
