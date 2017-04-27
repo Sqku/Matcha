@@ -1,77 +1,75 @@
 <% include header %>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Profiles</h1>
+            <h1 class="page-header">Suggested Profiles</h1>
 
-            <div class="row placeholders">
-                <form method="post" class="col-xs-12">
-                    <fieldset>
-
-                        <!-- Form Name -->
+            <div class="row ">
+                <form method="post">
+                    <div class="col-xs-12">
                         <legend>Filter</legend>
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <p>
+                                    <label for="age">Age : </label>
+                                    <input type="text" id="age" name="age" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                </p>
 
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="location">Location</label>
-                            <div class="col-md-4">
-                                <input id="location" name="location" type="text" placeholder="placeholder" class="form-control input-md">
-                                <span class="help-block">help</span>
+                                <input type="hidden" id="location_id" name="location" value="">
+                                <div id="age-range"></div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <p>
+                                    <label for="location">location between 0 and :</label>
+                                    <input type="text" id="location" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                </p>
+
+                                <div id="location-range-min"></div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <p>
+                                    <label for="score">Popularity : </label>
+                                    <input type="text" id="score" name="score" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                </p>
 
-                        <!-- Select Basic -->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="radius">Search radius</label>
-                            <div class="col-md-4">
-                                <select id="radius" name="radius" class="form-control">
-                                    <option value="1">Option one</option>
-                                    <option value="2">Option two</option>
+                                <div id="popularity-range"></div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>tags</label>
+                                <select id="tags" name="tags" data-live-search="true" class="form-control selectpicker" value="" multiple>
+                                    <% if (locals.tags !== undefined)
+                                    {
+                                        for (k in locals.tags)
+                                        {
+                                            %><option value="<%=locals.tags[k].tag%>"><%=locals.tags[k].tag%></option><%
+                                        }
+                                    }%>
                                 </select>
                             </div>
                         </div>
+                        <div style="text-align: right">
 
-                        <!-- Select Basic -->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="property_type">Property type</label>
-                            <div class="col-md-4">
-                                <select id="property_type" name="property_type" class="form-control">
-                                    <option value="1">Option one</option>
-                                    <option value="2">Option two</option>
-                                </select>
-                            </div>
+                            <button type="submit" class="btn btn-lg btn-info" value="submit">Filter</button>
                         </div>
+                    </div>
 
-                        <!-- Select Basic -->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="price_min">Price range</label>
-                            <div class="col-md-2">
-                                <select id="price_min" name="price_min" class="form-control">
-                                    <option value="1">Option one</option>
-                                    <option value="2">Option two</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Select Basic -->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="selectbasic"></label>
-                            <div class="col-md-2">
-                                <select id="selectbasic" name="selectbasic" class="form-control">
-                                    <option value="1">Option one</option>
-                                    <option value="2">Option two</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Button -->
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="submit"></label>
-                            <div class="col-md-4">
-                                <button id="submit" name="submit" class="btn btn-primary">Search</button>
-                            </div>
-                        </div>
-                    </fieldset>
                 </form>
 
+                <div class="row">
+                    <legend>Sort</legend>
+                    <form method="post">
+                        <div class="col-sm-6 form-group">
+                            <select id="sort" name="sort" class="form-control">
+                                <option value="all">All</option>
+                                <option value="age">Age</option>
+                                <option value="location">Location</option>
+                                <option value="popularity">Popularity</option>
+                                <option value="tags">Tags</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-lg btn-info" value="submit">Sort</button>
+                    </form>
+                </div>
                 <% for (k in locals.profile)
                 {
                 %>
@@ -98,5 +96,54 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 <script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+<script src="static/js/bootstrap-select.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+    $( function() {
+        $( "#age-range" ).slider({
+            range: true,
+            min: 18,
+            max: 100,
+            values: [ 18, 100],
+            slide: function( event, ui ) {
+                $( "#age" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+            }
+        });
+        $( "#age" ).val($( "#age-range" ).slider( "values", 0 ) +
+            " - " + $( "#age-range" ).slider( "values", 1 ) );
+    } );
+
+    $( function() {
+        $( "#popularity-range" ).slider({
+            range: true,
+            min: 0,
+            max: 100,
+            values: [ 0, 100],
+            slide: function( event, ui ) {
+                $( "#score" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+            }
+        });
+        $( "#score" ).val($( "#popularity-range" ).slider( "values", 0 ) +
+            " - " + $( "#popularity-range" ).slider( "values", 1 ) );
+    } );
+
+    $( function() {
+        $( "#location-range-min" ).slider({
+            range: "min",
+            value: 10,
+            min: 1,
+            max: 5000,
+            slide: function( event, ui ) {
+                $( "#location" ).val( ui.value + "miles" );
+            }
+        });
+        $( "#location" ).val($( "#location-range-min" ).slider( "value" ) + "miles" );
+        $( "#location_id" ).val($( "#location-range-min" ).slider( "value" ));
+    } );
+
+</script>
+
 
 <% include fin %>

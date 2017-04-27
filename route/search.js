@@ -5,7 +5,7 @@ let User = require('../model/user');
 let auth = require('../middleware/auth');
 
 
-router.route('/profile')
+router.route('/search')
     .get(auth, (req, res) => {
         // if (req.session.errors){
         //     res.locals.errors = req.session.errors;
@@ -29,42 +29,27 @@ router.route('/profile')
         //         res.status(404).send('404 No Permission');
         //     }
         // });
-        User.getTags((result) => {
-            if(result)
-            {
-                res.locals.tags = result;
-            }
-        });
-
-        User.findProfile(req.session.user.id, (result) => {
-            User.suggestedProfiles(result.user_id, result.lat, result.lng, 1, (result1) => {
-                if (result1)
-                {
-                    // console.log("SUGGESTION :",result1);
-                }
-            })
-        });
-
-
         User.getAllprofiles((result) => {
             res.locals.profile = [];
             if(result)
             {
+                console.log(result);
                 for(k in result)
                 {
                     res.locals.profile.push(result[k]);
                 }
+                console.log(res.locals.profile);
                 req.session.user_profile = res.locals.profile;
-                res.render('profile');
+                res.render('search');
             }
             else
-                res.render('profile');
+                res.render('search');
         });
     })
 
     .post(auth, (req, res) => {
-        console.log("body :",req.body);
-        res.redirect('profile');
-});
+
+    });
 
 module.exports = router;
+

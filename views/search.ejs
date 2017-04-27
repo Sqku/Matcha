@@ -1,0 +1,122 @@
+<% include header %>
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header">Search</h1>
+
+    <div class="row ">
+        <form method="post">
+            <div class="col-xs-12">
+                <legend>Filter</legend>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <p>
+                            <label for="age">Age : </label>
+                            <input type="text" id="age" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                        </p>
+
+                        <div id="age-range"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label>Location</label>
+                        <select id="location" name="location" class="form-control">
+                            <option value="1">Option one</option>
+                            <option value="2">Option two</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <p>
+                            <label for="score">Popularity : </label>
+                            <input type="text" id="score" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                        </p>
+
+                        <div id="popularity-range"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <label>tags</label>
+                        <select id="tags" name="tags" data-live-search="true" class="form-control selectpicker" multiple>
+                            <option value="1">Option one</option>
+                            <option value="2">Option two</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            <legend>Sort</legend>
+            <form method="post">
+                <div class="col-sm-6 form-group">
+                    <select id="sort" name="sort" class="form-control">
+                        <option value="all">All</option>
+                        <option value="age">Age</option>
+                        <option value="location">Location</option>
+                        <option value="popularity">Popularity</option>
+                        <option value="tags">Tags</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <% for (k in locals.profile)
+        {
+        %>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 thumbnail placeholders">
+            <% if (locals.profile[k].profile_picture !== null && locals.profile[k].profile_picture !== ""){
+            %><img src="static/images/<%=locals.profile[k].profile_picture%>" width="100%" height="200" class="img-responsive center-block" alt="">
+            <% }else { %>    <img src="static/images/No_Image.jpg" width="100%" height="200" class="img-responsive center-block" alt="">
+            <% } %>
+            <a href="/user_profile?user_name=<%=locals.profile[k].user_name%>"><h3><%=locals.profile[k].user_name%></h3></a>
+        </div>
+        <%
+        }
+        %>
+
+    </div>
+</div>
+</div>
+
+<% include footer %>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+<script src="static/js/bootstrap-select.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+    $( function() {
+        $( "#age-range" ).slider({
+            range: true,
+            min: 18,
+            max: 100,
+            values: [ 18, 100],
+            slide: function( event, ui ) {
+                $( "#age" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+            }
+        });
+        $( "#age" ).val($( "#age-range" ).slider( "values", 0 ) +
+            " - " + $( "#age-range" ).slider( "values", 1 ) );
+    } );
+
+    $( function() {
+        $( "#popularity-range" ).slider({
+            range: true,
+            min: 18,
+            max: 100,
+            values: [ 18, 100],
+            slide: function( event, ui ) {
+                $( "#score" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+            }
+        });
+        $( "#score" ).val($( "#popularity-range" ).slider( "values", 0 ) +
+            " - " + $( "#popularity-range" ).slider( "values", 1 ) );
+    } );
+
+</script>
+
+
+<% include fin %>

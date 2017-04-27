@@ -11,6 +11,7 @@ let editProfile = require('./route/editProfile');
 let myProfile = require('./route/myProfile');
 let myPictures = require('./route/myPictures');
 let user_profile = require('./route/user_profile');
+let search = require('./route/search');
 let chat = require('./route/chat');
 let functions = require('./middleware/functions');
 
@@ -52,6 +53,7 @@ app.use('/', editProfile);
 app.use('/', myPictures);
 app.use('/', chat);
 app.use('/', user_profile);
+app.use('/', search);
 
 
 app.get('/', (req, res) => {
