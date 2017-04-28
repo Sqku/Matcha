@@ -37,13 +37,19 @@ router.route('/profile')
         });
 
         User.findProfile(req.session.user.id, (result) => {
-            User.suggestedProfiles(result.user_id, result.lat, result.lng, 1, (result1) => {
-                if (result1)
-                {
-                    // console.log("SUGGESTION :",result1);
-                }
-            })
+            User.suggestedProfiles(req.session.user.id, result.sex_orientation, req.session.user.gender, (result) => {
+                console.log("QQQQQ", result);
+            });
         });
+
+
+        // User.locationProfiles(result.user_id, result.lat, result.lng, 30, (result1) => {
+        //     if (result1)
+        //     {
+        //         // console.log("SUGGESTION :",result1);
+        //     }
+        // })
+
 
 
         User.getAllprofiles((result) => {
