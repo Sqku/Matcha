@@ -13,6 +13,7 @@ let myPictures = require('./route/myPictures');
 let user_profile = require('./route/user_profile');
 let search = require('./route/search');
 let chat = require('./route/chat');
+let logout = require('./route/logout');
 let functions = require('./middleware/functions');
 
 
@@ -35,12 +36,18 @@ app.use(bodyParser.json());
 
 app.use('/static', express.static('public', { redirect : false}));
 
-app.use(session({
+let sessionMiddleware = session({
     secret: 'matcha',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }
-}));
+});
+
+io.use((socket, next) => {
+    sessionMiddleware(socket.request, socket.request.res, next);
+});
+
+app.use(sessionMiddleware);
 
 
 app.use('/', register);
@@ -54,6 +61,7 @@ app.use('/', myPictures);
 app.use('/', chat);
 app.use('/', user_profile);
 app.use('/', search);
+app.use('/', logout);
 
 
 app.get('/', (req, res) => {
@@ -63,54 +71,28 @@ app.get('/', (req, res) => {
 
 
 
-
-// let auth = (req, res, next) => {
-//     if (req.session && req.session.user === "root")
-//     {
-//         return next();
-//     }
-//     else
-//     {
-//         console.log("veuillez vous connecter");
-//         return res.redirect('/');
-//     }
-// };
-
-
-// app.post('/signin', (req, res) => {
-//     if(req.body.email !== "root@gmail.com" || req.body.password !== "root")
-//     {
-//         console.log("invalide ou champs vide");
-//         res.redirect('/');
-//     }
-//     else if (req.body.email === "root@gmail.com" && req.body.password === "root")
-//     {
-//         req.session.user = "root";
-//         res.redirect('/dashboard');
-//     }
+// app.get('/logout', (req, res) => {
+//     req.session.user = undefined;
+//     req.session.destroy();
+//     console.log("logout");
+//     res.redirect('/');
 // });
 
 
-app.get('/logout', (req, res) => {
-    req.session.user = undefined;
-    req.session.destroy();
-    console.log("logout");
-    res.redirect('/');
-});
 
 
 
-
-
-// app.get('/dashboard', auth, (req, res) => {
-//     res.render('dashboard');
-// });
 
 
 
 app.get('*', function(req, res){
     res.status('404').send('404 No Permission');
 });
+
+
+// io.use((socket, next) => {
+//     sessionMiddleware(socket.request, socket.request.res, next);
+// });
 
 
 let users = {};
@@ -171,7 +153,8 @@ io.on('connection', function(socket){
         me = user;
         me.id = user.user_id;
         users[me.id] = me;
-        console.log(me);
+        console.log("me :", me);
+        console.log("users :", users);
         io.sockets.emit('new_user', me);
 
         let getPreviousMsg = () => {
@@ -199,15 +182,24 @@ io.on('connection', function(socket){
         getPreviousMsg();
     });
 
+    console.log("session :",socket.request.session.user);
     socket.on('disconnect', () => {
         if(!me){
             return false;
         }
-        delete users[me.id];
-        io.sockets.emit('logout', me);
-    })
-});
 
+        // if (!socket.request.session)
+        // {
+            delete users[me.id];
+            // io.sockets.emit('logout', me);
+            io.sockets.emit('logout', me);
+
+        // }
+
+    })
+
+    socket.emit('test')
+});
 
 
 http.listen(port, function(){

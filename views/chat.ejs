@@ -12,9 +12,11 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">My Account</a></li>
-                <li><a href="/profile">My Profile</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/search">Search</a></li>
+                <li><a href="/profile">Suggested Profiles</a></li>
+                <li><a href="/myProfile">My Profile</a></li>
+                <li><a href="/logout">Logout</a></li>
             </ul>
         </div>
     </div>
@@ -25,7 +27,7 @@
         <div class="col-sm-3 col-md-2 sidebar">
             <img src="static/images/<%=locals.user.id%>.jpg" id="dashboard_picture" alt="" style="width: 100%">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">Chat<span class="sr-only">(current)</span></a></li>
+                <li class="active"><a href="/chat">Chat<span class="sr-only">(current)</span></a></li>
                 <li><a href="#">Visitors</a></li>
                 <li><a href="#">Matches</a></li>
                 <li id="online_members"><a href="#">Online Members</a></li>
@@ -174,6 +176,8 @@
     socket.on('logout', function(user){
         $('#'+user.user_id).remove();
     })
+
+
 
 </script>
 

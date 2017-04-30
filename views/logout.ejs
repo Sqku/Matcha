@@ -1,0 +1,109 @@
+<% include header_bis %>
+
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Matcha</a>
+        </div>
+    </div>
+</nav>
+
+<style type="text/css">
+    a {
+        display: inline-block;
+        margin: 10px;
+        background-color: #3bb3e0;
+        padding: 10px;
+        position: relative;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 12px;
+        text-decoration: none;
+        color: #fff; }
+    a {
+        border: solid 1px #19789c;
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #3bb3e0), color-stop(100%, #209ac8));
+        background-image: -webkit-linear-gradient(top, #3bb3e0, #209ac8);
+        background-image: -moz-linear-gradient(top, #3bb3e0, #209ac8);
+        background-image: -o-linear-gradient(top, #3bb3e0, #209ac8);
+        background-image: -ms-linear-gradient(top, #3bb3e0, #209ac8);
+        background-image: linear-gradient(top, #3bb3e0, #209ac8);
+        -moz-box-shadow: inset 0px 1px 1px #93d5ee;
+        -webkit-box-shadow: inset 0px 1px 1px #93d5ee;
+        -o-box-shadow: inset 0px 1px 1px #93d5ee;
+        box-shadow: inset 0px 1px 1px #93d5ee;
+        border-radius: 5px; }
+    a:active {
+        background-image: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #3bb3e0), color-stop(100%, #209ac8));
+        background-image: -webkit-linear-gradient(bottom, #3bb3e0, #209ac8);
+        background-image: -moz-linear-gradient(bottom, #3bb3e0, #209ac8);
+        background-image: -o-linear-gradient(bottom, #3bb3e0, #209ac8);
+        background-image: -ms-linear-gradient(bottom, #3bb3e0, #209ac8);
+        background-image: linear-gradient(bottom, #3bb3e0, #209ac8); }
+    a:before {
+        background-color: rgba(0,0,0,0.2);
+        content: "";
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        padding: 8px;
+        left: -8px;
+        top: -8px;
+        z-index: -1;
+        border-radius: 5px;
+        -moz-box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px white;
+        -webkit-box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px white;
+        -o-box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px white;
+        box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px white; }
+</style>
+
+
+<div class="container">
+
+    <div class="page-header">
+        <p>
+            <a href="#" data-title="A propos" data-content="Ici mes informations sur la notification">Notification classique</a>
+        </p>
+        <p>
+            <a href="#" data-title="Hello !" data-content="Je ne me referme pas ! il faut cliquer ici :)" data-icon="&#128340;" data-timeout="0">Je ne me referme jamais ahah !</a>
+        </p>
+        <p>
+            <a href="#" class="green" data-title="Bravo" data-content="ça marche !" data-cls="success">Notification de succès</a>
+        </p>
+        <p>
+            <a href="#" class="red" data-title="Echec" data-content="ça marche pas :(" data-cls="error">Notification d'erreur</a>
+        </p>
+        <p>
+            <a href="#" data-title="Image !" data-content="ça marche pas :(" data-img="http://www.grafikart.fr/img/tutos/1/338_960x320.jpg">Notification avec image</a>
+        </p>
+        <h1>You successfully logout, click <a href="/signin">here</a> to reconnect</h1>
+    </div>
+
+
+
+
+
+</div> <!-- /container -->
+
+
+<% include footer %>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="static/js/mustache.js"></script>
+<script type="text/javascript" src="static/js/jquery.notif.min.js"></script>
+
+<script>
+    let socket = io.connect();
+
+    socket.emit('deco', 'test');
+    socket.on('test', () => {
+        window.alert('test')
+    });
+</script>
+
+<% include fin %>

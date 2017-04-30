@@ -34,7 +34,7 @@ router.route('/signin')
                if(form_validator.notEmpty(req.body.lat) && form_validator.notEmpty(req.body.lng))
                {
                    User.updateUserLocation(req.body.lat, req.body.lng, req.body.city, req.body.departement, req.body.country, req.session.user.id);
-                   let redirectTo = req.session.redirectTo !== undefined ? req.session.redirectTo : 'dashboard';
+                   let redirectTo = (req.session.redirectTo !== undefined || req.session.redirectTo == 'logout') ? req.session.redirectTo : 'dashboard';
                    req.session.redirectTo = undefined;
                    res.redirect(redirectTo);
                }
@@ -45,7 +45,7 @@ router.route('/signin')
                        where.is(ip, function(err, result1) {
                            if (result1) {
                                User.updateUserLocation(result1.get('lat'), result1.get('lng'), result1.get('city'), result1.get('postalCode'), result1.get('country'), req.session.user.id);
-                               let redirectTo = req.session.redirectTo !== undefined ? req.session.redirectTo : 'dashboard';
+                               let redirectTo = (req.session.redirectTo !== undefined || req.session.redirectTo == 'logout') ? req.session.redirectTo : 'dashboard';
                                req.session.redirectTo = undefined;
                                res.redirect(redirectTo);
                            }
