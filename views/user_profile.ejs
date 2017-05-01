@@ -91,7 +91,7 @@
             <div class="well">
                 <div class="row">
                     <div class="col-xs-6">
-                        <h4>Online</h4>
+                        <h4 id="online">Offline</h4>
                     </div>
                     <div class="col-xs-12">
                         <h1 style="font-size: 50px;"><%= locals.profile !== undefined && locals.profile.user_name !== undefined ? locals.profile.user_name : "random"%></h1>
@@ -200,7 +200,7 @@
 <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 <script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<!--<script src="../static/js/myProfile.js"></script>-->
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
 
 <script>
     $('#map-container').height('250px');
@@ -245,6 +245,17 @@
         document.getElementById('unblock').value = "unblock";
     })
 
+
+
+    let socket = io.connect();
+
+    socket.emit('online', {user_id : '<%=locals.profile.id%>'});
+
+    socket.on('online', (data) => {
+        $('#online').replaceWith('<h4 id="offline">Offline</h4>');
+    })
+
+    socket.emit
 
 
 </script>

@@ -182,23 +182,43 @@ io.on('connection', function(socket){
         getPreviousMsg();
     });
 
-    console.log("session :",socket.request.session.user);
-    socket.on('disconnect', () => {
-        if(!me){
-            return false;
-        }
+    socket.on('join', (data) => {
+        socket.join(data.user_id);
+        // io.sockets.in(data.user_id).emit('new_msg', {msg: 'hello'});
+    });
 
-        // if (!socket.request.session)
-        // {
+
+    socket.on('online', (data) => {
+        io.sockets.emit('online', data);
+    });
+
+
+    console.log("session :",socket.request.session.user);
+    socket.on('deco', () => {
+        // if(!me){
+        //     return false;
+        // }
+
+        socket.disconnect(() => {
             delete users[me.id];
             // io.sockets.emit('logout', me);
-            io.sockets.emit('logout', me);
+            console.log("ME :", me);
+            socket.emit('logout', me);
+        })
+        // if (!socket.request.session)
+        // {
+        //     delete users[me.id];
+        //     // io.sockets.emit('logout', me);
+        //     io.sockets.emit('logout', me);
 
         // }
 
     })
 
     socket.emit('test')
+
+
+
 });
 
 
