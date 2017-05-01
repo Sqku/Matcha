@@ -325,6 +325,14 @@ class User {
         })
     }
 
+    static userStatus(user_id, status, cb)
+    {
+        db.query('UPDATE profil SET online = ? WHERE profil.user_id = ?', [status, user_id], (err, result) => {
+            if (err)
+                throw err;
+        })
+    }
+
 
 }
 

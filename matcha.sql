@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS `matcha`.`profil` (
   `city` VARCHAR(255) NULL,
   `departement` VARCHAR(255) NULL,
   `country` VARCHAR(255) NULL,
+  `online` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_profil_user_idx` (`user_id` ASC),
   CONSTRAINT `fk_profil_user`

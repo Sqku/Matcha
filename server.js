@@ -100,6 +100,8 @@ let users = {};
 io.on('connection', function(socket){
     console.log('a user connected with id = '+socket.id);
 
+
+
     let me = false;
 
     for(let k in users)
@@ -185,11 +187,18 @@ io.on('connection', function(socket){
     socket.on('join', (data) => {
         socket.join(data.user_id);
         // io.sockets.in(data.user_id).emit('new_msg', {msg: 'hello'});
+
+        // socket.on('like', (data) => {
+        //     io.sockets.in(data.liked_id).emit('like_notif', {liked_id : data.liked_id});
+        // })
     });
 
+    socket.on('like', (data) => {
+        io.sockets.in(data.liked_id).emit('like_notif', {liked_id : data.liked_id});
+    });
 
     socket.on('online', (data) => {
-        io.sockets.emit('online', data);
+        io.emit('online', data);
     });
 
 

@@ -9,33 +9,6 @@ let publicIp = require('public-ip');
 
 router.route('/user_profile')
     .get(auth, (req, res) => {
-        // res.locals.profile = req.session.user;
-        // let split = req.session.user.date_of_birth.split("-");
-        // let now = new Date();
-        // res.locals.profile.age = now.getFullYear() - split[0];
-        //
-        // User.findUserTags(req.session.user.id, (result) => {
-        //     if(result)
-        //     {
-        //         res.locals.profile.tags = result;
-        //     }
-        // });
-        //
-        // User.findProfile(req.session.user.id, (profile) => {
-        //     res.locals.profile.sex_orientation = profile.sex_orientation;
-        //     res.locals.profile.bio = profile.bio;
-        //     res.locals.profile.profile_picture = profile.profile_picture;
-        //     console.log(res.locals.profile.profile_picture)
-        //
-        //     res.locals.profile.ip = {
-        //         lat : profile.lat,
-        //         lng : profile.lng
-        //     };
-        //     res.locals.profile.user_location = "true";
-        //     res.render('user_profile');
-        //
-        // });
-
 
         User.findUser(req.query.user_name, (result) => {
             console.log(req.query.user_name);
@@ -48,6 +21,8 @@ router.route('/user_profile')
                 req.session.liked_id = result.id;
                 req.session.liked_user = result.user_name;
                 res.locals.profile = result;
+                res.locals.profile.liked_id = result.id;
+                res.locals.profile.like_id = req.session.user.id;
                 User.isBlocked(req.session.user.id, req.session.liked_id, (count) => {
                     if (count == 0)
                     {
@@ -80,6 +55,7 @@ router.route('/user_profile')
                     res.locals.profile.sex_orientation = profile.sex_orientation;
                     res.locals.profile.bio = profile.bio;
                     res.locals.profile.profile_picture = profile.profile_picture;
+                    res.locals.profile.online = profile.online;
 
                     res.locals.profile.ip = {
                         lat : profile.lat,
@@ -106,8 +82,8 @@ router.route('/user_profile')
 
 
     .post(auth, (req, res) => {
-        console.log(req.session.user.id)
-        console.log(req.session.liked_id)
+        console.log(req.session.user.id);
+        console.log(req.session.liked_id);
 
         if(form_validator.notEmpty(req.body.block) && req.body.block == "block")
         {

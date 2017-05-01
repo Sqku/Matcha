@@ -28,7 +28,7 @@
           </div>\
         </div>',
         	icon : '&#8505;',
-        	timeout:3000
+        	timeout:5000
 		}
 
 		// Icons par défaut si on a success ou error
@@ -74,10 +74,10 @@
 
 	}
 
-	$('a').click(function(event){
-		event.preventDefault();
-		$.notif($(this).data());
-	})
+	// $('a').click(function(event){
+	// 	event.preventDefault();
+	// 	$.notif($(this).data());
+	// })
 
 
 })(jQuery);

@@ -151,6 +151,8 @@
 <script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
 <script src="static/js/bootstrap-tokenfield.js"></script>
 <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<!--<script type="text/javascript" src="static/js/mustache.js"></script>-->
+<script type="text/javascript" src="static/js/bootstrap-notify.js"></script>
 
 
 
@@ -191,15 +193,46 @@
         document.getElementById("deleted_tags").value = deleted;
     });
 
-
     let socket = io.connect();
 
     socket.emit('join', {user_id : '<%=locals.profile.id%>'})
 
-    socket.on("new_msg", function(data) {
-        alert(data.msg);
-    });
 
+    socket.on('like_notif', (data) => {
+//        alert("someone liked you "+ data.liked_id);
+        $.notify({
+            title: "You have a new Like",
+            message: ""
+        },{
+            allow_dismiss: true,
+            placement: {
+                from: "top",
+                align: "center"
+            },
+            animate: {
+                enter: 'animated fadeInDown',
+                exit: 'animated fadeOutUp'
+            }
+        });
+    })
+
+    socket.on('dislike_notif', (data) => {
+//        alert("someone liked you "+ data.liked_id);
+        $.notify({
+            title: "someone disliked you :(",
+            message: ""
+        },{
+            allow_dismiss: true,
+            placement: {
+                from: "top",
+                align: "center"
+            },
+            animate: {
+                enter: 'animated fadeInDown',
+                exit: 'animated fadeOutUp'
+            }
+        });
+    })
 
 </script>
 

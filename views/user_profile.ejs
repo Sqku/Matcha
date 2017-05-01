@@ -91,7 +91,7 @@
             <div class="well">
                 <div class="row">
                     <div class="col-xs-6">
-                        <h4 id="online">Offline</h4>
+                        <h4 id="online"><%=locals.profile.online%></h4>
                     </div>
                     <div class="col-xs-12">
                         <h1 style="font-size: 50px;"><%= locals.profile !== undefined && locals.profile.user_name !== undefined ? locals.profile.user_name : "random"%></h1>
@@ -229,8 +229,13 @@
         }
     }
 
+
+    let socket = io.connect();
+
+
     $('#like_btn').click(function () {
         document.getElementById('like').value = "like";
+        socket.emit('like', {liked_id : <%=locals.profile.liked_id%>})
     })
 
     $('#dislike_btn').click(function () {
@@ -247,15 +252,7 @@
 
 
 
-    let socket = io.connect();
 
-    socket.emit('online', {user_id : '<%=locals.profile.id%>'});
-
-    socket.on('online', (data) => {
-        $('#online').replaceWith('<h4 id="offline">Offline</h4>');
-    })
-
-    socket.emit
 
 
 </script>
