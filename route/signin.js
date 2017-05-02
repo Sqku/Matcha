@@ -25,18 +25,39 @@ router.route('/signin')
         User.findProfile(req.session.user.id, (profile) => {
            if (profile.lat !== 0 && profile.lng !== 0)
            {
-               let redirectTo = req.session.redirectTo !== undefined ? req.session.redirectTo : 'dashboard';
-               req.session.redirectTo = undefined;
-               res.redirect(redirectTo);
+               if (req.session.query_string)
+               {
+                   let redirectTo = req.session.redirectTo !== undefined ? req.session.redirectTo+"?user_name="+req.session.query_string.user_name : 'dashboard';
+                   req.session.redirectTo = undefined;
+                   req.session.query_string = undefined;
+                   res.redirect(redirectTo);
+               }
+               else
+               {
+                   let redirectTo = req.session.redirectTo !== undefined ? req.session.redirectTo : 'dashboard';
+                   req.session.redirectTo = undefined;
+                   res.redirect(redirectTo);
+               }
            }
            else
            {
                if(form_validator.notEmpty(req.body.lat) && form_validator.notEmpty(req.body.lng))
                {
-                   User.updateUserLocation(req.body.lat, req.body.lng, req.body.city, req.body.departement, req.body.country, req.session.user.id);
-                   let redirectTo = (req.session.redirectTo !== undefined || req.session.redirectTo == 'logout') ? req.session.redirectTo : 'dashboard';
-                   req.session.redirectTo = undefined;
-                   res.redirect(redirectTo);
+                   User.updateUserLocation(req.body.lat, req.body.lng, req.body.city, req.body.departement, req.body.country, req.session.user.id, () => {
+                       if (req.session.query_string)
+                       {
+                           let redirectTo = (req.session.redirectTo !== undefined || req.session.redirectTo == 'logout') ? req.session.redirectTo+"?user_name="+req.session.query_string.user_name : 'dashboard';
+                           req.session.redirectTo = undefined;
+                           req.session.query_string = undefined;
+                           res.redirect(redirectTo);
+                       }
+                       else
+                       {
+                           let redirectTo = (req.session.redirectTo !== undefined || req.session.redirectTo == 'logout') ? req.session.redirectTo : 'dashboard';
+                           req.session.redirectTo = undefined;
+                           res.redirect(redirectTo);
+                       }
+                   });
                }
                else
                {
@@ -44,10 +65,21 @@ router.route('/signin')
                        console.log("my ip: ", ip);
                        where.is(ip, function(err, result1) {
                            if (result1) {
-                               User.updateUserLocation(result1.get('lat'), result1.get('lng'), result1.get('city'), result1.get('postalCode'), result1.get('country'), req.session.user.id);
-                               let redirectTo = (req.session.redirectTo !== undefined || req.session.redirectTo == 'logout') ? req.session.redirectTo : 'dashboard';
-                               req.session.redirectTo = undefined;
-                               res.redirect(redirectTo);
+                               User.updateUserLocation(result1.get('lat'), result1.get('lng'), result1.get('city'), result1.get('postalCode'), result1.get('country'), req.session.user.id, () => {
+                                   if (req.session.query_string)
+                                   {
+                                       let redirectTo = (req.session.redirectTo !== undefined || req.session.redirectTo == 'logout') ? req.session.redirectTo+"?user_name="+req.session.query_string.user_name : 'dashboard';
+                                       req.session.redirectTo = undefined;
+                                       req.session.query_string = undefined;
+                                       res.redirect(redirectTo);
+                                   }
+                                   else
+                                   {
+                                       let redirectTo = (req.session.redirectTo !== undefined || req.session.redirectTo == 'logout') ? req.session.redirectTo : 'dashboard';
+                                       req.session.redirectTo = undefined;
+                                       res.redirect(redirectTo);
+                                   }
+                               });
                            }
                        });
                    });

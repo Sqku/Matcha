@@ -46,14 +46,15 @@ router.route('/register')
             gender : req.body.gender,
             salt : salt,
             token : token
-        }, User.sendEmail(req.body.email, token, req.get('host'), req.body.user_name));
+        }, () => {
+            User.sendEmail(req.body.email, token, req.get('host'), req.body.user_name);
+            User.findUser(req.body.user_name, (result) => {
+                User.defaultProfile(result.id);
+                req.session.success = "true";
+                req.session.user_name = req.body.user_name;
 
-        User.findUser(req.body.user_name, (result) => {
-            User.defaultProfile(result.id);
-            req.session.success = "true";
-            req.session.user_name = req.body.user_name;
-
-            res.redirect('register');
+                res.redirect('register');
+            });
         });
     });
 

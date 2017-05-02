@@ -28,8 +28,29 @@ let returnRouter = (io) => {
                     res.locals.profile.like_user_id = req.session.user.id;
 
                     User.isMatch(req.session.user.id, req.session.liked_id, (count) => {
-                        console.log("MATCH: ", count)
+                        console.log("MATCH: ", count);
+
                     });
+
+
+                    // io.on('connection', function(socket){
+                    //     User.isMatch(data.like_user_id, data.liked_user_id, (count) => {
+                    //         if (count == 2)
+                    //         {
+                    //             console.log("TEST MATCH :", count)
+                    //             io.sockets.in(data.liked_user_name).emit('match_notif', {
+                    //                 liked_user_name : data.liked_user_name,
+                    //                 like_user_name : data.like_user_name
+                    //             });
+                    //             io.sockets.in(data.like_user_name).emit('match_notif', {
+                    //                 liked_user_name : data.liked_user_name,
+                    //                 like_user_name : data.like_user_name
+                    //             });
+                    //         }
+                    //     });
+                    // })
+
+
 
                     User.isBlocked(req.session.user.id, req.session.liked_id, (count) => {
                         if (count == 0)
@@ -132,49 +153,16 @@ let returnRouter = (io) => {
                 User.isLiked(req.session.user.id, req.session.liked_id, (count) => {
                     if (count == 0)
                     {
-                        User.setLike(req.session.user.id, req.session.liked_id, () => {
+                        User.setLike(req.session.user.id, req.session.liked_id).then((result) => {
 
                             io.on('connection', function(socket){
-                                socket.on('like', (data) => {
-                                    console.log(data)
-                                    User.isMatch(data.like_user_id, data.liked_user_id, (count) => {
-                                        console.log("TEST MATCH :", count)
-                                        if (count == 2)
-                                        {
-                                            console.log("TEST MATCH :", count)
-                                            io.sockets.in(data.liked_user_name).emit('match_notif', {
-                                                liked_user_name : data.liked_user_name,
-                                                like_user_name : data.like_user_name
-                                            });
-                                            io.sockets.in(data.like_user_name).emit('match_notif', {
-                                                liked_user_name : data.liked_user_name,
-                                                like_user_name : data.like_user_name
-                                            });
-                                        }
-                                    });
-                                    io.sockets.in(data.liked_user_name).emit('like_notif', {
-                                        liked_user_name : data.liked_user_name,
-                                        like_user_name : data.like_user_name
-                                    });
-                                    // User.isMatch(data.like_user_id, data.liked_user_id, (count) => {
-                                    //     if (count == 2)
-                                    //     {
-                                    //         console.log("TEST MATCH :", count)
-                                    //         io.sockets.in(data.liked_user_name).emit('match_notif', {
-                                    //             liked_user_name : data.liked_user_name,
-                                    //             like_user_name : data.like_user_name
-                                    //         });
-                                    //         io.sockets.in(data.like_user_name).emit('match_notif', {
-                                    //             liked_user_name : data.liked_user_name,
-                                    //             like_user_name : data.like_user_name
-                                    //         });
-                                    //     }
-                                    // });
-                                });
-                            })
-
-
-
+                                socket.emit('like', {
+                                    liked_user_name : req.session.user.user_name,
+                                    liked_user_id : req.session.liked_id,
+                                    like_user_name : req.session.user.user_name,
+                                    like_user_id : req.session.liked_id
+                                })
+                            });
 
                             res.redirect('user_profile?user_name=' + req.session.liked_user);
                         });

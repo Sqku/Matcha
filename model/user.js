@@ -20,7 +20,8 @@ class User {
             {
                 throw err;
             }
-        })
+        });
+        cb();
     }
 
     static defaultProfile(user_id){
@@ -207,6 +208,7 @@ class User {
             if (err)
                 throw err;
         })
+        cb();
     }
 
     static getAllUsers(cb)
@@ -229,11 +231,21 @@ class User {
 
     static setLike(like_user_id, liked_user_id, cb)
     {
-        db.query('INSERT INTO `like` SET like_user_id = ?, liked_user_id = ?', [like_user_id, liked_user_id], (err, result) => {
-            if(err)
-                throw err;
+        return new Promise((resolve, reject) => {
+            db.query('INSERT INTO `like` SET like_user_id = ?, liked_user_id = ?', [like_user_id, liked_user_id], (err, result) => {
+                if(err)
+                {
+                    reject(err);
+                }
+            });
+            resolve(result);
             cb();
-        })
+        });
+        // db.query('INSERT INTO `like` SET like_user_id = ?, liked_user_id = ?', [like_user_id, liked_user_id], (err, result) => {
+        //     if(err)
+        //         throw err;
+        //     cb();
+        // })
     }
 
     static isLiked(like_user_id, liked_user_id, cb)
