@@ -232,6 +232,7 @@ class User {
         db.query('INSERT INTO `like` SET like_user_id = ?, liked_user_id = ?', [like_user_id, liked_user_id], (err, result) => {
             if(err)
                 throw err;
+            cb();
         })
     }
 
@@ -258,6 +259,7 @@ class User {
         db.query('DELETE FROM `like` WHERE like_user_id = ? AND liked_user_id = ?', [like_user_id, liked_user_id], (err, result) => {
             if(err)
                 throw err;
+            cb();
         })
     }
 
@@ -347,7 +349,8 @@ class User {
         db.query('INSERT INTO `visit` SET visit_user_id = ?, visited_user_id = ?', [like_user_id, liked_user_id], (err, result) => {
             if(err)
                 throw err;
-        })
+        });
+        cb();
     }
 
     static isVisited(like_user_id, liked_user_id, cb)
