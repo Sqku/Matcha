@@ -244,6 +244,15 @@ class User {
         })
     }
 
+    static isMatch(like_user_id, liked_user_id, cb)
+    {
+        db.query('SELECT COUNT(*) AS count FROM `like` AS l WHERE (l.like_user_id = ? AND l.liked_user_id = ?) OR (l.like_user_id = ? AND l.liked_user_id = ?)', [like_user_id, liked_user_id, liked_user_id, like_user_id], (err, result) => {
+            if(err)
+                throw err;
+            cb(result[0].count);
+        })
+    }
+
     static disLike(like_user_id, liked_user_id, cb)
     {
         db.query('DELETE FROM `like` WHERE like_user_id = ? AND liked_user_id = ?', [like_user_id, liked_user_id], (err, result) => {
@@ -330,6 +339,23 @@ class User {
         db.query('UPDATE profil SET online = ? WHERE profil.user_id = ?', [status, user_id], (err, result) => {
             if (err)
                 throw err;
+        })
+    }
+
+    static setVisit(like_user_id, liked_user_id, cb)
+    {
+        db.query('INSERT INTO `visit` SET visit_user_id = ?, visited_user_id = ?', [like_user_id, liked_user_id], (err, result) => {
+            if(err)
+                throw err;
+        })
+    }
+
+    static isVisited(like_user_id, liked_user_id, cb)
+    {
+        db.query('SELECT COUNT(*) AS count FROM `visit` AS l WHERE l.visit_user_id = ? AND l.visited_user_id = ?', [like_user_id, liked_user_id], (err, result) => {
+            if(err)
+                throw err;
+            cb(result[0].count);
         })
     }
 

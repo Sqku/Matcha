@@ -15,6 +15,7 @@ let search = require('./route/search');
 let chat = require('./route/chat');
 let logout = require('./route/logout');
 let functions = require('./middleware/functions');
+let User = require('./model/user');
 
 
 
@@ -185,7 +186,7 @@ io.on('connection', function(socket){
     });
 
     socket.on('join', (data) => {
-        socket.join(data.user_id);
+        socket.join(data.user_name);
         // io.sockets.in(data.user_id).emit('new_msg', {msg: 'hello'});
 
         // socket.on('like', (data) => {
@@ -194,7 +195,70 @@ io.on('connection', function(socket){
     });
 
     socket.on('like', (data) => {
-        io.sockets.in(data.liked_id).emit('like_notif', {liked_id : data.liked_id});
+        console.log(data)
+        User.isMatch(data.like_user_id, data.liked_user_id, (count) => {
+            if (count == 2)
+            {
+                console.log("TEST MATCH :", count)
+                io.sockets.in(data.liked_user_name).emit('match_notif', {
+                    liked_user_name : data.liked_user_name,
+                    like_user_name : data.like_user_name
+                });
+                io.sockets.in(data.like_user_name).emit('match_notif', {
+                    liked_user_name : data.liked_user_name,
+                    like_user_name : data.like_user_name
+                });
+            }
+        });
+        io.sockets.in(data.liked_user_name).emit('like_notif', {
+            liked_user_name : data.liked_user_name,
+            like_user_name : data.like_user_name
+        });
+        // User.isMatch(data.like_user_id, data.liked_user_id, (count) => {
+        //     if (count == 2)
+        //     {
+        //         console.log("TEST MATCH :", count)
+        //         io.sockets.in(data.liked_user_name).emit('match_notif', {
+        //             liked_user_name : data.liked_user_name,
+        //             like_user_name : data.like_user_name
+        //         });
+        //         io.sockets.in(data.like_user_name).emit('match_notif', {
+        //             liked_user_name : data.liked_user_name,
+        //             like_user_name : data.like_user_name
+        //         });
+        //     }
+        // });
+    });
+
+    // User.isMatch(2, 1, (count) => {
+    //     if (count == 2)
+    //     {
+    //         console.log("TEST MATCH :", count)
+    //         io.sockets.in("aaaa").emit('match_notif', {
+    //             liked_user_name : "aaaa",
+    //             like_user_name : "bbbb"
+    //         });
+    //         io.sockets.in("bbbb").emit('match_notif', {
+    //             liked_user_name : "aaaa",
+    //             like_user_name : "bbbb"
+    //         });
+    //     }
+    // });
+
+    socket.on('dislike', (data) => {
+        io.sockets.in(data.disliked_user_name).emit('dislike_notif', {
+            disliked_user_name : data.disliked_user_name,
+            dislike_user_name : data.dislike_user_name
+        });
+    });
+
+    socket.on('visit', (data) => {
+        console.log("VISITED :",data.visited);
+        if (data.visited !== undefined && data.visited == "false")
+        io.sockets.in(data.visited_user_name).emit('visit_notif', {
+            visited_user_name : data.visited_user_name,
+            visit_user_name : data.visit_user_name
+        });
     });
 
     socket.on('online', (data) => {
@@ -202,7 +266,7 @@ io.on('connection', function(socket){
     });
 
 
-    console.log("session :",socket.request.session.user);
+    // console.log("session :",socket.request.session.user);
     socket.on('deco', () => {
         // if(!me){
         //     return false;

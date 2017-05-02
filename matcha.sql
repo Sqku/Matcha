@@ -140,13 +140,13 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `matcha`.`consult`
+-- Table `matcha`.`visit`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `matcha`.`consult` (
+CREATE TABLE IF NOT EXISTS `matcha`.`visit` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `consult` TINYINT(1) NULL,
-  `consult_user_id` INT NOT NULL,
-  `consulted_user_id` INT NOT NULL,
+  `visit_user_id` INT NOT NULL,
+  `visited_user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_consult_user1_idx` (`consult_user_id` ASC),
   INDEX `fk_consult_user2_idx` (`consulted_user_id` ASC),

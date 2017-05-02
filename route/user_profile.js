@@ -21,8 +21,15 @@ router.route('/user_profile')
                 req.session.liked_id = result.id;
                 req.session.liked_user = result.user_name;
                 res.locals.profile = result;
-                res.locals.profile.liked_id = result.id;
-                res.locals.profile.like_id = req.session.user.id;
+                res.locals.profile.liked_user_name = result.user_name;
+                res.locals.profile.liked_user_id = result.id;
+                res.locals.profile.like_user_name = req.session.user.user_name;
+                res.locals.profile.like_user_id = req.session.user.id;
+
+                User.isMatch(req.session.user.id, req.session.liked_id, (count) => {
+                    console.log("MATCH: ", count)
+                });
+
                 User.isBlocked(req.session.user.id, req.session.liked_id, (count) => {
                     if (count == 0)
                     {
@@ -62,12 +69,27 @@ router.route('/user_profile')
                         lng : profile.lng
                     };
                     User.findProfile(req.session.user.id, (profile1) => {
-                        res.locals.profile.liker_profile_picture = profile1.profile_picture;
-                        res.render('user_profile');
+                        User.isVisited(req.session.user.id, req.session.liked_id, (count) => {
+                            console.log("VISIT :", req.session.liked_id)
+                            if (count == 0)
+                            {
+                                res.locals.profile.visited = "false";
+                                User.setVisit(req.session.user.id, req.session.liked_id);
+                                res.locals.profile.liker_profile_picture = profile1.profile_picture;
+                                res.render('user_profile');
+                            }
+                            else
+                            {
+                                res.locals.profile.visited = "true";
+                                res.locals.profile.liker_profile_picture = profile1.profile_picture;
+                                res.render('user_profile');
+                            }
+                        });
+
                     });
                 });
 
-                console.log(res.locals.profile);
+                // console.log(res.locals.profile);
 
             }
             else
@@ -129,7 +151,6 @@ router.route('/user_profile')
         }
         else
             res.redirect('user_profile?user_name=' + req.session.liked_user);
-
 
 
     });

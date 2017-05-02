@@ -235,11 +235,20 @@
 
     $('#like_btn').click(function () {
         document.getElementById('like').value = "like";
-        socket.emit('like', {liked_id : <%=locals.profile.liked_id%>})
+        socket.emit('like', {
+            liked_user_name : '<%=locals.profile.liked_user_name%>',
+            liked_user_id : <%=locals.profile.liked_user_id%>,
+            like_user_name : '<%=locals.profile.like_user_name%>',
+            like_user_id : <%=locals.profile.like_user_id%>
+        })
     })
 
     $('#dislike_btn').click(function () {
         document.getElementById('dislike').value = "dislike";
+        socket.emit('dislike', {
+            disliked_user_name : '<%=locals.profile.liked_user_name%>',
+            dislike_user_name : '<%=locals.profile.like_user_name%>'
+        })
     })
 
     $('#block_btn').click(function () {
@@ -248,6 +257,13 @@
 
     $('#unblock_btn').click(function () {
         document.getElementById('unblock').value = "unblock";
+    })
+
+
+    socket.emit('visit', {
+        visited_user_name : '<%=locals.profile.liked_user_name%>',
+        visit_user_name : '<%=locals.profile.like_user_name%>',
+        visited : '<%=locals.profile.visited%>'
     })
 
 
