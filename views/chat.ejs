@@ -29,7 +29,7 @@
             <ul class="nav nav-sidebar">
                 <li class="active"><a href="/chat">Chat<span class="sr-only">(current)</span></a></li>
                 <li><a href="#">Visitors</a></li>
-                <li><a href="#">Matches</a></li>
+                <li><a href="/matches">Matches</a></li>
                 <li id="online_members"><a href="#">Online Members</a></li>
             </ul>
             <!--<ul class="nav nav-sidebar">-->
@@ -122,23 +122,37 @@
 
     let socket = io.connect();
 
+    socket.emit('join', {user_name : '<%=locals.profile.user_name%>'})
+
     $('#msgtpl').remove();
 
     $('#message').focus();
 
     $('#msg_form').submit(function(event){
         event.preventDefault();
-        socket.emit('new_message', {message: $('#message').val()})
+        socket.emit('new_message', {
+            message: $('#message').val(),
+            receiver_user_name : '<%=locals.profile.receiver_user_name%>',
+            receiver_user_id : <%=locals.profile.receiver_user_id%>,
+            sender_user_name : '<%=locals.profile.sender_user_name%>',
+            sender_user_id : <%=locals.profile.sender_user_id%>
+        })
+        socket.emit('send_message', {
+            receiver_user_name : '<%=locals.profile.receiver_user_name%>',
+            receiver_user_id : <%=locals.profile.receiver_user_id%>,
+            sender_user_name : '<%=locals.profile.sender_user_name%>',
+            sender_user_id : <%=locals.profile.sender_user_id%>
+        })
         $('#message').val('');
         $('#message').focus();
     });
 
     socket.on('new_message', (message) => {
-        if(message.user.id != "<%=locals.user.id%>")
+        if(message.sender_user_id != "<%=locals.user.id%>")
         {
             msgtpl = "<li id='msgtpl' class='left clearfix' >" +
                 "<span class='chat-img1 pull-left'>" +
-                "<img src='static/images/" + message.user.id + ".jpg' width='100%' height='300' class='img-responsive img-circle center-block' alt='Generic placeholder thumbnail'>" +
+                "<img src='static/images/" + message.sender_user_id + ".jpg' width='100%' height='300' class='img-responsive img-circle center-block' alt='Generic placeholder thumbnail'>" +
                 "</span>" +
                 "<div class='chat-body1 clearfix'>" +
                 "<p>" + ((message !== undefined && message.message !== undefined) ? newLineInP(escapeHtml(message.message)) : '') + "</p>" +
@@ -150,7 +164,7 @@
         {
             msgtpl = "<li id='msgtpl' class='left clearfix admin_chat'>" +
                 "<span class='chat-img1 pull-right'>" +
-                "<img src='static/images/" + message.user.id + ".jpg' width='100%' height='300' class='img-responsive img-circle center-block' alt='Generic placeholder thumbnail'>" +
+                "<img src='static/images/" + message.sender_user_id + ".jpg' width='100%' height='300' class='img-responsive img-circle center-block' alt='Generic placeholder thumbnail'>" +
                 "</span>" +
                 "<div class='chat-body1 clearfix' style='text-align: right;'>" +
                 "<p>" + ((message !== undefined && message.message !== undefined) ? newLineInP(escapeHtml(message.message)) : '') + "</p>" +
@@ -164,9 +178,12 @@
 
 
     socket.emit('login', {
-        user_name : "<%=locals.user.user_name%>",
-        user_id : "<%=locals.user.id%>",
-        socket_id : socket.id
+        <!--sender_user_name : "<%=locals.user.user_name%>",-->
+        <!--sender_user_id : "<%=locals.user.id%>",-->
+        receiver_user_name : '<%=locals.profile.receiver_user_name%>',
+        receiver_user_id : <%=locals.profile.receiver_user_id%>,
+        sender_user_name : '<%=locals.profile.sender_user_name%>',
+        sender_user_id : <%=locals.profile.sender_user_id%>
     });
 
     socket.on('new_user', function(user){

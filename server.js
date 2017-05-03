@@ -10,9 +10,10 @@ let profile = require('./route/profile');
 let editProfile = require('./route/editProfile');
 let myProfile = require('./route/myProfile');
 let myPictures = require('./route/myPictures');
-// let user_profile = require('./route/user_profile');
+let user_profile = require('./route/user_profile');
 let search = require('./route/search');
 let chat = require('./route/chat');
+let matches = require('./route/matches');
 let logout = require('./route/logout');
 let functions = require('./middleware/functions');
 let User = require('./model/user');
@@ -26,8 +27,6 @@ let app = express();
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
 
-
-let user_profile = require('./route/user_profile')(io);
 
 app.set('view engine', 'ejs');
 app.locals.pretty = true;
@@ -65,6 +64,7 @@ app.use('/', chat);
 app.use('/', user_profile);
 app.use('/', search);
 app.use('/', logout);
+app.use('/', matches);
 
 
 app.get('/', (req, res) => {
@@ -91,11 +91,14 @@ app.get('*', function(req, res){
 
 
 let users = {};
+let match_data = {};
 
 io.on('connection', function(socket){
     console.log('a user connected with id = '+socket.id);
 
-
+    socket.on('join', (data) => {
+        socket.join(data.user_name);
+    });
 
     let me = false;
 
@@ -109,151 +112,146 @@ io.on('connection', function(socket){
 
     socket.on('new_message', (message) => {
 
+        console.log("MESSAGE :", message)
         message.message = message.message.trim();
         if(message.message === '')
         {
             return false;
         }
 
-        message.user = me;
-
         message.created_at = new Date();
 
         db.query('INSERT INTO messages SET user_id = ?, message = ?, created_at = ?', [
-            message.user.id,
+            message.sender_user_id,
             functions.escapeHtml(message.message),
             message.created_at
         ], (err) => {
             if(err){
-                socket.emit('error', err);
+                throw err;
             }
-
             message.h = message.created_at.getHours();
             message.m = message.created_at.getMinutes();
-            io.sockets.emit('new_message', message);
+            io.sockets.in(message.sender_user_name).emit('new_message', message);
+            io.sockets.in(message.receiver_user_name).emit('new_message', message);
         });
-
-        // message.user = me;
-        // date = new Date();
-        // message.h = date.getHours();
-        // message.m = date.getMinutes();
-        // messages.push(message);
-        // if(messages.length > history)
-        // {
-        //     messages.shift();
-        // }
-        // io.sockets.emit('new_message', message);
-
     });
 
-    socket.on('login', (user) => {
-        me = user;
-        me.id = user.user_id;
-        users[me.id] = me;
-        console.log("me :", me);
-        console.log("users :", users);
-        io.sockets.emit('new_user', me);
-
-        let getPreviousMsg = () => {
-            db.query('SELECT messages.user_id, messages.message, messages.created_at FROM messages LEFT JOIN user ON user.id = messages.user_id LIMIT 30', (err, result) => {
-                if(err){
-                    socket.emit('error', err.code);
-                    return true;
-                }
-                for (k in result){
-                    let row = result[k];
-                    message = {
-                        message: row.message,
-                        h: row.created_at.getHours(),
-                        m: row.created_at.getMinutes(),
-                        // created_at: row.created_at,
-                        user: {
-                            id: row.user_id,
-                        }
-                    };
-                    socket.emit('new_message', message);
-                }
-            })
-        };
-
-        getPreviousMsg();
-    });
-
-    socket.on('join', (data) => {
-        socket.join(data.user_name);
-        // io.sockets.in(data.user_id).emit('new_msg', {msg: 'hello'});
-
-        // socket.on('like', (data) => {
-        //     io.sockets.in(data.liked_id).emit('like_notif', {liked_id : data.liked_id});
-        // })
-    });
-
-    socket.on('like', (data) => {
-        console.log(data)
-        User.isMatch(data.like_user_id, data.liked_user_id, (count) => {
-            console.log("TEST MATCH :", count)
-            if (count == 2)
+    socket.on('send_message', (data) => {
+        User.isBlocked(data.receiver_user_id, data.sender_user_id, (count) => {
+            if(count == 0)
             {
-                console.log("TEST MATCH :", count)
-                io.sockets.in(data.liked_user_name).emit('match_notif', {
-                    liked_user_name : data.liked_user_name,
-                    like_user_name : data.like_user_name
-                });
-                io.sockets.in(data.like_user_name).emit('match_notif', {
-                    liked_user_name : data.liked_user_name,
-                    like_user_name : data.like_user_name
+                io.sockets.in(data.receiver_user_name).emit('message_notif', {
+                    receiver_user_name : data.receiver_user_name,
+                    sender_user_name : data.sender_user_name,
+                    receiver_user_id : data.receiver_user_id,
+                    sender_user_id : data.sender_user_id
                 });
             }
         });
-        io.sockets.in(data.liked_user_name).emit('like_notif', {
-            liked_user_name : data.liked_user_name,
-            like_user_name : data.like_user_name
-        });
-        // User.isMatch(data.like_user_id, data.liked_user_id, (count) => {
-        //     if (count == 2)
-        //     {
-        //         console.log("TEST MATCH :", count)
-        //         io.sockets.in(data.liked_user_name).emit('match_notif', {
-        //             liked_user_name : data.liked_user_name,
-        //             like_user_name : data.like_user_name
-        //         });
-        //         io.sockets.in(data.like_user_name).emit('match_notif', {
-        //             liked_user_name : data.liked_user_name,
-        //             like_user_name : data.like_user_name
-        //         });
-        //     }
-        // });
     });
 
-    // User.isMatch(2, 1, (count) => {
-    //     if (count == 2)
-    //     {
-    //         console.log("TEST MATCH :", count)
-    //         io.sockets.in("aaaa").emit('match_notif', {
-    //             liked_user_name : "aaaa",
-    //             like_user_name : "bbbb"
-    //         });
-    //         io.sockets.in("bbbb").emit('match_notif', {
-    //             liked_user_name : "aaaa",
-    //             like_user_name : "bbbb"
-    //         });
-    //     }
-    // });
+    socket.on('login', (data) => {
+        // me = user;
+        // me.id = user.user_id;
+        // users[me.id] = me;
+        // console.log("me :", me);
+        // console.log("users :", users);
+        // io.sockets.emit('new_user', me);
+
+        User.getPreviousMsg(data.sender_user_id, data.receiver_user_id, (result) => {
+            if (result)
+            {
+                for (k in result)
+                {
+                    message = {
+                        message : result[k].message,
+                        h : result[k].created_at.getHours(),
+                        m: result[k].created_at.getMinutes(),
+                        sender_user_id : result[k].user_id
+                    };
+                    io.sockets.in(data.sender_user_name).emit('new_message', message);
+                    io.sockets.in(data.receiver_user_name).emit('new_message', message);
+                }
+            }
+        });
+    });
+
+
+    socket.on('like', (data) => {
+        match_data = data;
+
+        User.isBlocked(data.liked_user_id, data.like_user_id, (count) => {
+            if(count == 0)
+            {
+                io.sockets.in(data.liked_user_name).emit('like_notif', {
+                    liked_user_name : data.liked_user_name,
+                    like_user_name : data.like_user_name,
+                    liked_user_id : data.liked_user_id,
+                    like_user_id : data.like_user_id
+                });
+            }
+        });
+    });
+
+    if (match_data != {})
+    {
+        User.isMatch(match_data.like_user_id, match_data.liked_user_id, (count) => {
+            if (count == 2)
+            {
+                User.isNewMatch(match_data.like_user_id, match_data.liked_user_id, (count1) => {
+                    if (count1 == 2)
+                    {
+                        console.log("Old Match");
+                        // match_data = {};
+                    }
+                    else
+                    {
+                        User.isBlocked(match_data.liked_user_id, match_data.like_user_id, (count) => {
+                            console.log("BLOCK : ",count)
+                            if(count == 0)
+                            {
+                                User.setNewMatch(match_data.like_user_id, match_data.liked_user_id, () => {
+                                    io.sockets.in(match_data.liked_user_name).emit('match_notif', {
+                                        liked_user_name : match_data.liked_user_name,
+                                        like_user_name : match_data.like_user_name
+                                    });
+                                    io.sockets.in(match_data.like_user_name).emit('match_notif', {
+                                        liked_user_name : match_data.like_user_name,
+                                        like_user_name : match_data.liked_user_name
+                                    });
+                                    // match_data = {};
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
 
     socket.on('dislike', (data) => {
-        io.sockets.in(data.disliked_user_name).emit('dislike_notif', {
-            disliked_user_name : data.disliked_user_name,
-            dislike_user_name : data.dislike_user_name
+        User.isBlocked(data.liked_user_id, data.like_user_id, (count) => {
+            if (count == 0)
+            {
+                io.sockets.in(data.disliked_user_name).emit('dislike_notif', {
+                    disliked_user_name : data.disliked_user_name,
+                    dislike_user_name : data.dislike_user_name
+                });
+            }
         });
     });
 
     socket.on('visit', (data) => {
-        console.log("VISITED :",data.visited);
-        if (data.visited !== undefined && data.visited == "false")
-            io.sockets.in(data.visited_user_name).emit('visit_notif', {
-                visited_user_name : data.visited_user_name,
-                visit_user_name : data.visit_user_name
-            });
+        User.isBlocked(data.liked_user_id, data.like_user_id, (count) => {
+            if (count == 0)
+            {
+                if (data.visited !== undefined && data.visited == "false")
+                    io.sockets.in(data.visited_user_name).emit('visit_notif', {
+                        visited_user_name : data.visited_user_name,
+                        visit_user_name : data.visit_user_name
+                    });
+            }
+        });
     });
 
     socket.on('online', (data) => {

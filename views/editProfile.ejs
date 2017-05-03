@@ -198,6 +198,23 @@
     socket.emit('join', {user_name : '<%=locals.profile.user_name%>'})
 
 
+    socket.on('message_notif', (data) => {
+        $.notify({
+            title: "You have a new Message :), ",
+            message: data.sender_user_name+" sent you a message"
+        },{
+            allow_dismiss: true,
+            placement: {
+                from: "top",
+                align: "center"
+            },
+            animate: {
+                enter: 'animated fadeInDown',
+                exit: 'animated fadeOutUp'
+            }
+        });
+    })
+
     socket.on('like_notif', (data) => {
 //        alert("someone liked you "+ data.liked_id);
         $.notify({
@@ -268,6 +285,8 @@
             }
         });
     })
+
+
 
 </script>
 

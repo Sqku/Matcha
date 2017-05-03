@@ -231,21 +231,11 @@ class User {
 
     static setLike(like_user_id, liked_user_id, cb)
     {
-        return new Promise((resolve, reject) => {
-            db.query('INSERT INTO `like` SET like_user_id = ?, liked_user_id = ?', [like_user_id, liked_user_id], (err, result) => {
-                if(err)
-                {
-                    reject(err);
-                }
-            });
-            resolve(result);
+        db.query('INSERT INTO `like` SET like_user_id = ?, liked_user_id = ?', [like_user_id, liked_user_id], (err, result) => {
+            if(err)
+                throw err;
             cb();
-        });
-        // db.query('INSERT INTO `like` SET like_user_id = ?, liked_user_id = ?', [like_user_id, liked_user_id], (err, result) => {
-        //     if(err)
-        //         throw err;
-        //     cb();
-        // })
+        })
     }
 
     static isLiked(like_user_id, liked_user_id, cb)
@@ -263,6 +253,33 @@ class User {
             if(err)
                 throw err;
             cb(result[0].count);
+        })
+    }
+
+    static isNewMatch(like_user_id, liked_user_id, cb)
+    {
+        db.query('SELECT COUNT(*) AS count FROM `match` AS l WHERE (l.like_user_id = ? AND l.liked_user_id = ?) OR (l.like_user_id = ? AND l.liked_user_id = ?)', [like_user_id, liked_user_id, liked_user_id, like_user_id], (err, result) => {
+            if(err)
+                throw err;
+            cb(result[0].count);
+        })
+    }
+
+    static deleteMatch(like_user_id, liked_user_id, cb)
+    {
+        db.query('DELETE FROM `match` WHERE (like_user_id = ? AND liked_user_id = ?) OR (like_user_id = ? AND liked_user_id = ?)', [like_user_id, liked_user_id, liked_user_id, like_user_id], (err, result) => {
+            if(err)
+                throw err;
+            cb();
+        })
+    }
+
+    static setNewMatch(like_user_id, liked_user_id, cb)
+    {
+        db.query('INSERT INTO `match` (like_user_id, liked_user_id) VALUES (?, ?), (?, ?)', [like_user_id, liked_user_id, liked_user_id, like_user_id], (err, result) => {
+            if(err)
+                throw err;
+            cb();
         })
     }
 
@@ -374,6 +391,14 @@ class User {
         })
     }
 
+    static getPreviousMsg(sender_user_id, receiver_user_id, cb)
+    {
+        db.query('SELECT * FROM messages WHERE user_id = ? OR user_id = ? LIMIT 30', [sender_user_id, receiver_user_id], (err, result) => {
+            if(err)
+                throw err;
+            cb(result);
+        })
+    }
 
 }
 

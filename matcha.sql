@@ -138,6 +138,27 @@ CREATE TABLE IF NOT EXISTS `matcha`.`like` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `matcha`.`match`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matcha`.`match` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `like_user_id` INT NOT NULL,
+  `liked_user_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_match_user1_idx` (`like_user_id` ASC),
+  INDEX `fk_match_user2_idx` (`liked_user_id` ASC),
+  CONSTRAINT `fk_match_user1`
+  FOREIGN KEY (`like_user_id`)
+  REFERENCES `matcha`.`user` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_match_user2`
+  FOREIGN KEY (`liked_user_id`)
+  REFERENCES `matcha`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `matcha`.`visit`
@@ -148,15 +169,15 @@ CREATE TABLE IF NOT EXISTS `matcha`.`visit` (
   `visit_user_id` INT NOT NULL,
   `visited_user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_consult_user1_idx` (`consult_user_id` ASC),
-  INDEX `fk_consult_user2_idx` (`consulted_user_id` ASC),
-  CONSTRAINT `fk_consult_user1`
-    FOREIGN KEY (`consult_user_id`)
+  INDEX `fk_visit_user1_idx` (`visit_user_id` ASC),
+  INDEX `fk_visit_user2_idx` (`visited_user_id` ASC),
+  CONSTRAINT `fk_visit_user1`
+    FOREIGN KEY (`visit_user_id`)
     REFERENCES `matcha`.`user` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_consult_user2`
-    FOREIGN KEY (`consulted_user_id`)
+  CONSTRAINT `fk_visit_user2`
+    FOREIGN KEY (`visited_user_id`)
     REFERENCES `matcha`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
