@@ -27,21 +27,22 @@ router.route('/myProfile')
             {
                 res.locals.profile.tags = result;
             }
-        });
+            User.findProfile(req.session.user.id, (profile) => {
+                res.locals.profile.sex_orientation = profile.sex_orientation;
+                res.locals.profile.bio = profile.bio;
+                res.locals.profile.profile_picture = profile.profile_picture;
 
-        User.findProfile(req.session.user.id, (profile) => {
-            res.locals.profile.sex_orientation = profile.sex_orientation;
-            res.locals.profile.bio = profile.bio;
-            res.locals.profile.profile_picture = profile.profile_picture;
-console.log(res.locals.profile.profile_picture)
+                res.locals.profile.ip = {
+                    lat : profile.lat,
+                    lng : profile.lng
+                };
+                res.locals.profile.user_location = "true";
+                User.countUserNotification(req.session.user.id, (count) => {
+                    res.locals.count_notif = count;
+                    res.render('myProfile');
+                });
 
-            res.locals.profile.ip = {
-                lat : profile.lat,
-                lng : profile.lng
-            };
-            res.locals.profile.user_location = "true";
-            res.render('myProfile');
-
+            });
         });
     })
 
@@ -74,9 +75,6 @@ console.log(res.locals.profile.profile_picture)
         }
         else
         {
-            console.log("body empty");
-            console.log(req.body);
-
             res.redirect('myProfile');
         }
 });

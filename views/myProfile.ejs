@@ -178,6 +178,11 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <!--<script src="../static/js/myProfile.js"></script>-->
 <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="static/js/bootstrap-notify.js"></script>
+
+<script>
+    $('#menu_myProfile').addClass('active');
+</script>
 
 <script>
     $('#map-container').height('250px');
@@ -395,6 +400,13 @@
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGJIJcckh-FIJHoBfaC-7e-s6uxIMUfIE&callback=initMap"></script>
 
+<script>
+    let count = <%=locals.count_notif%>;
+    let socket = io.connect();
 
+    socket.emit('join', {user_name : '<%=locals.profile.user_name%>'})
+</script>
+
+<script type="text/javascript" src="static/js/notif.js"></script>
 
 <% include fin %>

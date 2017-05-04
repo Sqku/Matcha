@@ -140,11 +140,13 @@ io.on('connection', function(socket){
         User.isBlocked(data.receiver_user_id, data.sender_user_id, (count) => {
             if(count == 0)
             {
-                io.sockets.in(data.receiver_user_name).emit('message_notif', {
-                    receiver_user_name : data.receiver_user_name,
-                    sender_user_name : data.sender_user_name,
-                    receiver_user_id : data.receiver_user_id,
-                    sender_user_id : data.sender_user_id
+                User.setNotification("message", data.sender_user_id, data.receiver_user_id, data.sender_user_name, data.receiver_user_name, () => {
+                    io.sockets.in(data.receiver_user_name).emit('message_notif', {
+                        receiver_user_name : data.receiver_user_name,
+                        sender_user_name : data.sender_user_name,
+                        receiver_user_id : data.receiver_user_id,
+                        sender_user_id : data.sender_user_id
+                    });
                 });
             }
         });
@@ -183,11 +185,13 @@ io.on('connection', function(socket){
         User.isBlocked(data.liked_user_id, data.like_user_id, (count) => {
             if(count == 0)
             {
-                io.sockets.in(data.liked_user_name).emit('like_notif', {
-                    liked_user_name : data.liked_user_name,
-                    like_user_name : data.like_user_name,
-                    liked_user_id : data.liked_user_id,
-                    like_user_id : data.like_user_id
+                User.setNotification("like", data.like_user_id, data.liked_user_id, data.like_user_name, data.liked_user_name, () => {
+                    io.sockets.in(data.liked_user_name).emit('like_notif', {
+                        liked_user_name : data.liked_user_name,
+                        like_user_name : data.like_user_name,
+                        liked_user_id : data.liked_user_id,
+                        like_user_id : data.like_user_id
+                    });
                 });
             }
         });
@@ -211,15 +215,17 @@ io.on('connection', function(socket){
                             if(count == 0)
                             {
                                 User.setNewMatch(match_data.like_user_id, match_data.liked_user_id, () => {
-                                    io.sockets.in(match_data.liked_user_name).emit('match_notif', {
-                                        liked_user_name : match_data.liked_user_name,
-                                        like_user_name : match_data.like_user_name
+                                    User.setNotification("match", match_data.like_user_id, match_data.liked_user_id, match_data.like_user_name, match_data.liked_user_name, () => {
+                                        io.sockets.in(match_data.liked_user_name).emit('match_notif', {
+                                            liked_user_name : match_data.liked_user_name,
+                                            like_user_name : match_data.like_user_name
+                                        });
+                                        io.sockets.in(match_data.like_user_name).emit('match_notif', {
+                                            liked_user_name : match_data.like_user_name,
+                                            like_user_name : match_data.liked_user_name
+                                        });
+                                        // match_data = {};
                                     });
-                                    io.sockets.in(match_data.like_user_name).emit('match_notif', {
-                                        liked_user_name : match_data.like_user_name,
-                                        like_user_name : match_data.liked_user_name
-                                    });
-                                    // match_data = {};
                                 });
                             }
                         });
@@ -233,9 +239,11 @@ io.on('connection', function(socket){
         User.isBlocked(data.liked_user_id, data.like_user_id, (count) => {
             if (count == 0)
             {
-                io.sockets.in(data.disliked_user_name).emit('dislike_notif', {
-                    disliked_user_name : data.disliked_user_name,
-                    dislike_user_name : data.dislike_user_name
+                User.setNotification("dislike", data.like_user_id, data.liked_user_id, data.dislike_user_name, data.disliked_user_name, () => {
+                    io.sockets.in(data.disliked_user_name).emit('dislike_notif', {
+                        disliked_user_name : data.disliked_user_name,
+                        dislike_user_name : data.dislike_user_name
+                    });
                 });
             }
         });
@@ -246,10 +254,14 @@ io.on('connection', function(socket){
             if (count == 0)
             {
                 if (data.visited !== undefined && data.visited == "false")
-                    io.sockets.in(data.visited_user_name).emit('visit_notif', {
-                        visited_user_name : data.visited_user_name,
-                        visit_user_name : data.visit_user_name
+                {
+                    User.setNotification("visit", data.like_user_id, data.liked_user_id, data.visit_user_name, data.visited_user_name, () => {
+                        io.sockets.in(data.visited_user_name).emit('visit_notif', {
+                            visited_user_name: data.visited_user_name,
+                            visit_user_name: data.visit_user_name
+                        });
                     });
+                }
             }
         });
     });

@@ -44,27 +44,28 @@ router.route('/editProfile')
             }
             else
                 res.locals.tags = "";
-        });
-
-        User.findUserTags(req.session.user.id, (result) => {
-            if(result)
-            {
-                let tags = "";
-                for (k in result){
-                    if(tags == "")
-                        tags = result[k].tag;
-                    else
-                        tags = tags + "," + result[k].tag;
+            User.findUserTags(req.session.user.id, (result) => {
+                if(result)
+                {
+                    let tags = "";
+                    for (k in result){
+                        if(tags == "")
+                            tags = result[k].tag;
+                        else
+                            tags = tags + "," + result[k].tag;
+                    }
+                    res.locals.profile.tags = tags;
                 }
-                res.locals.profile.tags = tags;
-            }
-        });
+                User.findProfile(req.session.user.id, (result) => {
+                    res.locals.profile.sex_orientation = result.sex_orientation;
+                    res.locals.profile.bio = result.bio;
 
-        User.findProfile(req.session.user.id, (result) => {
-            res.locals.profile.sex_orientation = result.sex_orientation;
-            res.locals.profile.bio = result.bio;
-
-            res.render('editProfile');
+                    User.countUserNotification(req.session.user.id, (count) => {
+                        res.locals.count_notif = count;
+                        res.render('editProfile');
+                    });
+                });
+            });
         });
     })
 
@@ -119,15 +120,15 @@ router.route('/editProfile')
             }
         }
 
-        User.updateProfil(profile);
+        User.updateProfil(profile, () => {
+            User.updateUser(user, () => {
+                User.findUser(req.session.user.user_name, (result) => {
+                    req.session.user = result;
+                    req.session.success = "true";
 
-        User.updateUser(user);
-
-        User.findUser(req.session.user.user_name, (result) => {
-            req.session.user = result;
-            req.session.success = "true";
-
-            res.redirect('editProfile');
+                    res.redirect('editProfile');
+                });
+            });
         });
     });
 

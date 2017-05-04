@@ -67,13 +67,17 @@ router.route('/myPictures')
                 {
                     // console.log("result :", result);
                     res.locals.profile.images = result;
-                    res.render('myPictures');
+                    User.countUserNotification(req.session.user.id, (count) => {
+                        res.locals.count_notif = count;
+                        res.render('myPictures');
+                    });
                 }
                 else
+                User.countUserNotification(req.session.user.id, (count) => {
+                    res.locals.count_notif = count;
                     res.render('myPictures');
+                });
             });
-
-
         });
 
         // User.getUserImages(req.session.user.id, (result) => {

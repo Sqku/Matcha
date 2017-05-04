@@ -1,36 +1,53 @@
 <% include header %>
-
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Dashboard</h1>
+            <h1 class="page-header">Notification</h1>
 
-            <div class="row placeholders">
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                    <h4>Label</h4>
-                    <span class="text-muted">Something else</span>
-                </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                    <h4>Label</h4>
-                    <span class="text-muted">Something else</span>
-                </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                    <h4>Label</h4>
-                    <span class="text-muted">Something else</span>
-                </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                    <h4>Label</h4>
-                    <span class="text-muted">Something else</span>
-                </div>
-            </div>
-
-            <h2 class="sub-header">Section title</h2>
             <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Notification</th>
+                        <th>From</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
+                    <%if (locals.notif !== undefined)
+                    {
+                        for (k in locals.notif)
+                        {
+                        %><tr>
+                        <td <%
+                        if (locals.notif[k].notification == "like")
+                        {
+                            %>style="color: #32CD32;"<%
+                        }
+                        if (locals.notif[k].notification == "dislike")
+                        {
+                        %>style="color: red;"<%
+                        }
+                        if (locals.notif[k].notification == "message")
+                        {
+                        %>style="color: deepskyblue;"<%
+                        }
+                        if (locals.notif[k].notification == "match")
+                        {
+                        %>style="color: #FDEE00; text-shadow: 0px 0px 2px #0f0f0f"<%
+                        }
+
+                        %>><%=locals.notif[k].notification%></td>
+                        <td><%=locals.notif[k].sender_user_name%></td>
+                        </tr><%
+                        }
+                    }%>
+                    </tbody>
+                </table>
+                <form method="post">
+
+                    <button type="submit" id="clear_notif_btn" class="btn btn-info">Clear notifications</button>
+                    <input type="hidden" name="clear_notif" id="clear_notif" value="">
+                </form>
             </div>
-        </div>
     </div>
 </div>
 
@@ -44,11 +61,26 @@
 <script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
 <script src="http://localhost:3000/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="static/js/bootstrap-notify.js"></script>
 
 <script>
-
+    $('#menu_notifications').addClass('active');
 </script>
 
+<script>
+    $('#clear_notif_btn').click(function () {
+        document.getElementById('clear_notif').value = "clear";
+    })
+
+    let count = <%=locals.count_notif%>;
+    let socket = io.connect();
+
+    socket.emit('join', {user_name : '<%=locals.user_name%>'})
+
+
+</script>
+<script type="text/javascript" src="static/js/notif.js"></script>
 
 
 <% include fin %>

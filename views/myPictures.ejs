@@ -74,6 +74,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
 <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="static/js/bootstrap-notify.js"></script>
 
 
 <script>
@@ -98,6 +99,14 @@
 </script>
 
 
+<script>
+    let count = <%=locals.count_notif%>;
+    let socket = io.connect();
+
+    socket.emit('join', {user_name : '<%=locals.profile.user_name%>'})
+</script>
+
+<script type="text/javascript" src="static/js/notif.js"></script>
 
 
 

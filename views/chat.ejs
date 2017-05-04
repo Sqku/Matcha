@@ -8,11 +8,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/dashboard">Matcha</a>
+            <a class="navbar-brand" href="/myProfile">Matcha</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/dashboard">Notifications <span id="notif" class="badge"><%=locals.count_notif !== 0 ? locals.count_notif : ""%></span></a></li>
                 <li><a href="/search">Search</a></li>
                 <li><a href="/profile">Suggested Profiles</a></li>
                 <li><a href="/myProfile">My Profile</a></li>
@@ -25,12 +25,9 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-            <img src="static/images/<%=locals.user.id%>.jpg" id="dashboard_picture" alt="" style="width: 100%">
+            <img src="static/images/tinder_flame.png" id="dashboard_picture" alt="" style="width: 100%">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="/chat">Chat<span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Visitors</a></li>
                 <li><a href="/matches">Matches</a></li>
-                <li id="online_members"><a href="#">Online Members</a></li>
             </ul>
             <!--<ul class="nav nav-sidebar">-->
             <!--<li><a href="">Nav item again</a></li>-->
@@ -40,7 +37,7 @@
         </div>
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Chat</h1>
+            <h1 class="page-header">Chat with <%=locals.profile.receiver_user_name%></h1>
 
             <div class="row">
                 <div class="col-sm-12 message_section">
@@ -52,12 +49,13 @@
                             </ul>
                         </div><!--chat_area-->
                         <div class="message_write">
-                            <form id="msg_form" action="">
+                            <form id="msg_form" method="post">
                                 <textarea id="message" class="form-control" placeholder="type a message"></textarea>
                                 <div class="clearfix"></div>
                                 <div class="chat_bottom">
                                     <input id="send" type="submit" value="Send" class="pull-right btn btn-success"></input>
                                 </div>
+                                <input type="hidden" id="not_matched" value="">
                             </form>
                         </div>
                     </div>
@@ -89,9 +87,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 <script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
-<script src="http://localhost:3000/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="static/js/bootstrap-notify.js"></script>
 <script>
 
     var entityMap = {
@@ -120,16 +118,20 @@
         return String(string).replaceAll("\n", "<br>");
     }
 
+    let count = <%=locals.count_notif%>;
     let socket = io.connect();
 
-    socket.emit('join', {user_name : '<%=locals.profile.user_name%>'})
+    socket.emit('join', {user_name : '<%=locals.user_name%>'})
 
     $('#msgtpl').remove();
 
     $('#message').focus();
 
     $('#msg_form').submit(function(event){
-        event.preventDefault();
+        if ($('#not_matched').val() !== "noMatch")
+        {
+            event.preventDefault();
+        }
         socket.emit('new_message', {
             message: $('#message').val(),
             receiver_user_name : '<%=locals.profile.receiver_user_name%>',
@@ -137,12 +139,16 @@
             sender_user_name : '<%=locals.profile.sender_user_name%>',
             sender_user_id : <%=locals.profile.sender_user_id%>
         })
-        socket.emit('send_message', {
-            receiver_user_name : '<%=locals.profile.receiver_user_name%>',
-            receiver_user_id : <%=locals.profile.receiver_user_id%>,
-            sender_user_name : '<%=locals.profile.sender_user_name%>',
-            sender_user_id : <%=locals.profile.sender_user_id%>
-        })
+        if ($('#message').val().trim() != "")
+        {
+            socket.emit('send_message', {
+                receiver_user_name : '<%=locals.profile.receiver_user_name%>',
+                receiver_user_id : <%=locals.profile.receiver_user_id%>,
+                sender_user_name : '<%=locals.profile.sender_user_name%>',
+                sender_user_id : <%=locals.profile.sender_user_id%>
+            });
+        }
+
         $('#message').val('');
         $('#message').focus();
     });
@@ -178,8 +184,6 @@
 
 
     socket.emit('login', {
-        <!--sender_user_name : "<%=locals.user.user_name%>",-->
-        <!--sender_user_id : "<%=locals.user.id%>",-->
         receiver_user_name : '<%=locals.profile.receiver_user_name%>',
         receiver_user_id : <%=locals.profile.receiver_user_id%>,
         sender_user_name : '<%=locals.profile.sender_user_name%>',
@@ -196,7 +200,104 @@
     })
 
 
+    socket.on('message_notif', (data) => {
+        $.notify({
+            title: "You have a new Message :), ",
+            message: data.sender_user_name+" sent you a message"
+        },{
+            allow_dismiss: true,
+            placement: {
+                from: "top",
+                align: "left"
+            },
+            animate: {
+                enter: 'animated fadeInDown',
+                exit: 'animated fadeOutUp'
+            }
+        });
+        $('#notif').html(count = count + 1);
+    })
+
+    socket.on('like_notif', (data) => {
+//        alert("someone liked you "+ data.liked_id);
+        $.notify({
+            title: "You have a new Like :), ",
+            message: data.like_user_name+" liked you"
+        },{
+            allow_dismiss: true,
+            placement: {
+                from: "top",
+                align: "left"
+            },
+            animate: {
+                enter: 'animated fadeInDown',
+                exit: 'animated fadeOutUp'
+            }
+        });
+        $('#notif').html(count = count + 1);
+    })
+
+    socket.on('dislike_notif', (data) => {
+//        alert("someone liked you "+ data.liked_id);
+        $.notify({
+            title: "someone disliked you :(, ",
+            message: data.dislike_user_name+" disliked you"
+        },{
+            allow_dismiss: true,
+            placement: {
+                from: "top",
+                align: "left"
+            },
+            animate: {
+                enter: 'animated fadeInDown',
+                exit: 'animated fadeOutUp'
+            }
+        });
+        $('#notif').html(count = count + 1);
+        $('h1').append('<div class="alert alert-danger" role="alert">You are not matched with <%=locals.profile.receiver_user_name%> anymore. Please leave this page</div>')
+        $('#not_matched').val("noMatch")
+    })
+
+    socket.on('visit_notif', (data) => {
+//        alert("someone liked you "+ data.liked_id);
+        $.notify({
+            title: "someone visited you :), ",
+            message: data.visit_user_name+" visited you"
+        },{
+            allow_dismiss: true,
+            placement: {
+                from: "top",
+                align: "left"
+            },
+            animate: {
+                enter: 'animated fadeInDown',
+                exit: 'animated fadeOutUp'
+            }
+        });
+        $('#notif').html(count = count + 1);
+    })
+
+    socket.on('match_notif', (data) => {
+        $.notify({
+            title: "You have a match, ",
+            message: "you matched with "+data.like_user_name
+        },{
+            allow_dismiss: true,
+            placement: {
+                from: "top",
+                align: "left"
+            },
+            animate: {
+                enter: 'animated fadeInDown',
+                exit: 'animated fadeOutUp'
+            }
+        });
+        $('#notif').html(count = count + 1);
+    })
 
 </script>
+
+<!--<script type="text/javascript" src="static/js/notif.js"></script>-->
+
 
 <% include fin %>

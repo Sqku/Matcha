@@ -151,8 +151,8 @@
 <script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
 <script src="static/js/bootstrap-tokenfield.js"></script>
 <script src="http://localhost:3000/socket.io/socket.io.js"></script>
-<!--<script type="text/javascript" src="static/js/mustache.js"></script>-->
 <script type="text/javascript" src="static/js/bootstrap-notify.js"></script>
+
 
 
 
@@ -193,103 +193,18 @@
         document.getElementById("deleted_tags").value = deleted;
     });
 
+    let count = <%=locals.count_notif%>;
     let socket = io.connect();
 
     socket.emit('join', {user_name : '<%=locals.profile.user_name%>'})
 
 
-    socket.on('message_notif', (data) => {
-        $.notify({
-            title: "You have a new Message :), ",
-            message: data.sender_user_name+" sent you a message"
-        },{
-            allow_dismiss: true,
-            placement: {
-                from: "top",
-                align: "center"
-            },
-            animate: {
-                enter: 'animated fadeInDown',
-                exit: 'animated fadeOutUp'
-            }
-        });
-    })
 
-    socket.on('like_notif', (data) => {
-//        alert("someone liked you "+ data.liked_id);
-        $.notify({
-            title: "You have a new Like :), ",
-            message: data.like_user_name+" liked you"
-        },{
-            allow_dismiss: true,
-            placement: {
-                from: "top",
-                align: "center"
-            },
-            animate: {
-                enter: 'animated fadeInDown',
-                exit: 'animated fadeOutUp'
-            }
-        });
-    })
-
-    socket.on('dislike_notif', (data) => {
-//        alert("someone liked you "+ data.liked_id);
-        $.notify({
-            title: "someone disliked you :(, ",
-            message: data.dislike_user_name+" disliked you"
-        },{
-            allow_dismiss: true,
-            placement: {
-                from: "top",
-                align: "center"
-            },
-            animate: {
-                enter: 'animated fadeInDown',
-                exit: 'animated fadeOutUp'
-            }
-        });
-    })
-
-    socket.on('visit_notif', (data) => {
-//        alert("someone liked you "+ data.liked_id);
-        $.notify({
-            title: "someone visited you :), ",
-            message: data.visit_user_name+" visited you"
-        },{
-            allow_dismiss: true,
-            placement: {
-                from: "top",
-                align: "center"
-            },
-            animate: {
-                enter: 'animated fadeInDown',
-                exit: 'animated fadeOutUp'
-            }
-        });
-    })
-
-    socket.on('match_notif', (data) => {
-        $.notify({
-            title: "You have a match, ",
-            message: "you matched with "+data.like_user_name
-        },{
-            allow_dismiss: true,
-            placement: {
-                from: "top",
-                align: "center"
-            },
-            animate: {
-                enter: 'animated fadeInDown',
-                exit: 'animated fadeOutUp'
-            }
-        });
-    })
 
 
 
 </script>
-
+<script type="text/javascript" src="static/js/notif.js"></script>
 
 
 <% include fin %>

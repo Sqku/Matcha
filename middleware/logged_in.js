@@ -19,9 +19,10 @@ let logged_in = (req, res, next) => {
                     if(result.activated == 1)
                     {
                         // req.session.user_id = result.id;
-                        User.userStatus(result.id, "online");
-                        req.session.user = result;
-                        next();
+                        User.userStatus(result.id, "online", () => {
+                            req.session.user = result;
+                            next();
+                        })
                     }
                     else
                     {

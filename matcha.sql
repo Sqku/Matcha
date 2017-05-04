@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `matcha`.`user` (
   `first_name` VARCHAR(255) NULL,
   `password` VARCHAR(255) NULL,
   `salt` VARCHAR(255) NULL,
-  `score` INT NULL,
+  `score` INT DEFAULT 0,
   `date_of_birth` DATETIME NULL,
   `gender` enum('man','woman') DEFAULT NULL,
   `date_creation` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
@@ -114,6 +114,31 @@ CREATE TABLE IF NOT EXISTS `matcha`.`user_interet` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `matcha`.`notifications`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matcha`.`notifications` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `notification` VARCHAR(255) NULL,
+  `sender_user_id` INT NOT NULL,
+  `sender_user_name` VARCHAR(255) NULL,
+  `receiver_user_id` INT NOT NULL,
+  `receiver_user_name` VARCHAR(255) NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_sender_user1_idx` (`sender_user_id` ASC),
+  INDEX `fk_receiver_user2_idx` (`receiver_user_id` ASC),
+  CONSTRAINT `fk_notifications_user1`
+  FOREIGN KEY (`sender_user_id`)
+  REFERENCES `matcha`.`user` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_notifications_user2`
+  FOREIGN KEY (`receiver_user_id`)
+  REFERENCES `matcha`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `matcha`.`like`

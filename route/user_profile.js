@@ -32,63 +32,65 @@ let publicIp = require('public-ip');
                         {
                             res.locals.profile.blocked = "true";
                         }
-                    });
-                    User.isLiked(req.session.user.id, req.session.liked_id, (count) => {
-                        if (count == 0)
-                        {
-                            res.locals.profile.like = "true";
-                        }
-                    });
-                    User.countLike(req.session.liked_id, (count) => {
-                        res.locals.profile.count_like = count;
-                    });
-                    let split = result.date_of_birth.toString().split(" ");
-                    let now = new Date();
-                    res.locals.profile.age = now.getFullYear() - split[3];
+                        User.isLiked(req.session.user.id, req.session.liked_id, (count) => {
+                            if (count == 0)
+                            {
+                                res.locals.profile.like = "true";
+                            }
+                            User.countLike(req.session.liked_id, (count) => {
+                                res.locals.profile.count_like = count;
 
+                                let split = result.date_of_birth.toString().split(" ");
+                                let now = new Date();
+                                res.locals.profile.age = now.getFullYear() - split[3];
 
+                                User.findUserTags(result.id, (result1) => {
+                                    if(result1)
+                                    {
+                                        res.locals.profile.tags = result1;
+                                    }
+                                    User.findProfile(result.id, (profile) => {
+                                        res.locals.profile.sex_orientation = profile.sex_orientation;
+                                        res.locals.profile.bio = profile.bio;
+                                        res.locals.profile.profile_picture = profile.profile_picture;
+                                        res.locals.profile.online = profile.online;
 
-                    User.findUserTags(result.id, (result1) => {
-                        if(result1)
-                        {
-                            res.locals.profile.tags = result1;
-                        }
-                    });
-
-                    User.findProfile(result.id, (profile) => {
-                        res.locals.profile.sex_orientation = profile.sex_orientation;
-                        res.locals.profile.bio = profile.bio;
-                        res.locals.profile.profile_picture = profile.profile_picture;
-                        res.locals.profile.online = profile.online;
-
-                        res.locals.profile.ip = {
-                            lat : profile.lat,
-                            lng : profile.lng
-                        };
-                        User.findProfile(req.session.user.id, (profile1) => {
-                            User.isVisited(req.session.user.id, req.session.liked_id, (count) => {
-                                console.log("VISIT :", req.session.liked_id)
-                                if (count == 0)
-                                {
-                                    res.locals.profile.visited = "false";
-                                    User.setVisit(req.session.user.id, req.session.liked_id, () => {
-                                        res.locals.profile.liker_profile_picture = profile1.profile_picture;
-                                        res.render('user_profile');
+                                        res.locals.profile.ip = {
+                                            lat : profile.lat,
+                                            lng : profile.lng
+                                        };
+                                        User.findProfile(req.session.user.id, (profile1) => {
+                                            User.isVisited(req.session.user.id, req.session.liked_id, (count) => {
+                                                console.log("VISIT :", req.session.liked_id)
+                                                if (count == 0)
+                                                {
+                                                    res.locals.profile.visited = "false";
+                                                    User.setVisit(req.session.user.id, req.session.liked_id, () => {
+                                                        res.locals.profile.liker_profile_picture = profile1.profile_picture;
+                                                        User.countUserNotification(req.session.user.id, (count) => {
+                                                            User.updateUserScore(5, req.session.liked_id, () => {
+                                                                res.locals.count_notif = count;
+                                                                res.render('user_profile');
+                                                            });
+                                                        });
+                                                    });
+                                                }
+                                                else
+                                                {
+                                                    res.locals.profile.visited = "true";
+                                                    res.locals.profile.liker_profile_picture = profile1.profile_picture;
+                                                    User.countUserNotification(req.session.user.id, (count) => {
+                                                        res.locals.count_notif = count;
+                                                        res.render('user_profile');
+                                                    });
+                                                }
+                                            });
+                                        });
                                     });
-                                }
-                                else
-                                {
-                                    res.locals.profile.visited = "true";
-                                    res.locals.profile.liker_profile_picture = profile1.profile_picture;
-                                    res.render('user_profile');
-                                }
+                                });
                             });
-
                         });
                     });
-
-                    // console.log(res.locals.profile);
-
                 }
                 else
                 {
@@ -129,7 +131,9 @@ let publicIp = require('public-ip');
                     if (count == 0)
                     {
                         User.setLike(req.session.user.id, req.session.liked_id, () => {
-                            res.redirect('user_profile?user_name=' + req.session.liked_user);
+                            User.updateUserScore(20, req.session.liked_id, () => {
+                                res.redirect('user_profile?user_name=' + req.session.liked_user);
+                            });
                         });
                     }
                     else
@@ -143,7 +147,9 @@ let publicIp = require('public-ip');
                     {
                         User.disLike(req.session.user.id, req.session.liked_id, () => {
                             User.deleteMatch(req.session.user.id, req.session.liked_id, () => {
-                                res.redirect('user_profile?user_name=' + req.session.liked_user);
+                                User.updateUserScore(-20, req.session.liked_id, () => {
+                                    res.redirect('user_profile?user_name=' + req.session.liked_user);
+                                });
                             });
                         });
                     }

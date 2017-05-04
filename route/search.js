@@ -40,10 +40,18 @@ router.route('/search')
                 }
                 console.log(res.locals.profile);
                 req.session.user_profile = res.locals.profile;
-                res.render('search');
+                User.countUserNotification(req.session.user.id, (count) => {
+                    res.locals.count_notif = count;
+                    res.locals.user_name = req.session.user.user_name;
+                    res.render('search');
+                });
             }
             else
-                res.render('search');
+                User.countUserNotification(req.session.user.id, (count) => {
+                    res.locals.count_notif = count;
+                    res.locals.user_name = req.session.user.user_name;
+                    res.render('search');
+                });
         });
     })
 

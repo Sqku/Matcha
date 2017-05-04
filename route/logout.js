@@ -39,17 +39,12 @@ router.route('/logout')
         res.locals.user = req.session.user;
 
         console.log(req.session.user.id);
-        User.userStatus(req.session.user.id, "offline");
-        // req.session.user = undefined;
-        // req.session.destroy();
-        console.log("logout");
-        res.render('logout');
-
-        // http.listen(port, function(){
-        //     console.log('listening on localhost:3000');
-        // });
-
-
+        User.userStatus(req.session.user.id, "offline", () => {
+            req.session.user = undefined;
+            req.session.destroy();
+            console.log("logout");
+            res.render('logout');
+        });
 
     });
 

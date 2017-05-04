@@ -43,7 +43,7 @@ class User {
         db.query('UPDATE profil SET sex_orientation = ?, bio = ? WHERE user_id = ?', [profile.sex_orientation, profile.bio, profile.user_id], (err, result) => {
             if(err)
                 throw err;
-            // cb();
+            cb();
         })
     }
 
@@ -51,7 +51,7 @@ class User {
         db.query('UPDATE user SET first_name = ?, last_name = ?, email = ?, gender = ? WHERE id = ?', [user.first_name, user.last_name, user.email, user.gender, user.id], (err, result) => {
             if(err)
                 throw err;
-            // cb();
+            cb();
         })
     }
 
@@ -207,7 +207,7 @@ class User {
         db.query('UPDATE profil SET lat = ?, lng = ?, city = ?, departement = ?, country = ? WHERE user_id = ?', [lat, lng, city, departement, country, user_id], (err, result) => {
             if (err)
                 throw err;
-        })
+        });
         cb();
     }
 
@@ -357,7 +357,7 @@ class User {
             gender = 'WHERE (user.gender = "man" AND (profil.sex_orientation = "heterosexual" OR profil.sex_orientation = "bisexual")) AND';
         else if (sex_orientation == "heterosexual" && sexe == "man" )
             gender = 'WHERE (user.gender = "woman" AND (profil.sex_orientation = "heterosexual" OR profil.sex_orientation = "bisexual")) AND';
-        db.query('SELECT profil.*, user.score, user.gender, user.date_of_birth, user.activated FROM profil, user ' + gender + ' profil.user_id = user.id AND user.activated = 1 AND NOT EXISTS (SELECT * FROM `block` AS b WHERE b.block_user_id = ? AND b.blocked_user_id = user.id)',
+        db.query('SELECT profil.*, user.user_name, user.score, user.gender, user.date_of_birth, user.activated FROM profil, user ' + gender + ' profil.user_id = user.id AND user.activated = 1 AND NOT EXISTS (SELECT * FROM `block` AS b WHERE b.block_user_id = ? AND b.blocked_user_id = user.id)',
             [user_id], (err, result) => {
             if(err)
                 throw err;
@@ -370,6 +370,7 @@ class User {
         db.query('UPDATE profil SET online = ? WHERE profil.user_id = ?', [status, user_id], (err, result) => {
             if (err)
                 throw err;
+            cb();
         })
     }
 
@@ -378,8 +379,8 @@ class User {
         db.query('INSERT INTO `visit` SET visit_user_id = ?, visited_user_id = ?', [like_user_id, liked_user_id], (err, result) => {
             if(err)
                 throw err;
+            cb();
         });
-        cb();
     }
 
     static isVisited(like_user_id, liked_user_id, cb)
@@ -388,7 +389,7 @@ class User {
             if(err)
                 throw err;
             cb(result[0].count);
-        })
+        });
     }
 
     static getPreviousMsg(sender_user_id, receiver_user_id, cb)
@@ -397,9 +398,56 @@ class User {
             if(err)
                 throw err;
             cb(result);
+        });
+    }
+
+    static setNotification(notification, sender_user_id, receiver_user_id, sender_user_name, receiver_user_name, cb)
+    {
+        db.query('INSERT INTO `notifications` SET notification = ?, sender_user_id = ?, receiver_user_id = ?, sender_user_name = ?, receiver_user_name = ?', [notification, sender_user_id, receiver_user_id, sender_user_name, receiver_user_name], (err, result) => {
+            if (err)
+                throw err;
+            cb();
+        });
+    }
+
+    static getUserNotification(user_id, cb)
+    {
+        db.query('SELECT * FROM `notifications` WHERE receiver_user_id = ?', [user_id], (err, result) => {
+            if(err)
+                throw err;
+            cb(result);
+        });
+    }
+
+    static clearUserNotification(user_id, cb)
+    {
+        db.query('DELETE FROM `notifications` WHERE receiver_user_id = ?', [user_id], (err, result) => {
+            if(err)
+                throw err;
+            cb();
+        });
+    }
+
+    static countUserNotification(user_id, cb)
+    {
+        db.query('SELECT COUNT(*) AS count FROM `notifications` WHERE receiver_user_id = ?', [user_id], (err, result) => {
+            if(err)
+                throw err;
+            cb(result[0].count);
+
+        })
+    }
+
+    static updateUserScore(score, liked_user_id, cb)
+    {
+        db.query('UPDATE user SET score = score + ? WHERE id = ?', [score, liked_user_id], (err, result) => {
+            if (err)
+                throw err;
+            cb();
         })
     }
 
 }
+
 
 module.exports = User;

@@ -37,8 +37,12 @@ router.route('/chat')
                         res.locals.profile.sender_user_name = req.session.user.user_name;
                         res.locals.profile.sender_user_id = req.session.user.id;
 
-
-                        res.render('chat');
+                        User.countUserNotification(req.session.user.id, (count) => {
+                            res.locals.count_notif = count;
+                            res.locals.user_name = req.session.user.user_name;
+                            req.session.query = req.query.user_name;
+                            res.render('chat');
+                        });
                     }
                     else
                     {
@@ -55,10 +59,11 @@ router.route('/chat')
                 res.status(404).send('404 No Permission');
             }
         });
-    });
+    })
 
-
-
-
+    .post(auth, (req, res) => {
+        res.redirect('chat?user_name='+req.session.query);
+        req.session.query = undefined;
+});
 
 module.exports = router;
