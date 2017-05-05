@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `matcha`.`user` (
   `date_connexion` DATETIME NULL,
   `activated` TINYINT(1) NULL DEFAULT 0,
   `token` VARCHAR(255) NULL,
+  `age` INT DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC))
 ENGINE = InnoDB;

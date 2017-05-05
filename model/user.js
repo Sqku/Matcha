@@ -350,7 +350,7 @@ class User {
         let lat_2 = mylat + (dist/69);
         let gender = "";
 
-
+        let filter_age = ""
 
         if(sex_orientation == "bisexual" && sexe == "woman")
             gender = 'WHERE (user.gender = "man" OR user.gender = "woman") AND';

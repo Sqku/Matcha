@@ -35,6 +35,8 @@ router.route('/register')
         let dateSplit = req.body.date_of_birth.split("/");
         let date_of_birth = new Date(Date.UTC(dateSplit[2], dateSplit[1] - 1, dateSplit[0]));
         let token = sha256(req.body.email + Date.now());
+        let now = new Date();
+        let date_age = now.getFullYear() - parseInt(dateSplit[2]);
 
         User.create({
             first_name: req.body.first_name,
@@ -45,7 +47,8 @@ router.route('/register')
             date_of_birth : date_of_birth,
             gender : req.body.gender,
             salt : salt,
-            token : token
+            token : token,
+            age : date_age,
         }, () => {
             User.sendEmail(req.body.email, token, req.get('host'), req.body.user_name);
             User.findUser(req.body.user_name, (result) => {
