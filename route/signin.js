@@ -27,14 +27,14 @@ router.route('/signin')
            {
                if (req.session.query_string)
                {
-                   let redirectTo = req.session.redirectTo !== undefined ? req.session.redirectTo+"?user_name="+req.session.query_string.user_name : 'myProfile';
+                   let redirectTo = (req.session.redirectTo !== undefined || req.session.redirectTo == 'logout') ? req.session.redirectTo+"?user_name="+req.session.query_string.user_name : 'myProfile';
                    req.session.redirectTo = undefined;
                    req.session.query_string = undefined;
                    res.redirect(redirectTo);
                }
                else
                {
-                   let redirectTo = req.session.redirectTo !== undefined ? req.session.redirectTo : 'myProfile';
+                   let redirectTo = (req.session.redirectTo !== undefined || req.session.redirectTo == 'logout') ? req.session.redirectTo : 'myProfile';
                    req.session.redirectTo = undefined;
                    res.redirect(redirectTo);
                }

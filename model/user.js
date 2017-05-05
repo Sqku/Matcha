@@ -342,9 +342,16 @@ class User {
             });
     }
 
-    static suggestedProfiles(user_id, sex_orientation, sexe, cb)
+    static suggestedProfiles(user_id, mylat, mylng, dist, sex_orientation, sexe, cb)
     {
+        let lng_1 = mylng - dist / Math.abs(Math.cos(mylat * (Math.PI / 180)) * 69);
+        let lng_2 = mylng + dist / Math.abs(Math.cos(mylat * (Math.PI / 180)) * 69);
+        let lat_1 = mylat - (dist/69);
+        let lat_2 = mylat + (dist/69);
         let gender = "";
+
+
+
         if(sex_orientation == "bisexual" && sexe == "woman")
             gender = 'WHERE (user.gender = "man" OR user.gender = "woman") AND';
         else if(sex_orientation == "bisexual" && sexe == "man" )
@@ -357,8 +364,8 @@ class User {
             gender = 'WHERE (user.gender = "man" AND (profil.sex_orientation = "heterosexual" OR profil.sex_orientation = "bisexual")) AND';
         else if (sex_orientation == "heterosexual" && sexe == "man" )
             gender = 'WHERE (user.gender = "woman" AND (profil.sex_orientation = "heterosexual" OR profil.sex_orientation = "bisexual")) AND';
-        db.query('SELECT profil.*, user.user_name, user.score, user.gender, user.date_of_birth, user.activated FROM profil, user ' + gender + ' profil.user_id = user.id AND user.activated = 1 AND NOT EXISTS (SELECT * FROM `block` AS b WHERE b.block_user_id = ? AND b.blocked_user_id = user.id)',
-            [user_id], (err, result) => {
+        db.query('SELECT profil.*, user.user_name, user.score, user.gender, user.date_of_birth, user.activated, (3956 * 2 * ASIN(SQRT( POWER(SIN(( ? - profil.lat) *  pi()/180 / 2), 2) + COS(? * pi()/180) * COS(profil.lat * pi()/180) * POWER(SIN((? - profil.lng) * pi()/180 / 2), 2) ))) as distance FROM profil, user ' + gender + ' (profil.user_id = user.id AND user.activated = 1) AND NOT EXISTS (SELECT * FROM `block` AS b WHERE b.block_user_id = ? AND b.blocked_user_id = user.id) AND profil.lng between ? and ? and profil.lat between ? and ? HAVING distance < ?',
+            [mylat, mylat, mylng, user_id, lng_1, lng_2, lat_1, lat_2, dist], (err, result) => {
             if(err)
                 throw err;
             cb(result);

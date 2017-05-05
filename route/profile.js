@@ -14,7 +14,7 @@ router.route('/profile')
                 res.locals.tags = result;
             }
             User.findProfile(req.session.user.id, (result) => {
-                User.suggestedProfiles(req.session.user.id, result.sex_orientation, req.session.user.gender, (result) => {
+                User.suggestedProfiles(req.session.user.id, result.lat, result.lng, 15000, result.sex_orientation, req.session.user.gender, (result) => {
                     console.log("QQQQQ", result);
                     res.locals.profile = [];
                     if(result)

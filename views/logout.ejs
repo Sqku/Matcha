@@ -62,9 +62,6 @@
 <div class="container">
 
     <div class="page-header">
-        <p>
-            <a href="#" data-title="A propos" data-content="Ici mes informations sur la notification">Notification classique</a>
-        </p>
         <h1>You successfully logout, click <a href="/signin">here</a> to reconnect</h1>
     </div>
 
@@ -82,16 +79,15 @@
 <script src="static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="http://localhost:3000/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="static/js/mustache.js"></script>
-<script type="text/javascript" src="static/js/jquery.notif.js"></script>
 
-<script>
-    let socket = io.connect();
 
-    socket.emit('deco', 'test');
-    socket.on('test', () => {
-        window.alert('test')
-    });
-</script>
+<!--<script>-->
+    <!--let socket = io.connect();-->
+
+    <!--socket.emit('deco', 'test');-->
+    <!--socket.on('test', () => {-->
+        <!--window.alert('test')-->
+    <!--});-->
+<!--</script>-->
 
 <% include fin %>
