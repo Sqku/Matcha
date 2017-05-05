@@ -53,8 +53,9 @@ router.route('/myProfile')
         {
             console.log("body not empty");
             console.log(req.body);
-            User.updateUserLocation(req.body.lat, req.body.lng, req.body.city, req.body.departement, req.body.country, req.session.user.id);
-            res.redirect('myProfile');
+            User.updateUserLocation(req.body.lat, req.body.lng, req.body.city, req.body.departement, req.body.country, req.session.user.id, () => {
+                res.redirect('myProfile');
+            });
         }
 
         else if (req.body.lat === '0' && req.body.lng === '0')
@@ -66,8 +67,9 @@ router.route('/myProfile')
                 where.is(ip, function(err, result1) {
                     if (result1) {
                         console.log(result1);
-                        User.updateUserLocation(result1.get('lat'), result1.get('lng'), result1.get('city'), result1.get('postalCode'), result1.get('country'), req.session.user.id);
-                        res.redirect('myProfile');
+                        User.updateUserLocation(result1.get('lat'), result1.get('lng'), result1.get('city'), result1.get('postalCode'), result1.get('country'), req.session.user.id, () => {
+                            res.redirect('myProfile');
+                        });
                     }
                 });
             });

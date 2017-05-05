@@ -342,34 +342,79 @@ class User {
             });
     }
 
-    static suggestedProfiles(user_id, mylat, mylng, dist, sex_orientation, sexe, cb)
+
+    static suggestedProfiles(user_id, mylat, mylng, dist, sex_orientation, sexe, sort, cb)
     {
         let lng_1 = mylng - dist / Math.abs(Math.cos(mylat * (Math.PI / 180)) * 69);
         let lng_2 = mylng + dist / Math.abs(Math.cos(mylat * (Math.PI / 180)) * 69);
         let lat_1 = mylat - (dist/69);
         let lat_2 = mylat + (dist/69);
         let gender = "";
+        let sort_query = "";
 
-        let filter_age = ""
+        if (sort == "all")
+            sort_query = "";
+        else if (sort == "age")
+            sort_query = " ORDER BY age";
+        else if (sort == "location")
+            sort_query = " ORDER BY distance";
+        else if (sort == "tags")
+            sort_query = " ORDER BY count_tags.count";
+        else if (sort == "popularity")
+            sort_query = " ORDER BY score";
+
+
+        let filter_age_left = 18;
+        let filter_age_right = 28;
+        let filter_popularity_left = 0;
+        let filter_popularity_right = 50;
+
+
+        let filter_age = " AND (user.age between " + filter_age_left + " AND " + filter_age_right + ") ";
+        let filter_popularity = " (user.score between " + filter_popularity_left + " AND " + filter_popularity_right + ") ";
+        // dist = filter_location;
+
+        let tag_limit = 1;
+        let filter_tags = [ 'blue', 'yellow', 'black' ];
+        let tags = "";
+        for (k in filter_tags)
+        {
+            if(tags == "")
+                tags = "'"+filter_tags[k]+"'";
+            else
+                tags = tags + ", " + "'"+filter_tags[k]+"'";
+        }
+        console.log("filter tags : ",tags);
+
+        // let filter_tags = '(SELECT COUNT(profil.user_id) AS count, profil.user_id FROM profil LEFT JOIN user_interet ON user_interet.user_id = profil.user_id LEFT JOIN interets ON interets.id = user_interet.interets_id WHERE interets.tag IN (' + selected_tags + ') GROUP BY profil.user_id) AS count_tags ';
 
         if(sex_orientation == "bisexual" && sexe == "woman")
-            gender = 'WHERE (user.gender = "man" OR user.gender = "woman") AND';
+            gender = '(user.gender = "man" OR user.gender = "woman") AND';
         else if(sex_orientation == "bisexual" && sexe == "man" )
-            gender = 'WHERE (user.gender = "man" OR user.gender = "woman") AND';
+            gender = '(user.gender = "man" OR user.gender = "woman") AND';
         else if (sex_orientation == "homosexual" && sexe == "woman" )
-            gender = 'WHERE (user.gender = "woman" AND (profil.sex_orientation = "homosexual" OR profil.sex_orientation = "bisexual")) AND';
+            gender = '(user.gender = "woman" AND (profil.sex_orientation = "homosexual" OR profil.sex_orientation = "bisexual")) AND';
         else if (sex_orientation == "homosexual" && sexe == "man" )
-            gender = 'WHERE (user.gender = "man" AND (profil.sex_orientation = "homosexual" OR profil.sex_orientation = "bisexual")) AND';
+            gender = '(user.gender = "man" AND (profil.sex_orientation = "homosexual" OR profil.sex_orientation = "bisexual")) AND';
         else if (sex_orientation == "heterosexual" && sexe == "woman" )
-            gender = 'WHERE (user.gender = "man" AND (profil.sex_orientation = "heterosexual" OR profil.sex_orientation = "bisexual")) AND';
+            gender = '(user.gender = "man" AND (profil.sex_orientation = "heterosexual" OR profil.sex_orientation = "bisexual")) AND';
         else if (sex_orientation == "heterosexual" && sexe == "man" )
-            gender = 'WHERE (user.gender = "woman" AND (profil.sex_orientation = "heterosexual" OR profil.sex_orientation = "bisexual")) AND';
-        db.query('SELECT profil.*, user.user_name, user.score, user.gender, user.date_of_birth, user.activated, (3956 * 2 * ASIN(SQRT( POWER(SIN(( ? - profil.lat) *  pi()/180 / 2), 2) + COS(? * pi()/180) * COS(profil.lat * pi()/180) * POWER(SIN((? - profil.lng) * pi()/180 / 2), 2) ))) as distance FROM profil, user ' + gender + ' (profil.user_id = user.id AND user.activated = 1) AND NOT EXISTS (SELECT * FROM `block` AS b WHERE b.block_user_id = ? AND b.blocked_user_id = user.id) AND profil.lng between ? and ? and profil.lat between ? and ? HAVING distance < ?',
+            gender = '(user.gender = "woman" AND (profil.sex_orientation = "heterosexual" OR profil.sex_orientation = "bisexual")) AND';
+        // db.query('SELECT profil.profile_picture, profil.user_id, user.age, user.user_name, user.score, user.gender, user.activated, (3956 * 2 * ASIN(SQRT( POWER(SIN(( ? - profil.lat) *  pi()/180 / 2), 2) + COS(? * pi()/180) * COS(profil.lat * pi()/180) * POWER(SIN((? - profil.lng) * pi()/180 / 2), 2) ))) as distance FROM profil, user ' + gender + ' (profil.user_id = user.id AND user.activated = 1) AND NOT EXISTS (SELECT * FROM `block` AS b WHERE b.block_user_id = ? AND b.blocked_user_id = user.id) AND profil.lng between ? and ? and profil.lat between ? and ? ' + filter_age + filter_popularity + ' HAVING distance < ?' + sort_query,
+        //     [mylat, mylat, mylng, user_id, lng_1, lng_2, lat_1, lat_2, dist], (err, result) => {
+        //     if(err)
+        //         throw err;
+        //     cb(result);
+        // })
+
+        db.query('SELECT profil.profile_picture, profil.user_id, user.age, user.user_name, user.score, user.gender, user.activated, (3956 * 2 * ASIN(SQRT( POWER(SIN(( ? - profil.lat) *  pi()/180 / 2), 2) + COS(? * pi()/180) * COS(profil.lat * pi()/180) * POWER(SIN((? - profil.lng) * pi()/180 / 2), 2) ))) as distance FROM profil LEFT JOIN user ON user.id = profil.user_id WHERE profil.user_id IN (SELECT count_tags.user_id FROM (SELECT COUNT(profil.user_id) AS count, profil.user_id FROM profil LEFT JOIN user_interet ON user_interet.user_id = profil.user_id LEFT JOIN interets ON interets.id = user_interet.interets_id WHERE interets.tag IN ('+ tags +') GROUP BY profil.user_id) AS count_tags WHERE count_tags.count >= '+ tag_limit +') AND ' + gender + filter_popularity + filter_age + sort_query,
             [mylat, mylat, mylng, user_id, lng_1, lng_2, lat_1, lat_2, dist], (err, result) => {
-            if(err)
-                throw err;
-            cb(result);
+                if(err)
+                    throw err;
+                cb(result);
         })
+
+
     }
 
     static userStatus(user_id, status, cb)
