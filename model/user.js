@@ -343,7 +343,7 @@ class User {
     }
 
 
-    static suggestedProfiles(user_id, mylat, mylng, dist, sex_orientation, sexe, sort, cb)
+    static suggestedProfiles(user_id, mylat, mylng, dist, sex_orientation, sexe, filter_tags, search_tags, filter_age_left, filter_age_right, filter_popularity_left, filter_popularity_right, sort, cb)
     {
         let lng_1 = mylng - dist / Math.abs(Math.cos(mylat * (Math.PI / 180)) * 69);
         let lng_2 = mylng + dist / Math.abs(Math.cos(mylat * (Math.PI / 180)) * 69);
@@ -355,37 +355,37 @@ class User {
         if (sort == "all")
             sort_query = " ORDER BY distance, count_tags.count DESC, score DESC, age";
         else if (sort == "age")
-            sort_query = " ORDER BY age";
+            sort_query = " ORDER BY user.age";
         else if (sort == "location")
             sort_query = " ORDER BY distance";
         else if (sort == "tags")
             sort_query = " ORDER BY count_tags.count DESC";
         else if (sort == "popularity")
-            sort_query = " ORDER BY score DESC";
-
-
-        let filter_age_left = 18;
-        let filter_age_right = 28;
-        let filter_popularity_left = 0;
-        let filter_popularity_right = 50;
+            sort_query = " ORDER BY user.score DESC";
 
 
         let filter_age = " AND (user.age between " + filter_age_left + " AND " + filter_age_right + ") ";
         let filter_popularity = " (user.score between " + filter_popularity_left + " AND " + filter_popularity_right + ") ";
         // dist = filter_location;
 
-        let tag_limit = 1;
-        let filter_tags = [ 'blue', 'yellow', 'black' ];
+        let tag_limit = 0;
         let tags = "";
-        for (k in filter_tags)
+
+        let k = 0;
+        if (Array.isArray(filter_tags))
         {
-            if(tags == "")
-                tags = "'"+filter_tags[k]+"'";
-            else
-                tags = tags + ", " + "'"+filter_tags[k]+"'";
-            // tag_limit++;
+            for (k in filter_tags)
+            {
+                if(tags == "")
+                    tags = "'"+filter_tags[k]+"'";
+                else
+                    tags = tags + ", " + "'"+filter_tags[k]+"'";
+                if (search_tags == 1)
+                    tag_limit++;
+            }
         }
-        console.log("filter tags : ",tags);
+        else
+            tags = "'"+filter_tags+"'";
 
         // let filter_tags = '(SELECT COUNT(profil.user_id) AS count, profil.user_id FROM profil LEFT JOIN user_interet ON user_interet.user_id = profil.user_id LEFT JOIN interets ON interets.id = user_interet.interets_id WHERE interets.tag IN (' + selected_tags + ') GROUP BY profil.user_id) AS count_tags ';
 

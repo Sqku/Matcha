@@ -47,29 +47,41 @@
                                 </select>
                             </div>
                         </div>
-                        <div style="text-align: right">
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label for="">Sort</label>
+                                <select id="sort" name="sort" class="form-control" value="">
+                                    <option value="all">All</option>
+                                    <option value="age">Age</option>
+                                    <option value="location">Location</option>
+                                    <option value="popularity">Popularity</option>
+                                    <option value="tags">Tags</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6" style="text-align: right">
+                                <button type="submit" class="btn btn-lg btn-info" value="submit">Filter</button>
+                            </div>
 
-                            <button type="submit" class="btn btn-lg btn-info" value="submit">Filter</button>
                         </div>
                     </div>
 
                 </form>
 
-                <div class="row">
-                    <legend>Sort</legend>
-                    <form method="post">
-                        <div class="col-sm-6 form-group">
-                            <select id="sort" name="sort" class="form-control">
-                                <option value="all">All</option>
-                                <option value="age">Age</option>
-                                <option value="location">Location</option>
-                                <option value="popularity">Popularity</option>
-                                <option value="tags">Tags</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-lg btn-info" value="submit">Sort</button>
-                    </form>
-                </div>
+                <!--<div class="row">-->
+                    <!--<legend>Sort</legend>-->
+                    <!--<form method="post">-->
+                        <!--<div class="col-sm-6 form-group">-->
+                            <!--<select id="sort" name="sort" class="form-control">-->
+                                <!--<option value="all">All</option>-->
+                                <!--<option value="age">Age</option>-->
+                                <!--<option value="location">Location</option>-->
+                                <!--<option value="popularity">Popularity</option>-->
+                                <!--<option value="tags">Tags</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                        <!--<button type="submit" class="btn btn-lg btn-info" value="submit">Sort</button>-->
+                    <!--</form>-->
+                <!--</div>-->
                 <% for (k in locals.profile)
                 {
                 %>
@@ -107,12 +119,40 @@
 </script>
 
 <script>
+    let age_min = 18;
+    let age_max = 100;
+    let score_min = 0;
+    let score_max = 1000;
+    let location_filter = 15000;
+
+
+    if('<%=locals.filter_age_left%>' !== '')
+    {
+        age_min = parseInt(<%=locals.filter_age_left%>);
+    }
+    if('<%=locals.filter_age_right%>' !== '')
+    {
+        age_max = parseInt(<%=locals.filter_age_right%>);
+    }
+    if('<%=locals.filter_popularity_left%>' !== '')
+    {
+        score_min = parseInt('<%=locals.filter_popularity_left%>');
+    }
+    if('<%=locals.filter_popularity_right%>' !== '')
+    {
+        score_max = parseInt('<%=locals.filter_popularity_right%>');
+    }
+    if('<%=locals.filter_dist%>' !== '')
+    {
+        location_filter = parseInt(<%=locals.filter_dist%>);
+    }
+
     $( function() {
         $( "#age-range" ).slider({
             range: true,
             min: 18,
             max: 100,
-            values: [ 18, 100],
+            values: [ age_min, age_max],
             slide: function( event, ui ) {
                 $( "#age" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
             }
@@ -125,8 +165,8 @@
         $( "#popularity-range" ).slider({
             range: true,
             min: 0,
-            max: 100,
-            values: [ 0, 100],
+            max: 1000,
+            values: [ score_min, score_max],
             slide: function( event, ui ) {
                 $( "#score" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
             }
@@ -138,9 +178,9 @@
     $( function() {
         $( "#location-range-min" ).slider({
             range: "min",
-            value: 10,
+            value: location_filter,
             min: 1,
-            max: 5000,
+            max: 15000,
             slide: function( event, ui ) {
                 $( "#location" ).val( ui.value + "miles" );
             }
@@ -149,7 +189,13 @@
         $( "#location_id" ).val($( "#location-range-min" ).slider( "value" ));
     } );
 
+    console.log("allo :", '<%=locals.filter_tags%>')
+    if ('<%=locals.filter_tags%>' !== '')
+        $('#tags option:selected').text('<%=locals.filter_tags%>');
 
+    if('<%=locals.filter_sort%>' !== '')
+        <!--$( "#sort option:selected" ).val('<%=locals.filter_sort%>')-->
+        $( "#sort" ).val('<%=locals.filter_sort%>')
 
 
 </script>

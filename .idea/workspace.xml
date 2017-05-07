@@ -4,7 +4,8 @@
     <list default="true" id="9ce63303-a5ea-4ba8-a01a-b90d5d05bbe4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/user.js" afterPath="$PROJECT_DIR$/model/user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/query.sql" afterPath="$PROJECT_DIR$/query.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/profile.js" afterPath="$PROJECT_DIR$/route/profile.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/profile.ejs" afterPath="$PROJECT_DIR$/views/profile.ejs" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,18 +31,18 @@
       <file leaf-file-name="user_profile.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/route/user_profile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
-              <caret line="48" column="37" lean-forward="false" selection-start-line="48" selection-start-column="37" selection-end-line="48" selection-end-column="37" />
+            <state relative-caret-position="270">
+              <caret line="126" column="0" lean-forward="true" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="profile.ejs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/profile.ejs">
+      <file leaf-file-name="search.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/route/search.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1575">
-              <caret line="105" column="20" lean-forward="false" selection-start-line="105" selection-start-column="20" selection-end-line="105" selection-end-column="20" />
+            <state relative-caret-position="704">
+              <caret line="51" column="70" lean-forward="false" selection-start-line="51" selection-start-column="70" selection-end-line="51" selection-end-column="70" />
               <folding />
             </state>
           </provider>
@@ -50,7 +51,7 @@
       <file leaf-file-name="myProfile.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/route/myProfile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1185">
+            <state relative-caret-position="1087">
               <caret line="79" column="38" lean-forward="false" selection-start-line="79" selection-start-column="38" selection-end-line="79" selection-end-column="38" />
               <folding />
             </state>
@@ -60,8 +61,8 @@
       <file leaf-file-name="editProfile.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/route/editProfile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="37" column="23" lean-forward="false" selection-start-line="37" selection-start-column="23" selection-end-line="40" selection-end-column="61" />
+            <state relative-caret-position="480">
+              <caret line="37" column="20" lean-forward="true" selection-start-line="37" selection-start-column="20" selection-end-line="40" selection-end-column="61" />
               <folding>
                 <marker date="1493919539000" expanded="true" signature="2761:4571" ph="{...}" />
               </folding>
@@ -69,21 +70,43 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="register.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/route/register.js">
+      <file leaf-file-name="profile.ejs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/profile.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="855">
-              <caret line="57" column="0" lean-forward="true" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+            <state relative-caret-position="1714">
+              <caret line="118" column="9" lean-forward="true" selection-start-line="118" selection-start-column="9" selection-end-line="118" selection-end-column="9" />
+              <folding>
+                <element signature="e#3410#3435#0#HTML" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="editProfile.ejs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/editProfile.ejs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-39">
+              <caret line="152" column="0" lean-forward="true" selection-start-line="152" selection-start-column="0" selection-end-line="153" selection-end-column="76" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="profile.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="myPictures.ejs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/myPictures.ejs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="200">
+              <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="76" selection-end-column="76" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="profile.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/route/profile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="27" column="144" lean-forward="false" selection-start-line="27" selection-start-column="144" selection-end-line="27" selection-end-column="144" />
+            <state relative-caret-position="473">
+              <caret line="130" column="79" lean-forward="false" selection-start-line="130" selection-start-column="79" selection-end-line="130" selection-end-column="79" />
               <folding />
             </state>
           </provider>
@@ -99,33 +122,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="form_validator.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/form_validator.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1245">
-              <caret line="83" column="16" lean-forward="false" selection-start-line="83" selection-start-column="16" selection-end-line="83" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="signin.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/route/signin.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="795">
-              <caret line="53" column="0" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="27" />
-              <folding>
-                <marker date="1493975628000" expanded="true" signature="4770:4772" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="user.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/user.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-6">
-              <caret line="355" column="80" lean-forward="false" selection-start-line="355" selection-start-column="80" selection-end-line="355" selection-end-column="80" />
+            <state relative-caret-position="803">
+              <caret line="363" column="41" lean-forward="false" selection-start-line="363" selection-start-column="41" selection-end-line="363" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -200,17 +201,17 @@
         <option value="$PROJECT_DIR$/views/dashboard.ejs" />
         <option value="$PROJECT_DIR$/views/matches.ejs" />
         <option value="$PROJECT_DIR$/views/search.ejs" />
-        <option value="$PROJECT_DIR$/views/profile.ejs" />
         <option value="$PROJECT_DIR$/views/myProfile.ejs" />
-        <option value="$PROJECT_DIR$/route/user_profile.js" />
         <option value="$PROJECT_DIR$/views/logout.ejs" />
         <option value="$PROJECT_DIR$/route/signin.js" />
         <option value="$PROJECT_DIR$/route/register.js" />
         <option value="$PROJECT_DIR$/matcha.sql" />
         <option value="$PROJECT_DIR$/route/myProfile.js" />
         <option value="$PROJECT_DIR$/query.sql" />
-        <option value="$PROJECT_DIR$/route/profile.js" />
+        <option value="$PROJECT_DIR$/route/user_profile.js" />
         <option value="$PROJECT_DIR$/model/user.js" />
+        <option value="$PROJECT_DIR$/views/profile.ejs" />
+        <option value="$PROJECT_DIR$/route/profile.js" />
       </list>
     </option>
   </component>
@@ -231,8 +232,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="155" />
-    <option name="y" value="121" />
+    <option name="x" value="605" />
+    <option name="y" value="67" />
     <option name="width" value="1917" />
     <option name="height" value="1233" />
   </component>
@@ -488,15 +489,15 @@
       <workItem from="1493807575669" duration="19976000" />
       <workItem from="1493902891505" duration="23600000" />
       <workItem from="1493975386882" duration="19329000" />
-      <workItem from="1494162696202" duration="3284000" />
+      <workItem from="1494162696202" duration="14334000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="559421000" />
+    <option name="totallyTimeSpent" value="570471000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="155" y="121" width="1917" height="1233" extended-state="0" />
+    <frame x="605" y="67" width="1917" height="1233" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20693333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -697,14 +698,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/editProfile.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="152" column="0" lean-forward="true" selection-start-line="152" selection-start-column="0" selection-end-line="153" selection-end-column="76" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/route/matches.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
@@ -721,13 +714,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/myPictures.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="76" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/user_profile.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="290">
@@ -736,13 +722,6 @@
             <marker date="1493922349000" expanded="false" signature="3584:3601" ph="..." />
             <marker date="1493922349000" expanded="false" signature="3654:3671" ph="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/route/search.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="704">
-          <caret line="51" column="70" lean-forward="false" selection-start-line="51" selection-start-column="70" selection-end-line="51" selection-end-column="70" />
         </state>
       </provider>
     </entry>
@@ -771,6 +750,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
           <caret line="27" column="52" lean-forward="false" selection-start-line="27" selection-start-column="52" selection-end-line="27" selection-end-column="52" />
+          <folding>
+            <marker date="1493926006000" expanded="true" signature="7485:7503" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -778,6 +760,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1020">
           <caret line="68" column="9" lean-forward="false" selection-start-line="68" selection-start-column="9" selection-end-line="68" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -785,6 +768,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="615">
           <caret line="41" column="9" lean-forward="false" selection-start-line="41" selection-start-column="9" selection-end-line="41" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -792,6 +776,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1380">
           <caret line="92" column="19" lean-forward="false" selection-start-line="92" selection-start-column="19" selection-end-line="92" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -799,6 +784,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2745">
           <caret line="183" column="22" lean-forward="false" selection-start-line="183" selection-start-column="22" selection-end-line="183" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -850,40 +836,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/route/user_profile.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="48" column="37" lean-forward="false" selection-start-line="48" selection-start-column="37" selection-end-line="48" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/profile.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1575">
-          <caret line="105" column="20" lean-forward="false" selection-start-line="105" selection-start-column="20" selection-end-line="105" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/route/myProfile.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1185">
-          <caret line="79" column="38" lean-forward="false" selection-start-line="79" selection-start-column="38" selection-end-line="79" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/route/editProfile.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="37" column="23" lean-forward="false" selection-start-line="37" selection-start-column="23" selection-end-line="40" selection-end-column="61" />
-          <folding>
-            <marker date="1493919539000" expanded="true" signature="2761:4571" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/query.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -892,18 +844,78 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/route/profile.js">
+    <entry file="file://$PROJECT_DIR$/route/myProfile.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="27" column="144" lean-forward="false" selection-start-line="27" selection-start-column="144" selection-end-line="27" selection-end-column="144" />
+        <state relative-caret-position="1087">
+          <caret line="79" column="38" lean-forward="false" selection-start-line="79" selection-start-column="38" selection-end-line="79" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/route/search.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="704">
+          <caret line="51" column="70" lean-forward="false" selection-start-line="51" selection-start-column="70" selection-end-line="51" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/route/user_profile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="126" column="0" lean-forward="true" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/model/user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6">
-          <caret line="355" column="80" lean-forward="false" selection-start-line="355" selection-start-column="80" selection-end-line="355" selection-end-column="80" />
+        <state relative-caret-position="803">
+          <caret line="363" column="41" lean-forward="false" selection-start-line="363" selection-start-column="41" selection-end-line="363" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/route/editProfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="37" column="20" lean-forward="true" selection-start-line="37" selection-start-column="20" selection-end-line="40" selection-end-column="61" />
+          <folding>
+            <marker date="1493919539000" expanded="true" signature="2761:4571" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/myPictures.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="76" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/editProfile.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-39">
+          <caret line="152" column="0" lean-forward="true" selection-start-line="152" selection-start-column="0" selection-end-line="153" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/profile.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1714">
+          <caret line="118" column="9" lean-forward="true" selection-start-line="118" selection-start-column="9" selection-end-line="118" selection-end-column="9" />
+          <folding>
+            <element signature="e#3410#3435#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/route/profile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="473">
+          <caret line="130" column="79" lean-forward="false" selection-start-line="130" selection-start-column="79" selection-end-line="130" selection-end-column="79" />
           <folding />
         </state>
       </provider>
