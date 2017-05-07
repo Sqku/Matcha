@@ -353,15 +353,15 @@ class User {
         let sort_query = "";
 
         if (sort == "all")
-            sort_query = "";
+            sort_query = " ORDER BY distance, count_tags.count DESC, score DESC, age";
         else if (sort == "age")
             sort_query = " ORDER BY age";
         else if (sort == "location")
             sort_query = " ORDER BY distance";
         else if (sort == "tags")
-            sort_query = " ORDER BY count_tags.count";
+            sort_query = " ORDER BY count_tags.count DESC";
         else if (sort == "popularity")
-            sort_query = " ORDER BY score";
+            sort_query = " ORDER BY score DESC";
 
 
         let filter_age_left = 18;
@@ -383,6 +383,7 @@ class User {
                 tags = "'"+filter_tags[k]+"'";
             else
                 tags = tags + ", " + "'"+filter_tags[k]+"'";
+            // tag_limit++;
         }
         console.log("filter tags : ",tags);
 
@@ -407,7 +408,7 @@ class User {
         //     cb(result);
         // })
 
-        db.query('SELECT profil.profile_picture, profil.user_id, user.age, user.user_name, user.score, user.gender, user.activated, (3956 * 2 * ASIN(SQRT( POWER(SIN(( ? - profil.lat) *  pi()/180 / 2), 2) + COS(? * pi()/180) * COS(profil.lat * pi()/180) * POWER(SIN((? - profil.lng) * pi()/180 / 2), 2) ))) as distance FROM profil LEFT JOIN user ON user.id = profil.user_id WHERE profil.user_id IN (SELECT count_tags.user_id FROM (SELECT COUNT(profil.user_id) AS count, profil.user_id FROM profil LEFT JOIN user_interet ON user_interet.user_id = profil.user_id LEFT JOIN interets ON interets.id = user_interet.interets_id WHERE interets.tag IN ('+ tags +') GROUP BY profil.user_id) AS count_tags WHERE count_tags.count >= '+ tag_limit +') AND ' + gender + filter_popularity + filter_age + sort_query,
+        db.query('SELECT count_tags.count, profil.profile_picture, profil.user_id, user.age, user.user_name, user.score, user.gender, user.activated, (3956 * 2 * ASIN(SQRT( POWER(SIN(( ? - profil.lat) *  pi()/180 / 2), 2) + COS(? * pi()/180) * COS(profil.lat * pi()/180) * POWER(SIN((? - profil.lng) * pi()/180 / 2), 2) ))) as distance FROM profil LEFT JOIN user ON user.id = profil.user_id LEFT JOIN (SELECT count_tags.user_id, count_tags.count FROM (SELECT COUNT(profil.user_id) AS count, profil.user_id FROM profil LEFT JOIN user_interet ON user_interet.user_id = profil.user_id LEFT JOIN interets ON interets.id = user_interet.interets_id WHERE interets.tag IN ('+ tags +') GROUP BY profil.user_id) AS count_tags) AS count_tags ON count_tags.user_id = profil.user_id WHERE profil.user_id IN (SELECT count_tags.user_id FROM (SELECT COUNT(profil.user_id) AS count, profil.user_id FROM profil LEFT JOIN user_interet ON user_interet.user_id = profil.user_id LEFT JOIN interets ON interets.id = user_interet.interets_id WHERE interets.tag IN ('+ tags +') GROUP BY profil.user_id) AS count_tags WHERE count_tags.count >= '+ tag_limit +') AND ' + gender + filter_popularity + filter_age + sort_query,
             [mylat, mylat, mylng, user_id, lng_1, lng_2, lat_1, lat_2, dist], (err, result) => {
                 if(err)
                     throw err;
