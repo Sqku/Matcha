@@ -241,6 +241,7 @@ CREATE TABLE IF NOT EXISTS `matcha`.`messages` (
   `message` MEDIUMTEXT NULL,
   `created_at` DATETIME NULL,
   `user_id` INT NOT NULL,
+  `chat_with` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_messages_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_messages_user1`

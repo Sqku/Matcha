@@ -447,7 +447,7 @@ class User {
 
     static getPreviousMsg(sender_user_id, receiver_user_id, cb)
     {
-        db.query('SELECT * FROM messages WHERE user_id = ? OR user_id = ? LIMIT 30', [sender_user_id, receiver_user_id], (err, result) => {
+        db.query('SELECT * FROM messages WHERE user_id = ? AND chat_with = ? OR user_id = ? AND chat_with = ? ORDER BY messages.created_at LIMIT 30', [sender_user_id, receiver_user_id, receiver_user_id, sender_user_id], (err, result) => {
             if(err)
                 throw err;
             cb(result);
@@ -497,6 +497,35 @@ class User {
             if (err)
                 throw err;
             cb();
+        })
+    }
+
+    static sendEmailPassword(email, token, host, user_name){
+
+        let link = "http://"+host+"/new_password?token="+token+"&user_name="+user_name;
+
+        let mailOptions = {
+            from: 'Matcha', // sender address
+            to: email, // list of receivers
+            subject: 'Matcha - Reset Password', // Subject line
+            text: 'Hello ' +user_name+ ',\n\n\n' +
+            'to reset your password, please click the link below or copy/paste to your browser :\n\n' +link
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+            console.log('Message %s sent: %s', info.messageId, info.response);
+        });
+    }
+
+    static updateUserToken(token, user_id, cb)
+    {
+        db.query('UPDATE user SET token = ? WHERE id = ?', [token, user_id], (err, result) => {
+            if(err)
+                throw err;
+            cb()
         })
     }
 

@@ -27,7 +27,10 @@
         <div class="col-sm-3 col-md-2 sidebar">
             <img src="static/images/tinder_flame.png" id="dashboard_picture" alt="" style="width: 100%">
             <ul class="nav nav-sidebar">
-                <li><a href="/matches">Matches</a></li>
+                <li><a href="/who_visited_me">Who visited me</a></li>
+                <li><a href="/who_liked_me">Who liked me</a></li>
+                <li><a href="/who_i_liked">Who I liked</a></li>
+                <li><a href="/matches">My Matches</a></li>
             </ul>
             <!--<ul class="nav nav-sidebar">-->
             <!--<li><a href="">Nav item again</a></li>-->
@@ -158,7 +161,7 @@
         {
             msgtpl = "<li id='msgtpl' class='left clearfix' >" +
                 "<span class='chat-img1 pull-left'>" +
-                "<img src='static/images/" + message.sender_user_id + ".jpg' width='100%' height='300' class='img-responsive img-circle center-block' alt='Generic placeholder thumbnail'>" +
+                "<img src='static/images/<%=locals.profile_picture1%>' width='100%' height='300' class='img-responsive img-circle center-block' alt='Generic placeholder thumbnail'>" +
                 "</span>" +
                 "<div class='chat-body1 clearfix'>" +
                 "<p>" + ((message !== undefined && message.message !== undefined) ? newLineInP(escapeHtml(message.message)) : '') + "</p>" +
@@ -170,7 +173,7 @@
         {
             msgtpl = "<li id='msgtpl' class='left clearfix admin_chat'>" +
                 "<span class='chat-img1 pull-right'>" +
-                "<img src='static/images/" + message.sender_user_id + ".jpg' width='100%' height='300' class='img-responsive img-circle center-block' alt='Generic placeholder thumbnail'>" +
+                "<img src='static/images/<%=locals.profile_picture2%>' width='100%' height='300' class='img-responsive img-circle center-block' alt='Generic placeholder thumbnail'>" +
                 "</span>" +
                 "<div class='chat-body1 clearfix' style='text-align: right;'>" +
                 "<p>" + ((message !== undefined && message.message !== undefined) ? newLineInP(escapeHtml(message.message)) : '') + "</p>" +

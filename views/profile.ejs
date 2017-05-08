@@ -13,13 +13,12 @@
                                     <input type="text" id="age" name="age" readonly style="border:0; color:#f6931f; font-weight:bold;">
                                 </p>
 
-                                <input type="hidden" id="location_id" name="location" value="">
                                 <div id="age-range"></div>
                             </div>
                             <div class="col-sm-6 form-group">
                                 <p>
                                     <label for="location">location between 0 and :</label>
-                                    <input type="text" id="location" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                    <input type="text" id="location" name="location" readonly style="border:0; color:#f6931f; font-weight:bold;">
                                 </p>
 
                                 <div id="location-range-min"></div>
@@ -142,6 +141,8 @@
     {
         score_max = parseInt('<%=locals.filter_popularity_right%>');
     }
+
+
     if('<%=locals.filter_dist%>' !== '')
     {
         location_filter = parseInt(<%=locals.filter_dist%>);
@@ -186,12 +187,20 @@
             }
         });
         $( "#location" ).val($( "#location-range-min" ).slider( "value" ) + "miles" );
-        $( "#location_id" ).val($( "#location-range-min" ).slider( "value" ));
+//        $( "#location_id" ).val($( "#location-range-min" ).slider( "value" ));
     } );
 
+
     console.log("allo :", '<%=locals.filter_tags%>')
+    console.log($('#tags option:selected'))
     if ('<%=locals.filter_tags%>' !== '')
-        $('#tags option:selected').text('<%=locals.filter_tags%>');
+    {
+        $('#filter-options').text('<%=locals.filter_tags%>');
+        var sVal = $('select[name=tags] option:first').val()
+        console.log("ALLOOOO", sVal);
+        $('#tags').selectpicker.selectAll();
+    }
+
 
     if('<%=locals.filter_sort%>' !== '')
         <!--$( "#sort option:selected" ).val('<%=locals.filter_sort%>')-->

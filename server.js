@@ -14,6 +14,10 @@ let user_profile = require('./route/user_profile');
 let search = require('./route/search');
 let chat = require('./route/chat');
 let matches = require('./route/matches');
+let who_visited_me = require('./route/who_visited_me');
+let who_i_liked = require('./route/who_i_liked');
+let who_liked_me = require('./route/who_liked_me');
+let lost_password = require('./route/lost_password');
 let logout = require('./route/logout');
 let functions = require('./middleware/functions');
 let User = require('./model/user');
@@ -65,6 +69,10 @@ app.use('/', user_profile);
 app.use('/', search);
 app.use('/', logout);
 app.use('/', matches);
+app.use('/', who_visited_me);
+app.use('/', who_i_liked);
+app.use('/', who_liked_me);
+app.use('/', lost_password);
 
 
 app.get('/', (req, res) => {
@@ -121,10 +129,11 @@ io.on('connection', function(socket){
 
         message.created_at = new Date();
 
-        db.query('INSERT INTO messages SET user_id = ?, message = ?, created_at = ?', [
+        db.query('INSERT INTO messages SET user_id = ?, message = ?, created_at = ?, chat_with = ?', [
             message.sender_user_id,
             functions.escapeHtml(message.message),
-            message.created_at
+            message.created_at,
+            message.receiver_user_id
         ], (err) => {
             if(err){
                 throw err;

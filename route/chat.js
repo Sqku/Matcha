@@ -24,32 +24,44 @@ router.route('/chat')
         User.findUser(req.query.user_name, (result) => {
             if(result)
             {
-                User.isMatch(req.session.user.id, result.id, (count) => {
-                    if(count == 2)
-                    {
-                        res.locals.profile = result;
-                        res.locals.user = req.session.user;
-                        req.session.receiver_id = result.id;
-                        req.session.sender_user = result.user_name;
-                        res.locals.profile = result;
-                        res.locals.profile.receiver_user_name = result.user_name;
-                        res.locals.profile.receiver_user_id = result.id;
-                        res.locals.profile.sender_user_name = req.session.user.user_name;
-                        res.locals.profile.sender_user_id = req.session.user.id;
+                res.locals.profile = result;
+                res.locals.user = req.session.user;
+                req.session.receiver_id = result.id;
+                req.session.sender_user = result.user_name;
+                // res.locals.profile = result;
+                res.locals.profile.receiver_user_name = result.user_name;
+                res.locals.profile.receiver_user_id = result.id;
+                res.locals.profile.sender_user_name = req.session.user.user_name;
+                res.locals.profile.sender_user_id = req.session.user.id;
+                console.log("ALLOOOOOOOOOO : ",req.session);
 
-                        User.countUserNotification(req.session.user.id, (count) => {
-                            res.locals.count_notif = count;
-                            res.locals.user_name = req.session.user.user_name;
-                            req.session.query = req.query.user_name;
-                            res.render('chat');
+                User.findProfile(result.id, (result) => {
+                    if(result)
+                        res.locals.profile_picture1 = result.profile_picture;
+                    User.findProfile(req.session.user.id, (result) => {
+                        if (result)
+                            res.locals.profile_picture2 = result.profile_picture;
+
+                        User.isMatch(req.session.user.id, req.session.receiver_id, (count) => {
+                            if(count == 2)
+                            {
+
+                                User.countUserNotification(req.session.user.id, (count) => {
+                                    res.locals.count_notif = count;
+                                    res.locals.user_name = req.session.user.user_name;
+                                    req.session.query = req.query.user_name;
+                                    res.render('chat');
+
+                                });
+                            }
+                            else
+                            {
+                                res.locals.errors = "This user doesnt exist";
+                                console.log("you dont match this user");
+                                res.status(404).send('404 No Permission');
+                            }
                         });
-                    }
-                    else
-                    {
-                        res.locals.errors = "This user doesnt exist";
-                        console.log("you dont match this user");
-                        res.status(404).send('404 No Permission');
-                    }
+                    });
                 });
             }
             else
