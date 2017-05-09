@@ -12,6 +12,9 @@ let publicIp = require('public-ip');
         .get(auth, (req, res) => {
 
             User.findUser(req.query.user_name, (result) => {
+                if(req.query.user_name == req.session.user.user_name)
+                    res.redirect('myProfile');
+
                 console.log(req.query.user_name);
                 if(result)
                 {

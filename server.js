@@ -124,7 +124,7 @@ io.on('connection', function(socket){
 
         console.log("MESSAGE :", message)
         message.message = message.message.trim();
-        if(message.message === '')
+        if(message.message === '' || message.message.length > 1500)
         {
             return false;
         }
