@@ -18,6 +18,7 @@ let who_visited_me = require('./route/who_visited_me');
 let who_i_liked = require('./route/who_i_liked');
 let who_liked_me = require('./route/who_liked_me');
 let lost_password = require('./route/lost_password');
+let new_password = require('./route/new_password');
 let logout = require('./route/logout');
 let functions = require('./middleware/functions');
 let User = require('./model/user');
@@ -73,6 +74,7 @@ app.use('/', who_visited_me);
 app.use('/', who_i_liked);
 app.use('/', who_liked_me);
 app.use('/', lost_password);
+app.use('/', new_password);
 
 
 app.get('/', (req, res) => {

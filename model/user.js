@@ -520,12 +520,47 @@ class User {
         });
     }
 
+    static countVisit(visited_user_id, cb)
+    {
+        db.query('SELECT COUNT(*) AS count FROM `visit` WHERE visited_user_id = ?', [visited_user_id], (err, result) => {
+            if (err)
+                throw err;
+            cb(result[0].count);
+        })
+    }
+
     static updateUserToken(token, user_id, cb)
     {
-        db.query('UPDATE user SET token = ? WHERE id = ?', [token, user_id], (err, result) => {
+        db.query('UPDATE user SET token = ?, activated = 0 WHERE id = ?', [token, user_id], (err, result) => {
+            if (err)
+                throw err;
+            cb();
+        })
+    }
+
+    static setReport(block_user_id, blocked_user_id, cb)
+    {
+        db.query('INSERT INTO `report` SET report_user_id = ?, reported_user_id = ?', [block_user_id, blocked_user_id], (err, result) => {
             if(err)
                 throw err;
-            cb()
+        })
+    }
+
+    static isReported(block_user_id, blocked_user_id, cb)
+    {
+        db.query('SELECT COUNT(*) AS count FROM `report` AS b WHERE b.report_user_id = ? AND b.report_user_id = ?', [block_user_id, blocked_user_id], (err, result) => {
+            if(err)
+                throw err;
+            cb(result[0].count);
+        })
+    }
+
+    static updatePassword(user_name, salt, password, cb)
+    {
+        db.query('UPDATE user SET salt = ?, password = ?, activated = 1, token = "" WHERE user_name = ?', [salt, password, user_name], (err, result) => {
+            if (err)
+                throw err;
+            cb();
         })
     }
 

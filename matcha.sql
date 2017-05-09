@@ -209,6 +209,29 @@ CREATE TABLE IF NOT EXISTS `matcha`.`visit` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `matcha`.`report`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matcha`.`report` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `report` TINYINT(1) NULL,
+  `report_user_id` INT NOT NULL,
+  `reported_user_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_report_user1_idx` (`report_user_id` ASC),
+  INDEX `fk_report_user2_idx` (`reported_user_id` ASC),
+  CONSTRAINT `fk_report_user1`
+  FOREIGN KEY (`report_user_id`)
+  REFERENCES `matcha`.`user` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_report_user2`
+  FOREIGN KEY (`reported_user_id`)
+  REFERENCES `matcha`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `matcha`.`block`

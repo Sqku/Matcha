@@ -31,11 +31,11 @@ router.route('/lost_password')
                 {
                     if(result.activated === 1)
                     {
-                        let token = sha256(req.body.email + Date.now());
-                        User.sendEmailPassword(result.email, token, req.get('host'), req.body.user_name);
+                        let token = sha256(result.email + Date.now()).toString();
 
+                        User.sendEmailPassword(result.email, token, req.get('host'), req.body.user_name);
                         User.updateUserToken(token, result.id, () => {
-                            req.session.success_pass = "An email has been sent to "+req.body.user_name;
+                            req.session.success_pass = "An email has been sent to "+req.body.user_name+". Follow email's instructions to reset your password.";
                             res.redirect('lost_password');
                         });
                     }

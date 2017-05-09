@@ -39,27 +39,17 @@
                                     visited
                                 </div>
                                 <div class="col-xs-8" style="text-align: right">
-                                    <strong style="color: orangered;">20</strong> x 123 = 1230
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-body" style="padding-bottom: 0">
-                            <div class="row">
-                                <div class="col-xs-4">
-                                    liked
-                                </div>
-                                <div class="col-xs-8" style="text-align: right">
-                                    <strong style="color: orangered;">20</strong> x 123 = 1230
+                                    <strong style="color: orangered;">5</strong> x <%=locals.count_visit%> = <%= 5 * locals.count_visit%>
                                 </div>
                             </div>
                         </div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-xs-4">
-                                    matches
+                                    liked
                                 </div>
                                 <div class="col-xs-8" style="text-align: right">
-                                    <strong style="color: orangered;">20</strong> x 123 = 1230
+                                    <strong style="color: orangered;">20</strong> x <%=locals.count_like%> = <%= 20 * locals.count_like%>
                                 </div>
                             </div>
                         </div>
@@ -69,7 +59,7 @@
                                     <h5>Total score</h5>
                                 </div>
                                 <div class="col-xs-8">
-                                    <h5 style="text-align: right; font-size: large">= 1230</h5>
+                                    <h5 style="text-align: right; font-size: large">= <%=locals.score%></h5>
                                 </div>
                             </div>
                         </div>

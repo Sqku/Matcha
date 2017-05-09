@@ -50,7 +50,7 @@
                             visited
                         </div>
                         <div class="col-xs-8" style="text-align: right">
-                            <strong style="color: orangered;">10</strong> x 123 = 1230
+                            <strong style="color: orangered;">5</strong> x <%=locals.count_visit%> = <%= 5 * locals.count_visit%>
                         </div>
                     </div>
                 </div>
@@ -118,13 +118,19 @@
                         </div>
                     </div>
                     <div class="col-xs-12" style="text-align: right; margin-top: 20px">
-                    <button type="button" class="btn btn-warning">report as a fake</button>
+                        <form method="post">
+                            <%
+                            if (locals.profile.reported !== undefined && locals.profile.reported== "true") {
+                            %><button type="submit" id="report_btn" class="btn btn-warning">report as a fake</button><%
+                            }
+                            %>
+                            <input type="hidden" name="report" id="report" value="">
+                        </form>
                     </div>
                     <div class="col-xs-12" style="text-align: right; margin-top: 20px">
                         <!--<button type="button" class="btn btn-danger">block this user</button>-->
                         <form action="" method="post">
                             <%
-                                console.log(locals.profile.blocked);
                             if (locals.profile.blocked !== undefined && locals.profile.blocked == "true") {
                             %><button type="submit" id="block_btn" class="btn btn-danger">Block this user</button><%
                             } else {
@@ -266,6 +272,10 @@
 
     $('#unblock_btn').click(function () {
         document.getElementById('unblock').value = "unblock";
+    })
+
+    $('#report_btn').click(function () {
+        document.getElementById('report').value = "report";
     })
 
     socket.emit('visit', {

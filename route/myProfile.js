@@ -37,9 +37,19 @@ router.route('/myProfile')
                     lng : profile.lng
                 };
                 res.locals.profile.user_location = "true";
-                User.countUserNotification(req.session.user.id, (count) => {
-                    res.locals.count_notif = count;
-                    res.render('myProfile');
+
+                User.countLike(req.session.user.id, (count) => {
+                    res.locals.count_like = count;
+                    res.locals.score = req.session.user.score;
+
+                    User.countVisit(req.session.user.id, (count) => {
+                       res.locals.count_visit = count;
+
+                        User.countUserNotification(req.session.user.id, (count) => {
+                            res.locals.count_notif = count;
+                            res.render('myProfile');
+                        });
+                    });
                 });
 
             });
