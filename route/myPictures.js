@@ -100,7 +100,6 @@ router.route('/myPictures')
                         if (result.profile_picture == split[2])
                         {
                             fs.unlink('public/images/'+split[2], (err) => {
-                                if (err) throw err;
                             });
                             User.deleteUserImages(split[2], req.session.user.id);
                             User.updateProfilePicture("", req.session.user.id);
@@ -108,7 +107,7 @@ router.route('/myPictures')
                         else
                         {
                             fs.unlink('public/images/'+split[2], (err) => {
-                                if (err) throw err;
+
                             });
                             User.deleteUserImages(split[2], req.session.user.id);
                         }
@@ -135,7 +134,7 @@ router.route('/myPictures')
                             if (result.profile_picture == split[2])
                             {
                                 fs.unlink('public/images/'+split[2], (err) => {
-                                    if (err) throw err;
+
                                 });
                                 User.deleteUserImages(split[2], req.session.user.id);
                                 User.updateProfilePicture("", req.session.user.id);
@@ -143,7 +142,7 @@ router.route('/myPictures')
                             else
                             {
                                 fs.unlink('public/images/'+split[2], (err) => {
-                                    if (err) throw err;
+
                                 });
                                 User.deleteUserImages(split[2], req.session.user.id);
                             }

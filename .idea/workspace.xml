@@ -3,33 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9ce63303-a5ea-4ba8-a01a-b90d5d05bbe4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/form_validator.js" afterPath="$PROJECT_DIR$/form_validator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/user.js" afterPath="$PROJECT_DIR$/model/user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/chat.js" afterPath="$PROJECT_DIR$/route/chat.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/dashboard.js" afterPath="$PROJECT_DIR$/route/dashboard.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/editProfile.js" afterPath="$PROJECT_DIR$/route/editProfile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/logout.js" afterPath="$PROJECT_DIR$/route/logout.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/matches.js" afterPath="$PROJECT_DIR$/route/matches.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/myPictures.js" afterPath="$PROJECT_DIR$/route/myPictures.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/myProfile.js" afterPath="$PROJECT_DIR$/route/myProfile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/new_password.js" afterPath="$PROJECT_DIR$/route/new_password.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/profile.js" afterPath="$PROJECT_DIR$/route/profile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/register.js" afterPath="$PROJECT_DIR$/route/register.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/search.js" afterPath="$PROJECT_DIR$/route/search.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/signin.js" afterPath="$PROJECT_DIR$/route/signin.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/user_profile.js" afterPath="$PROJECT_DIR$/route/user_profile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/who_i_liked.js" afterPath="$PROJECT_DIR$/route/who_i_liked.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/who_liked_me.js" afterPath="$PROJECT_DIR$/route/who_liked_me.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/route/who_visited_me.js" afterPath="$PROJECT_DIR$/route/who_visited_me.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server.js" afterPath="$PROJECT_DIR$/server.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/header.ejs" afterPath="$PROJECT_DIR$/views/header.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/header_bis.ejs" afterPath="$PROJECT_DIR$/views/header_bis.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/logout.ejs" afterPath="$PROJECT_DIR$/views/logout.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/myProfile.ejs" afterPath="$PROJECT_DIR$/views/myProfile.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/profile.ejs" afterPath="$PROJECT_DIR$/views/profile.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/search.ejs" afterPath="$PROJECT_DIR$/views/search.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/signin.ejs" afterPath="$PROJECT_DIR$/views/signin.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/user_profile.ejs" afterPath="$PROJECT_DIR$/views/user_profile.ejs" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -52,11 +26,31 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="search.ejs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="search.ejs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/search.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="511">
-              <caret line="182" column="4" lean-forward="false" selection-start-line="182" selection-start-column="4" selection-end-line="182" selection-end-column="4" />
+            <state relative-caret-position="436">
+              <caret line="182" column="0" lean-forward="false" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="myPictures.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/route/myPictures.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="698">
+              <caret line="171" column="13" lean-forward="true" selection-start-line="171" selection-start-column="13" selection-end-line="171" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -132,16 +126,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="form_validator.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/form_validator.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="653">
-              <caret line="111" column="13" lean-forward="false" selection-start-line="111" selection-start-column="13" selection-end-line="111" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -179,6 +163,7 @@
       <find>onli</find>
       <find>locals.sco</find>
       <find>console.log</find>
+      <find>fs</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -221,7 +206,6 @@
         <option value="$PROJECT_DIR$/route/chat.js" />
         <option value="$PROJECT_DIR$/route/dashboard.js" />
         <option value="$PROJECT_DIR$/route/matches.js" />
-        <option value="$PROJECT_DIR$/route/myPictures.js" />
         <option value="$PROJECT_DIR$/route/new_password.js" />
         <option value="$PROJECT_DIR$/route/profile.js" />
         <option value="$PROJECT_DIR$/route/search.js" />
@@ -238,6 +222,7 @@
         <option value="$PROJECT_DIR$/route/myProfile.js" />
         <option value="$PROJECT_DIR$/views/profile.ejs" />
         <option value="$PROJECT_DIR$/views/search.ejs" />
+        <option value="$PROJECT_DIR$/route/myPictures.js" />
       </list>
     </option>
   </component>
@@ -258,8 +243,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="596" />
-    <option name="y" value="226" />
+    <option name="x" value="409" />
+    <option name="y" value="23" />
     <option name="width" value="1917" />
     <option name="height" value="1233" />
   </component>
@@ -300,20 +285,6 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ahua" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ahua" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="route" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
@@ -329,52 +300,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ahua" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ahua" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ahua" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ahua" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="model" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ahua" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ahua" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="middleware" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -551,15 +476,15 @@
       <workItem from="1494250814738" duration="16506000" />
       <workItem from="1494334852850" duration="173000" />
       <workItem from="1494335162374" duration="13932000" />
-      <workItem from="1494423882643" duration="5456000" />
+      <workItem from="1494423882643" duration="6769000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="606644000" />
+    <option name="totallyTimeSpent" value="607957000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="596" y="226" width="1917" height="1233" extended-state="0" />
+    <frame x="409" y="23" width="1917" height="1233" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21546666" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -595,24 +520,11 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/js/bootstrap-select.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5542">
-          <caret line="317" column="16" lean-forward="false" selection-start-line="317" selection-start-column="9" selection-end-line="317" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/middleware/logged_in.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="4" lean-forward="false" selection-start-line="11" selection-start-column="4" selection-end-line="58" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/matcha.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
           <caret line="208" column="24" lean-forward="true" selection-start-line="208" selection-start-column="24" selection-end-line="208" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -722,14 +634,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
           <caret line="33" column="17" lean-forward="false" selection-start-line="33" selection-start-column="17" selection-end-line="33" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/route/myPictures.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="65" column="17" lean-forward="false" selection-start-line="65" selection-start-column="17" selection-end-line="65" selection-end-column="17" />
           <folding />
         </state>
       </provider>
@@ -994,8 +898,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/search.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="511">
-          <caret line="182" column="4" lean-forward="false" selection-start-line="182" selection-start-column="4" selection-end-line="182" selection-end-column="4" />
+        <state relative-caret-position="436">
+          <caret line="182" column="0" lean-forward="false" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo_tristan.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/route/myPictures.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="698">
+          <caret line="171" column="13" lean-forward="true" selection-start-line="171" selection-start-column="13" selection-end-line="171" selection-end-column="13" />
           <folding />
         </state>
       </provider>
