@@ -34,7 +34,10 @@ router.route('/editProfile')
                 let tags = [];
                 console.log("tags :",result);
                 for (k in result){
-                    tags.push(result[k].tag);
+                    if (result[k].tag != "default")
+                    {
+                        tags.push(result[k].tag);
+                    }
                     // if(tags == "")
                     //     tags = result[k].tag;
                     // else
@@ -49,10 +52,13 @@ router.route('/editProfile')
                 {
                     let tags = "";
                     for (k in result){
-                        if(tags == "")
-                            tags = result[k].tag;
-                        else
-                            tags = tags + "," + result[k].tag;
+                        if (result[k].tag != "default")
+                        {
+                            if(tags == "")
+                                tags = result[k].tag;
+                            else
+                                tags = tags + "," + result[k].tag;
+                        }
                     }
                     res.locals.profile.tags = tags;
                 }

@@ -89,7 +89,6 @@ router.route('/search')
             }
             User.findProfile(req.session.user.id, (result) => {
                 User.suggestedProfiles(req.session.user.id, result.lat, result.lng, filter_dist, result.sex_orientation, req.session.user.gender, filter_tags, search_tags, filter_age_left, filter_age_right, filter_popularity_left, filter_popularity_right, filter_sort, (result) => {
-                    console.log("QQQQQ", result);
                     res.locals.profile = [];
                     if(result)
                     {
@@ -116,8 +115,6 @@ router.route('/search')
     })
 
     .post(auth, (req, res) => {
-        console.log("body :",req.body);
-        console.log("body :",req.body.tags);
 
         if(req.body.age !== undefined)
         {

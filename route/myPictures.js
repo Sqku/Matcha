@@ -62,10 +62,8 @@ router.route('/myPictures')
             res.locals.profile.profile_picture = result.profile_picture;
 
             User.getUserImages(req.session.user.id, (result) => {
-                console.log("getuserimages :", result);
                 if (result)
                 {
-                    // console.log("result :", result);
                     res.locals.profile.images = result;
                     User.countUserNotification(req.session.user.id, (count) => {
                         res.locals.count_notif = count;
@@ -79,21 +77,6 @@ router.route('/myPictures')
                 });
             });
         });
-
-        // User.getUserImages(req.session.user.id, (result) => {
-        //     if (result)
-        //     {
-        //         // console.log("result :", result);
-        //         res.locals.profile.images = result;
-        //         res.render('myPictures');
-        //     }
-        //     else
-        //         res.render('myPictures');
-        // });
-
-
-
-
     })
 
     .post(auth, (req, res) => {
@@ -110,12 +93,10 @@ router.route('/myPictures')
 
             else if(req.file === undefined)
             {
-                console.log("req.body :", req.body);
                 if(form_validator.notEmpty(req.body.delete))
                 {
                     let split = req.body.delete.split("/");
                     User.findProfile(req.session.user.id, (result) => {
-                        console.log(result);
                         if (result.profile_picture == split[2])
                         {
                             fs.unlink('public/images/'+split[2], (err) => {
@@ -146,14 +127,11 @@ router.route('/myPictures')
             }
             else
             {
-                console.log(req.body);
                 User.countUserImages(req.session.user.id, (result) => {
-                    console.log(result);
                     if(form_validator.notEmpty(req.body.delete))
                     {
                         let split = req.body.delete.split("/");
                         User.findProfile(req.session.user.id, (result) => {
-                            console.log(result);
                             if (result.profile_picture == split[2])
                             {
                                 fs.unlink('public/images/'+split[2], (err) => {

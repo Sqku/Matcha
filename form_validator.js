@@ -110,8 +110,6 @@ class Form_validator {
             {
                 throw err;
             }
-            // console.log("input= ",input," value = ",value);
-            // console.log(result);
             callback(result[0].count);
         });
     }

@@ -33,7 +33,6 @@ router.route('/chat')
                 res.locals.profile.receiver_user_id = result.id;
                 res.locals.profile.sender_user_name = req.session.user.user_name;
                 res.locals.profile.sender_user_id = req.session.user.id;
-                console.log("ALLOOOOOOOOOO : ",req.session);
 
                 User.findProfile(result.id, (result) => {
                     if(result)

@@ -16,7 +16,6 @@ router.route('/who_i_liked')
                 for(let k = 0; k < result.length; k++)
                 {
                     User.isLiked(req.session.user.id, result[k].user_id, (count) => {
-                        console.log("count : ", count);
                         if (count == 1)
                         {
                             res.locals.profile.push(result[k]);
@@ -24,7 +23,6 @@ router.route('/who_i_liked')
                         if (counter == result.length - 1)
                         {
                             req.session.user_profile = res.locals.profile;
-                            console.log("res.locals.profile : ", res.locals.profile);
                             User.countUserNotification(req.session.user.id, (count) => {
                                 res.locals.count_notif = count;
                                 res.locals.user_name = req.session.user.user_name;
@@ -34,9 +32,6 @@ router.route('/who_i_liked')
                         counter++;
                     });
                 }
-                // req.session.user_profile = res.locals.profile;
-                // console.log("res.locals.profile : ", res.locals.profile);
-                // res.render('matches');
             }
             else
                 User.countUserNotification(req.session.user.id, (count) => {

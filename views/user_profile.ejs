@@ -80,7 +80,7 @@
                             <h5>Total score</h5>
                         </div>
                         <div class="col-xs-8">
-                            <h5 style="text-align: right; font-size: large">= 1230</h5>
+                            <h5 style="text-align: right; font-size: large">= <%=locals.profile.score%></h5>
                         </div>
                     </div>
                 </div>
@@ -91,7 +91,13 @@
             <div class="well">
                 <div class="row">
                     <div class="col-xs-6">
-                        <h4 id="online"><%=locals.profile.online%></h4>
+                        <h3 id="online"><%=locals.profile.online%></h3>
+                        <%
+                            if (locals.profile.online == "offline")
+                            {
+                                %><h5>last online : <%=locals.last_online%></h5><%
+                            }
+                        %>
                     </div>
                     <div class="col-xs-12">
                         <h1 style="font-size: 50px;"><%= locals.profile !== undefined && locals.profile.user_name !== undefined ? locals.profile.user_name : "random"%></h1>
@@ -104,14 +110,17 @@
                             <div class="col-xs-6" style="text-align: right">
                                 <h4><% for (k in locals.profile.tags)
                                     {
-                                    if(k == 0)
-                                    {
-                                    %>#<%=locals.profile.tags[k].tag%><%
-                                    }
-                                    else
-                                    {
-                                    %>, #<%=locals.profile.tags[k].tag%><%
-                                    }
+                                        if (locals.profile.tags[k].tag !== "default")
+                                        {
+                                            if(k == 0)
+                                            {
+                                                %>#<%=locals.profile.tags[k].tag%><%
+                                            }
+                                            else
+                                            {
+                                                %>, #<%=locals.profile.tags[k].tag%><%
+                                            }
+                                        }
                                     }%></h4>
                                 <!--<h4>#tag #tag #tag</h4>-->
                             </div>

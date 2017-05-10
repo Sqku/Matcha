@@ -53,6 +53,7 @@ router.route('/register')
             User.sendEmail(req.body.email, token, req.get('host'), req.body.user_name);
             User.findUser(req.body.user_name, (result) => {
                 User.defaultProfile(result.id);
+                User.addUserTags(1, result.id);
                 req.session.success = "true";
                 req.session.user_name = req.body.user_name;
 

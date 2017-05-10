@@ -40,7 +40,10 @@
                                     {
                                         for (k in locals.tags)
                                         {
-                                            %><option value="<%=locals.tags[k].tag%>"><%=locals.tags[k].tag%></option><%
+                                            if (locals.tags[k].tag != "default")
+                                            {
+                                                %><option value="<%=locals.tags[k].tag%>"><%=locals.tags[k].tag%></option><%
+                                            }
                                         }
                                     }%>
                                 </select>
@@ -66,21 +69,6 @@
 
                 </form>
 
-                <!--<div class="row">-->
-                    <!--<legend>Sort</legend>-->
-                    <!--<form method="post">-->
-                        <!--<div class="col-sm-6 form-group">-->
-                            <!--<select id="sort" name="sort" class="form-control">-->
-                                <!--<option value="all">All</option>-->
-                                <!--<option value="age">Age</option>-->
-                                <!--<option value="location">Location</option>-->
-                                <!--<option value="popularity">Popularity</option>-->
-                                <!--<option value="tags">Tags</option>-->
-                            <!--</select>-->
-                        <!--</div>-->
-                        <!--<button type="submit" class="btn btn-lg btn-info" value="submit">Sort</button>-->
-                    <!--</form>-->
-                <!--</div>-->
                 <% for (k in locals.profile)
                 {
                 %>
@@ -189,17 +177,6 @@
         $( "#location" ).val($( "#location-range-min" ).slider( "value" ) + "miles" );
 //        $( "#location_id" ).val($( "#location-range-min" ).slider( "value" ));
     } );
-
-
-    console.log("allo :", '<%=locals.filter_tags%>')
-    console.log($('#tags option:selected'))
-    if ('<%=locals.filter_tags%>' !== '')
-    {
-        $('#filter-options').text('<%=locals.filter_tags%>');
-        var sVal = $('select[name=tags] option:first').val()
-        console.log("ALLOOOO", sVal);
-        $('#tags').selectpicker.selectAll();
-    }
 
 
     if('<%=locals.filter_sort%>' !== '')

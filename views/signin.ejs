@@ -79,7 +79,6 @@
             if (status === 'OK') {
                 if (results[0]) {
 //                    let split = results[0].split(",");
-                    console.log(results[0]);
                     let city = "";
                     let departement = "";
                     let country = "";
@@ -90,10 +89,6 @@
                                     case 'postal_code':
                                         departement = element2.long_name;
                                         break;
-//                                    case 'administrative_area_level_1':
-//                                        country = element2.long_name;
-//                                        console.log("country :",country);
-//                                        break;
                                     case 'country':
                                         country = element2.long_name;
                                         break;
@@ -104,11 +99,7 @@
                             })
                         });
                     });
-                    console.log("city :",city);
-                    console.log("country :",country);
-                    console.log("departement :",departement);
                     document.getElementById("city").value = city;
-                    console.log("#city value :", $('#city').val());
                     document.getElementById("country").value = country;
                     document.getElementById("departement").value = departement;
 

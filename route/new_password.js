@@ -39,7 +39,6 @@ router.route('/new_password')
     })
 
     .post(valid_password, (req, res) => {
-        console.log("OK")
         let salt = sha256(Math.random() + req.session.user_token_name).toString();
         let password = sha256(salt + req.body.password).toString();
 

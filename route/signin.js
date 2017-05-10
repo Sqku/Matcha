@@ -20,7 +20,6 @@ router.route('/signin')
 })
 
     .post(logged_in, (req, res) => {
-        console.log(req.body);
 
         User.findProfile(req.session.user.id, (profile) => {
            if (profile.lat !== 0 && profile.lng !== 0)
@@ -62,7 +61,6 @@ router.route('/signin')
                else
                {
                    publicIp.v4().then(ip => {
-                       console.log("my ip: ", ip);
                        where.is(ip, function(err, result1) {
                            if (result1) {
                                User.updateUserLocation(result1.get('lat'), result1.get('lng'), result1.get('city'), result1.get('postalCode'), result1.get('country'), req.session.user.id, () => {

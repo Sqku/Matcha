@@ -42,7 +42,6 @@ router.route('/dashboard')
 })
 
     .post(auth, (req, res) => {
-        console.log("BODY :", req.body)
         if(form_validator.notEmpty(req.body.clear_notif) && req.body.clear_notif == "clear")
         {
             User.getUserNotification(req.session.user.id, (result) => {

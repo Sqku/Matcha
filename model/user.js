@@ -333,7 +333,6 @@ class User {
         let lat_1 = mylat - (dist/69);
         let lat_2 = mylat + (dist/69);
 
-        // console.log(lng_1, lng_2, lat_1, lat_2)
         db.query('SELECT profil.*, 3956 * 2 * ASIN(SQRT( POWER(SIN(( ? - profil.lat) *  pi()/180 / 2), 2) + COS(? * pi()/180) * COS(profil.lat * pi()/180) * POWER(SIN((? - profil.lng) * pi()/180 / 2), 2) )) as distance FROM profil WHERE profil.lng between ? and ? and profil.lat between ? and ? HAVING distance < ? ORDER BY distance',
             [mylat, mylat, mylng, lng_1, lng_2, lat_1, lat_2, dist], (err, result) => {
             if(err)
@@ -562,6 +561,15 @@ class User {
                 throw err;
             cb();
         })
+    }
+
+    static lastOnline(user_id, date, cb)
+    {
+        db.query('UPDATE user SET date_connexion = ? WHERE id = ?', [date, user_id], (err, result) => {
+            if(err)
+                throw err;
+            cb();
+        });
     }
 
 }

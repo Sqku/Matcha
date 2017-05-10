@@ -40,18 +40,19 @@ router.route('/myProfile')
 
                 User.countLike(req.session.user.id, (count) => {
                     res.locals.count_like = count;
-                    res.locals.score = req.session.user.score;
+                    User.findUser(req.session.user.user_name, (result) => {
+                        res.locals.score = result.score;
 
-                    User.countVisit(req.session.user.id, (count) => {
-                       res.locals.count_visit = count;
+                        User.countVisit(req.session.user.id, (count) => {
+                            res.locals.count_visit = count;
 
-                        User.countUserNotification(req.session.user.id, (count) => {
-                            res.locals.count_notif = count;
-                            res.render('myProfile');
+                            User.countUserNotification(req.session.user.id, (count) => {
+                                res.locals.count_notif = count;
+                                res.render('myProfile');
+                            });
                         });
                     });
                 });
-
             });
         });
     })
@@ -61,8 +62,6 @@ router.route('/myProfile')
 
         if((form_validator.notEmpty(req.body.lat) && req.body.lat !== '0') && (form_validator.notEmpty(req.body.lng) && req.body.lng !== '0'))
         {
-            console.log("body not empty");
-            console.log(req.body);
             User.updateUserLocation(req.body.lat, req.body.lng, req.body.city, req.body.departement, req.body.country, req.session.user.id, () => {
                 res.redirect('myProfile');
             });
@@ -70,13 +69,9 @@ router.route('/myProfile')
 
         else if (req.body.lat === '0' && req.body.lng === '0')
         {
-            console.log("reset location");
-            console.log(req.body);
             publicIp.v4().then(ip => {
-                console.log("my ip: ", ip);
                 where.is(ip, function(err, result1) {
                     if (result1) {
-                        console.log(result1);
                         User.updateUserLocation(result1.get('lat'), result1.get('lng'), result1.get('city'), result1.get('postalCode'), result1.get('country'), req.session.user.id, () => {
                             res.redirect('myProfile');
                         });

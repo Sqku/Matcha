@@ -114,15 +114,12 @@ io.on('connection', function(socket){
 
     for(let k in users)
     {
-        // console.log("users =", users);
-        // console.log("userS", users[k]);
         socket.emit('new_user', users[k]);
     }
 
 
     socket.on('new_message', (message) => {
 
-        console.log("MESSAGE :", message)
         message.message = message.message.trim();
         if(message.message === '' || message.message.length > 1500)
         {
@@ -164,12 +161,6 @@ io.on('connection', function(socket){
     });
 
     socket.on('login', (data) => {
-        // me = user;
-        // me.id = user.user_id;
-        // users[me.id] = me;
-        // console.log("me :", me);
-        // console.log("users :", users);
-        // io.sockets.emit('new_user', me);
 
         User.getPreviousMsg(data.sender_user_id, data.receiver_user_id, (result) => {
             if (result)
@@ -222,7 +213,6 @@ io.on('connection', function(socket){
                     else
                     {
                         User.isBlocked(match_data.liked_user_id, match_data.like_user_id, (count) => {
-                            console.log("BLOCK : ",count)
                             if(count == 0)
                             {
                                 User.setNewMatch(match_data.like_user_id, match_data.liked_user_id, () => {
@@ -276,36 +266,6 @@ io.on('connection', function(socket){
             }
         });
     });
-
-    socket.on('online', (data) => {
-        io.emit('online', data);
-    });
-
-
-    // console.log("session :",socket.request.session.user);
-    socket.on('deco', () => {
-        // if(!me){
-        //     return false;
-        // }
-
-        socket.disconnect(() => {
-            delete users[me.id];
-            // io.sockets.emit('logout', me);
-            console.log("ME :", me);
-            socket.emit('logout', me);
-        })
-        // if (!socket.request.session)
-        // {
-        //     delete users[me.id];
-        //     // io.sockets.emit('logout', me);
-        //     io.sockets.emit('logout', me);
-
-        // }
-
-    })
-
-    socket.emit('test')
-
 });
 
 
@@ -316,6 +276,3 @@ io.on('connection', function(socket){
 http.listen(port, function(){
     console.log('listening on localhost:3000');
 });
-
-// app.listen(port);
-// console.log("app running on port", port);
