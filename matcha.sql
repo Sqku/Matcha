@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS `matcha`.`interets` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
+INSERT INTO `interets` (`id`, `tag`) VALUES (NULL, 'default');
 
 -- -----------------------------------------------------
 -- Table `matcha`.`images`

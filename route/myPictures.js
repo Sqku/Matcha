@@ -146,7 +146,7 @@ router.route('/myPictures')
                                 });
                                 User.deleteUserImages(split[2], req.session.user.id);
                             }
-                        }); // TO DO : DELETE PICTURE
+                        });
 
                     }
                     if(form_validator.notEmpty(req.body.profile_picture))
