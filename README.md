@@ -5,4 +5,4 @@ First time using Nodejs. This is a tinder-like dating website made with some res
 
 I used MySql for database, Bootstrap for css, socket.io for notifications.
 
-Here is a demo : http://www.a-hua.me:3000
+Here is a demo : http://91.121.176.48:3000
